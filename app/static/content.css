@@ -1,0 +1,23 @@
+.main_section {
+    text-align: center;
+}
+
+.subsection {
+    margin: auto;
+    max-width: 500px;
+}
+
+.subsection ul {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+}
+
+.subsection a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 500px;
+    border: 3px solid black;
+}
