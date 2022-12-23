@@ -6,3 +6,6 @@ from app.main import bp
 def home():
     return render_template('home.html', title="Home")
 
+@bp.route("/about", methods=["GET"])
+def about():
+    return render_template('about.html', title="About")
