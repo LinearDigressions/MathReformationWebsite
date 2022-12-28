@@ -1,9 +1,9 @@
 from app import create_app, db
-from app.models import Article, User, Category
+from app.models import Article, User, Category, Feedback
 
 
 app=create_app()
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'Article': Article, 'User': User, 'Category':Category}
+    return {'db': db, 'Article': Article, 'User': User, 'Category':Category, 'Feedback':Feedback}

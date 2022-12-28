@@ -34,8 +34,20 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.about')}}">About</a>
                         </li>
+                    </ul>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_anonymous %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.login')}}">Login</a>
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a> 
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <p>Welcome {{ current_user.username }}!</p>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a> 
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
