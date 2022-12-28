@@ -57,14 +57,15 @@ class Category(db.Model):
 
 
 
-# class Feedback(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     author = db.Column(db.String(50), nullable=False)
-#     category = db.Column(db.String(32), index=True, unique=False)
-#     text = db.Column(db.String(2048), index=True, unique=True)
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(50), nullable=False)
+    category = db.Column(db.String(32), index=True, unique=False)
+    text = db.Column(db.String(2048), index=True, unique=True)
+    status = db.Column(db.String(500))
 
-#     def __repr__(self):
-#         return '<Recommmendation %r>' % self.id
+    def __repr__(self):
+        return '<Recommmendation %r>' % self.id
 
 
 
