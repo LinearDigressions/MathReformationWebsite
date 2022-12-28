@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_principal import Principal
+from flask_admin import Admin
 
 # Flask Principal signal stuff
 from flask_login import current_user
@@ -15,7 +16,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 principals = Principal()
-
+admin = Admin()
 
 def create_app(config_class=Config):
 
@@ -36,16 +37,15 @@ def create_app(config_class=Config):
     login.init_app(app)
     login.login_view = 'auth.login'
     principals.init_app(app)
+    admin.init_app(app)
 
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         # Set the identity user object
         identity.user = current_user
-        print(current_user)
         # Add the UserNeed to the identity
         if hasattr(current_user, 'id'):
-            print(current_user.id)
             identity.provides.add(UserNeed(current_user.id))
 
         # Assuming the User model has a list of roles, update the
@@ -53,7 +53,6 @@ def create_app(config_class=Config):
         if hasattr(current_user, 'roles'):
             for role in current_user.roles:
                 identity.provides.add(RoleNeed(role.name))
-                print(role)
         
     return app
 

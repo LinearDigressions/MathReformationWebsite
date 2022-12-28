@@ -1,7 +1,7 @@
 from flask import render_template
 from app.author import bp
 from flask_login import login_required
-from app.auth.roles import admin_permission
+from app.roles import admin_permission
 
 @bp.route("/edit_article", methods=["GET"])
 @login_required

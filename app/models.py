@@ -1,10 +1,9 @@
-from app import db, login
+from app import db, login, admin
 from datetime import datetime
 from flask_login import UserMixin
-# from flask import redirect, url_for, Response
-# from app import admin
-# from app import basic_auth
-# from werkzeug.exceptions import HTTPException
+from flask import redirect, url_for, request
+from app.roles import admin_permission
+from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash, check_password_hash
  
 
@@ -117,28 +116,16 @@ def load_user(id):
 #         ))
 
 
-# class MyModelView(ModelView):
-#     def is_accessible(self):
-#         if not basic_auth.authenticate():
-#             raise AuthException('Not authenticated.')
-#         else:
-#             return True
+class AdminModelView(ModelView):
 
-#     def inaccessible_callback(self, name, **kwargs):
-#         return redirect(basic_auth.challenge())
+    def is_accessible(self):
+        return admin_permission.can()
 
-# class LinkView(MyModelView):
-#     column_searchable_list = ['name']
-#     column_filters = ['categories']
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login', next=request.url))
 
-# class FeedbackView(MyModelView):
-#     column_filters=['category']
-
-
-
-# admin.add_view(FeedbackView(Feedback, db.session))
-
-
-
-# admin.add_view(MyModelView(Category, db.session))
-# admin.add_view(LinkView(Link, db.session))
+admin.add_view(AdminModelView(Feedback, db.session))
+admin.add_view(AdminModelView(Category, db.session))
+admin.add_view(AdminModelView(User, db.session))
+admin.add_view(AdminModelView(Article, db.session))
+admin.add_view(AdminModelView(Role, db.session))
