@@ -9,7 +9,7 @@ from flask_admin import Admin
 
 # Flask Principal signal stuff
 from flask_login import current_user
-from flask_principal import UserNeed, RoleNeed, identity_loaded, identity_changed
+from flask_principal import UserNeed, RoleNeed, identity_loaded
 
 # Initializing Extension Objects
 db = SQLAlchemy()
@@ -31,6 +31,9 @@ def create_app(config_class=Config):
 
     from app.author import bp as author_bp
     app.register_blueprint(author_bp)
+
+    from app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
 
     db.init_app(app)
     migrate.init_app(app, db)
