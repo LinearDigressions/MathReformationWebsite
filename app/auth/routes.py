@@ -1,11 +1,19 @@
-from flask import render_template, flash, redirect, url_for, request
-from app import db
+from flask import render_template, flash, redirect, url_for, request, current_app, session
+from app import db, login
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_manager, login_required
 from app.models import User
 from werkzeug.urls import url_parse
+from flask_principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, UserNeed, RoleNeed 
 
+
+
+
+@login.user_loader
+def load_user(userid):
+    # Return an instance of the User model
+    return User.query.filter_by(id=userid).first()
 
 
 @bp.route('/login', methods=["GET", "POST"])
@@ -25,6 +33,9 @@ def login():
 
         login_user(user, remember=form.remember_me.data) 
 
+        identity_changed.send(current_app._get_current_object(),
+                                  identity=Identity(user.id))
+
         next_page = request.args.get('next')
 
         if not next_page or url_parse(next_page).netloc != '':
@@ -36,8 +47,16 @@ def login():
 
 
 @bp.route('/logout')
+@login_required
 def logout():
+
     logout_user()
+
+    for key in ('identity.name', 'identity.auth_type'):
+        session.pop(key, None)
+
+    identity_changed.send(current_app._get_current_object(),
+                          identity=AnonymousIdentity())
     return redirect(url_for('main.index'))
 
 @bp.route('/register', methods=['GET', 'POST']) 
@@ -56,3 +75,5 @@ def register():
         return redirect(url_for('auth.login'))
 
     return render_template('auth/register.html', title='Register', form=form)
+
+

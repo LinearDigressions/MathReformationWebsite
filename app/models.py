@@ -15,6 +15,11 @@ saved_articles_table = db.Table('saved_articles',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
 )
 
+roles_table = db.Table('roles',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('role_id', db.Integer, db.ForeignKey('role.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -24,6 +29,9 @@ class User(UserMixin, db.Model):
 
     saved_articles = db.relationship('Article', secondary = saved_articles_table,
                                  backref=db.backref('articles', lazy=True), lazy=True)
+    
+    roles = db.relationship('Role', secondary = roles_table,
+                                 backref=db.backref('users', lazy=True), lazy=True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -33,6 +41,14 @@ class User(UserMixin, db.Model):
         
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return '<Role {}>'.format(self.name)
 
 
 article_categories_table = db.Table('article_categories',
