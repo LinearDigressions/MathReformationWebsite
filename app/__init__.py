@@ -6,6 +6,9 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_principal import Principal
 from flask_admin import Admin
+from flask_mde import Mde
+from flask_mdeditor import MDEditor
+from flask_uploads import IMAGES, UploadSet, configure_uploads
 
 # Flask Principal signal stuff
 from flask_login import current_user
@@ -17,6 +20,11 @@ migrate = Migrate()
 login = LoginManager()
 principals = Principal()
 admin = Admin()
+mde = Mde()
+mdeditor = MDEditor()
+
+photos = UploadSet("photos", IMAGES)
+
 
 def create_app(config_class=Config):
 
@@ -41,7 +49,10 @@ def create_app(config_class=Config):
     login.login_view = 'auth.login'
     principals.init_app(app)
     admin.init_app(app)
+    mde.init_app(app)
+    mdeditor.init_app(app)
 
+    configure_uploads(app, photos)
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):

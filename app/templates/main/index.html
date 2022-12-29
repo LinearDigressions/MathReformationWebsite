@@ -4,7 +4,16 @@
 {% block content %}
 
 <h1 class="text-center">Home Page</h1>
-<p>This is a test part 3</p>
+
+<ul>
+    {% for category in main_categories %}
+    <li>
+        <a href = {{ url_for('main.category_page', path=category.path)}}>
+            {{ category.name }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
 

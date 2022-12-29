@@ -10,3 +10,9 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    MDEDITOR_FILE_UPLOADER = os.path.join(basedir, 'app/static/uploads')
+    MDEDITOR_LANGUAGE = "en"
+
+    UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/uploads')
+    UPLOADS_AUTOSERVE = True

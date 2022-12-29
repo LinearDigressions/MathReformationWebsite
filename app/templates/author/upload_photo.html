@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Upload File</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photoForm">
+        Upload Photo
+    </button>
+    
+    <div class="modal fade" id="photoForm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Upload Photo</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+        
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form enctype=multipart/form-data action="{{ url_for('author.upload_photo') }}" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.photo.label }}<br>
+                        {{ form.photo }}
+                        {% for error in form.photo.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>{{ form.submit() }}</p>
+                </form>
+            </div>
+        
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewImages">
+        View Photos
+    </button>
+  
+    <!-- The Modal -->
+    <div class="modal fade" id="viewImages">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">Photos (Copy Image Address)</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+        
+                <!-- Modal body -->
+                <div class="modal-body">
+                    {% for file in files %}
+                    <img src="{{ url_for('author.show', setname=setname, filename=file) }}" class="img-thumbnail m-1" style="width: 64px">
+                    {% endfor %}                
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

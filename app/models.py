@@ -57,7 +57,8 @@ article_categories_table = db.Table('article_categories',
 
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    path = db.Column(db.String(50))
     date_added = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
     categories = db.relationship('Category', secondary = article_categories_table,
@@ -67,7 +68,7 @@ class Article(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Article {}>'.format(self.title)
+        return '<Article {}>'.format(self.name)
 
 parent_child_table = db.Table('CategoryChild',
     db.Column('ParentChildId', db.Integer, primary_key=True),
@@ -77,6 +78,7 @@ parent_child_table = db.Table('CategoryChild',
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+    path = db.Column(db.String(50))
     body = db.Column(db.String(), index=True, unique=True)
     header = db.Column(db.String(), index=True, unique=True)
     category_type = db.Column(db.String(15))

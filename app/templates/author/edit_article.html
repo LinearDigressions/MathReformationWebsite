@@ -1,6 +1,12 @@
 {% extends "base.html" %} 
 
+{% block head %}
+    {{mde.css}}
+{% endblock %}
 
 {% block content %}
-<h1 class="text-center">Edit Article</h1>
+    <h1 class="text-center">Edit Article</h1>
+    {{mde.editor()}}
+    {{mde.preview}}
+    {{mde.js}}
 {% endblock %}
