@@ -7,8 +7,9 @@ from flask_login import LoginManager
 from flask_principal import Principal
 from flask_admin import Admin
 from flask_mde import Mde
-from flask_mdeditor import MDEditor
 from flask_uploads import IMAGES, UploadSet, configure_uploads
+from flaskext.markdown import Markdown
+
 
 # Flask Principal signal stuff
 from flask_login import current_user
@@ -21,7 +22,7 @@ login = LoginManager()
 principals = Principal()
 admin = Admin()
 mde = Mde()
-mdeditor = MDEditor()
+
 
 photos = UploadSet("photos", IMAGES)
 
@@ -50,7 +51,7 @@ def create_app(config_class=Config):
     principals.init_app(app)
     admin.init_app(app)
     mde.init_app(app)
-    mdeditor.init_app(app)
+    Markdown(app)
 
     configure_uploads(app, photos)
 

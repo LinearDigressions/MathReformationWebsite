@@ -1,0 +1,29 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewImages">
+    View Photos
+</button>
+
+<div class="modal fade" id="viewImages">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Photos (Click for Image Source)</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body" id="photos">
+                {% for file in files %}
+                <img src="{{ url_for('author.show', setname=setname, filename=file) }}" class="img-thumbnail m-1" style="width: 64px">
+                {% endfor %}                
+            </div>
+
+            <div class="modal-footer">
+                <p class="me-auto">Image URL:</p>
+                <input id="url" type="text" style="width:100%;"/>
+            </div>
+
+        </div>
+    </div>
+</div>

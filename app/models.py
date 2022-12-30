@@ -77,7 +77,7 @@ parent_child_table = db.Table('CategoryChild',
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
     path = db.Column(db.String(50))
     body = db.Column(db.String(), index=True, unique=True)
     header = db.Column(db.String(), index=True, unique=True)

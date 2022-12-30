@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
+
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#photos img").click(function(){
+            var value = $(this)[0].src;
+            console.log(value)
+            var input = $('#url');
+            input.val(value);
+        });
+    });
+</script>
+{% endblock %}
+
 {% block content %}
     <h1>Upload File</h1>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photoForm">
@@ -10,27 +26,27 @@
         <div class="modal-dialog">
             <div class="modal-content">
         
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Upload Photo</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-        
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form enctype=multipart/form-data action="{{ url_for('author.upload_photo') }}" method="post" novalidate>
-                    {{ form.hidden_tag() }}
-                    <p>
-                        {{ form.photo.label }}<br>
-                        {{ form.photo }}
-                        {% for error in form.photo.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>{{ form.submit() }}</p>
-                </form>
-            </div>
-        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload Photo</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+            
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form  enctype=multipart/form-data action="{{ url_for('author.upload_photo') }}" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+                            {{ form.photo.label }}<br>
+                            {{ form.photo }}
+                            {% for error in form.photo.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                        <p>{{ form.submit() }}</p>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -48,16 +64,22 @@
         
                 <!-- Modal Header -->
                 <div class="modal-header">
-                <h4 class="modal-title">Photos (Copy Image Address)</h4>
+                <h4 class="modal-title">Photos (Click for Image Source)</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
         
                 <!-- Modal body -->
-                <div class="modal-body">
+                <div class="modal-body" id="photos">
                     {% for file in files %}
                     <img src="{{ url_for('author.show', setname=setname, filename=file) }}" class="img-thumbnail m-1" style="width: 64px">
                     {% endfor %}                
                 </div>
+
+                <div class="modal-footer">
+                    <p class="me-auto">Image URL:</p>
+                    <input id="url" type="text" style="width:100%;"/>
+                </div>
+
             </div>
         </div>
     </div>

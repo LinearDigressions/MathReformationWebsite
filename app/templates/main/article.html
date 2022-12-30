@@ -4,7 +4,9 @@
 {% block content %}
 
 <h1 class="text-center">{{ article.name }}</h1>
-<p>{{ article.body }}</p>
+
+{{ article.body | safe }}
 
 {% endblock %}
+
 

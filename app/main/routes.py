@@ -3,7 +3,7 @@ from app.main import bp
 from flask_login import login_required
 from app.models import Category, Article
 from app import db
-
+import markdown
 
 @bp.route("/", methods=["GET"])
 @bp.route("/index", methods=["GET"])
