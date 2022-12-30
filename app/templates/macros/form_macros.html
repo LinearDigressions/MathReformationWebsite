@@ -22,8 +22,9 @@
 
 
     field_class = "." + "{{ field_class }}"
-    items = JSON.parse({{ selected_items | tojson }})
-
+    console.log("here")
+    items = JSON.parse({{ selected_items|tojson }})
+    console.log(items)
     $(document).ready(function() {
         $(field_class).select2();
         $(field_class).select2({dropdownAutoWidth : true});

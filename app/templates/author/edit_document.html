@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     {{ select2_cdn() }}
-    {{ select2_header(selected_items = categories_data, field_class = 'js-example-basic-multiple') }}
+    {{ select2_header(selected_items=selected_items, field_class = 'js-example-basic-multiple') }}
 
     {{ photo_viewer_script() }}
 
@@ -15,12 +15,12 @@
 
 
 {% block content %}
-    <h1 class="text-center">Edit Article</h1>
+    <h1 class="text-center">{{ title }}</h1>
     
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p></p>
-        {{ select2_field(field=form.categories, field_name="categories", field_placeholder="Categories", field_class='js-example-basic-multiple') }}
+        {{ select2_field(field=form.select_multiple, field_name="select_multiple", field_placeholder=opposite_type.capitalize(), field_class='js-example-basic-multiple') }}
         {{ input(form.name, size=32) }}
         {{ input(form.path, size=32) }}
         {{ input(form.header, size=32) }}

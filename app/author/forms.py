@@ -5,21 +5,14 @@ from wtforms.validators import DataRequired
 
 
 
-class CategoryForm(FlaskForm):
-
-    def __init__(self, doc_type):
-        self.doc_type = "10"
-
-    def test(self):
-        print(self.doc_type)
+class EditingForm(FlaskForm):
 
 
-
-    #name = StringField(self.doc_type + 'Name', validators=[DataRequired()])
-    path = StringField('Category URL Path', validators=[DataRequired()])
-    body = MdeField('Article Body', validators=[DataRequired()])
-    header = TextAreaField('Article Header')
-    articles = SelectMultipleField('Category Articles', choices=[])
+    name = StringField("Name", validators=[DataRequired()])
+    path = StringField('URL Path', validators=[DataRequired()])
+    body = MdeField('Body', validators=[DataRequired()])
+    header = TextAreaField('Header')
+    select_multiple = SelectMultipleField('List', choices=[])
     submit = SubmitField("Save")
 
 

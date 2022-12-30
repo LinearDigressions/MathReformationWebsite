@@ -4,7 +4,7 @@ from app.author import bp
 from app.models import Article, Category
 from flask_login import login_required
 from app.roles import admin_permission
-from app.author.forms import ArticleForm, PhotoForm, CategoryForm
+from app.author.forms import ArticleForm, PhotoForm, EditingForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
@@ -16,50 +16,67 @@ from markdown import markdown
 # I added MathJax.typeset();  to the end of makePreviewHtml function in Markdown.Editor.js to allow for real time latex rendering
 
 
-@bp.route("/edit_article/<path>", methods=["GET", "POST"])
+
+@bp.route("/edit/<doc_type>/<path>", methods=["GET", "POST"])
 @login_required
 @admin_permission.require(http_exception=403)
-def edit_article(path):
-
+def edit_document(doc_type, path):
+    print(doc_type)
     path_changed = False
 
-    form = ArticleForm()
-    article = db.first_or_404(Article.query.filter_by(path=path))
+    form = EditingForm()
 
+    if doc_type == "category":
+        doc = db.first_or_404(Category.query.filter_by(path=path))
+        form.select_multiple.choices = [(str(art.id), art.name) for art in Article.query.all()]
+        opposite_type = "article"
 
-    form.categories.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
+    elif doc_type == "article":
+        doc = db.first_or_404(Article.query.filter_by(path=path))
+        form.select_multiple.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
+        opposite_type = "category"
+    else:
+        abort(500)
 
     if form.validate_on_submit():
 
-        if article.path != form.path.data:
+        if doc.path != form.path.data:
             path_changed = True
-        print(article.categories)
-        print(form.categories.data)
-        print(article.categories)
 
-        
-        article.categories = [Category.query.get(category_id) for category_id in form.categories.data]
-        article.body = markdown(form.body.data)
-        article.header = form.header.data
-        article.name = form.name.data
-        article.path = form.path.data
+        if doc_type == "category":
+            doc.articles = [Article.query.get(article_id) for article_id in form.select_multiple.data]
+        elif doc_type == "article":
+            doc.categories = [Category.query.get(category_id) for category_id in form.select_multiple.data]
+        else:
+            abort(500)
+
+
+        doc.body = markdown(form.body.data)
+        doc.header = form.header.data
+        doc.name = form.name.data
+        doc.path = form.path.data
         db.session.commit()
         flash("Changes Saved")
 
         if path_changed == True:
-            return redirect(url_for('author.edit_article', path=article.path))
+            return redirect(url_for('author.edit_article', path=doc.path))
 
 
-    categories_data = json.dumps([str(cat.id) for cat in article.categories])
-    form.body.data = article.body
-    form.header.data = article.header
-    form.name.data = article.name
-    form.path.data = article.path
+    if doc_type == "category":
+        selected_items = json.dumps([str(art.id) for art in doc.articles])
+    elif doc_type == "article":
+        selected_items = json.dumps([str(cat.id) for cat in doc.categories])
+    else:
+        abort(500)
 
+    form.body.data = doc.body
+    form.header.data = doc.header
+    form.name.data = doc.name
+    form.path.data = doc.path
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
-    print(photos.name)
 
-    return render_template('author/edit_article.html', title="Edit Article", form=form, article=article, categories_data=categories_data, setname=photos.name, files=files)
+    return render_template('author/edit_document.html', title="Edit " + doc_type.capitalize(), opposite_type=opposite_type, form=form, doc=doc, selected_items=selected_items, setname=photos.name, files=files)
+
 
 
 @bp.route('/upload_photo', methods=['GET', 'POST'])
