@@ -8,7 +8,7 @@ from app.author.forms import ArticleForm, PhotoForm, EditingForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
-
+import random
 
 
 # I modified the flask_mde in two ways.
@@ -16,6 +16,30 @@ from markdown import markdown
 # I added MathJax.typeset();  to the end of makePreviewHtml function in Markdown.Editor.js to allow for real time latex rendering
 
 
+@bp.route("/create/<doc_type>/", methods=["GET", "POST"])
+@login_required
+@admin_permission.require(http_exception=403)
+def new_category(doc_type):
+
+    new_doc_num = str(random.randint(0, 10000000000000000000000))
+
+    if doc_type == "category":
+        while Category.query.filter_by(name=new_doc_num).first() != None:
+            new_doc_num = str(random.randint(0, 10000000000000000000000))
+        
+        new_doc = Category(name=new_doc_num, path=new_doc_num)
+
+    elif doc_type == "article":
+        while Article.query.filter_by(name=new_doc_num).first() != None:
+            new_doc_num = str(random.randint(0, 10000000000000000000000))
+        
+        new_doc = Article(name=new_doc_num, path=new_doc_num)
+
+
+    db.session.add(new_doc)
+    db.session.commit()
+
+    return redirect(url_for('author.edit_document', doc_type=doc_type, path=new_doc_num))
 
 @bp.route("/edit/<doc_type>/<path>", methods=["GET", "POST"])
 @login_required
