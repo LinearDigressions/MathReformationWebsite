@@ -19,7 +19,7 @@ import random
 @bp.route("/create/<doc_type>/", methods=["GET", "POST"])
 @login_required
 @admin_permission.require(http_exception=403)
-def new_category(doc_type):
+def new_document(doc_type):
 
     new_doc_num = str(random.randint(0, 10000000000000000000000))
 
