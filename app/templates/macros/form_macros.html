@@ -1,0 +1,50 @@
+{% macro input(field, size) -%}
+<p>
+    {{ field.label }}<br>
+    {{ field(size=size) }}
+    {% for error in field.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+{%- endmacro %}
+
+
+
+{% macro select2_cdn() -%} 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{%- endmacro %}
+
+
+{% macro select2_header(selected_items, field_class) -%}
+
+<script type="text/javascript">
+
+
+    field_class = "." + "{{ field_class }}"
+    items = JSON.parse({{ selected_items | tojson }})
+
+    $(document).ready(function() {
+        $(field_class).select2();
+        $(field_class).select2({dropdownAutoWidth : true});
+        $(field_class).val(items).trigger('change');
+    });
+
+</script>
+
+{%- endmacro %}
+
+
+{% macro select2_field(field, field_name, field_placeholder, field_class) -%}
+
+<div class="form-group">
+    <label>{{ field.label }}</label>
+    <select data-placeholder="{{ field_placeholder }}" class="{{ field_class }}" multiple="multiple" style="width:100%"; name="{{ field_name }}">
+        <option></option>
+        {% for choice in field.choices %}
+              <option value="{{ choice[0] }}">{{ choice[1] }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+{%- endmacro %}

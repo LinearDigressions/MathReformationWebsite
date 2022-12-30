@@ -1,0 +1,86 @@
+
+{% macro photo_viewer_script() -%}
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#copy_button').tooltip({title: "Copied Text", trigger: "click"}); 
+
+
+        $("#photos img").click(function(){
+
+            var value = $(this)[0].src;
+            console.log(value);
+            var input = $('#url');
+            input.val(value);
+        });
+    });
+</script>
+<script>
+    function outFunc() {
+        $('#copy_button').tooltip("hide")
+    }
+
+
+    function copyFunction() {
+        // Get the text field
+        var copyText = document.getElementById("url");
+
+        console.log(copyText)
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+      
+         // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        //var tooltip = document.getElementById("myTooltip");
+        //tooltip.innerHTML = "Copied: " + copyText.value;
+      
+        // Alert the copied text
+    };
+</script>
+{%- endmacro %}
+
+{% macro photo_viewer_button(files) -%}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewImages">
+    View Photos
+</button>
+
+<div class="modal fade" id="viewImages">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            
+                <h4 class="modal-title">Photo Selection</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-header">
+                <ol>
+                    <li>Click Image</li>
+                    <li>Copy Text</li>
+                    <li>Use Text as Image Source</li>
+                </ol>
+            </div>
+                
+            
+            <!-- Modal body -->
+            <div class="modal-body" id="photos">
+                {% for file in files %}
+                <img src="{{ url_for('author.show', setname='photos', filename=file) }}", name="{{ file }}" class="img-thumbnail m-1" style="width: 64px">
+                {% endfor %}                
+            </div>
+
+            <div class="modal-footer">
+                <p class="me-auto">Image Source:</p>
+                <button type="button" onclick="copyFunction()" id="copy_button" onmouseout="outFunc()" class="btn btn-primary">Copy Text</button>
+
+                <input id="url" type="text" style="width:100%;"/>
+            </div>
+
+        </div>
+    </div>
+</div>
+{%- endmacro %}

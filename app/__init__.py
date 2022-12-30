@@ -11,6 +11,7 @@ from flask_uploads import IMAGES, UploadSet, configure_uploads
 from flaskext.markdown import Markdown
 
 
+
 # Flask Principal signal stuff
 from flask_login import current_user
 from flask_principal import UserNeed, RoleNeed, identity_loaded
@@ -22,6 +23,7 @@ login = LoginManager()
 principals = Principal()
 admin = Admin()
 mde = Mde()
+
 
 
 photos = UploadSet("photos", IMAGES)

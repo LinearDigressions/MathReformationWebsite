@@ -1,85 +1,33 @@
 {% extends "base.html" %} 
+{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field %}
+{% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button %}
 
 {% block head %}
     {{mde.css}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#photos img").click(function(){
-                var value = $(this)[0].src;
-                console.log(value)
-                var input = $('#url');
-                input.val(value);
-            });
-        });
-    </script>
+    {{ select2_cdn() }}
+    {{ select2_header(selected_items = categories_data, field_class = 'js-example-basic-multiple') }}
+
+    {{ photo_viewer_script() }}
 
 {% endblock %}
 
 
 {% block content %}
     <h1 class="text-center">Edit Article</h1>
-    <script type="text/javascript">
-
-        categories_data = JSON.parse({{ categories_data | tojson }})
-        //categories_data = ["1", "2"]
-        
-        
-
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
-            $('.js-example-basic-multiple').select2({dropdownAutoWidth : true});
-            $('.js-example-basic-multiple').val(categories_data).trigger('change');
-        });
-        
-
-    </script>
     
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p></p>
-        <div class="form-group">
-            <label>{{ form.categories.label }}</label>
-            <select data-placeholder="Categories" class="js-example-basic-multiple" multiple="multiple" style="width:100%"; name="categories">
-                <option></option>
-                {% for choice in form.categories.choices %}
-                      <option value="{{ choice[0] }}">{{ choice[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
+        {{ select2_field(field=form.categories, field_name="categories", field_placeholder="Categories", field_class='js-example-basic-multiple') }}
+        {{ input(form.name, size=32) }}
+        {{ input(form.path, size=32) }}
+        {{ input(form.header, size=32) }}
 
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
-            {% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.path.label }}<br>
-            {{ form.path(size=32) }}<br>
-            {% for error in form.path.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.header.label }}<br>
-            {{ form.header() }}<br>
-            {% for error in form.header.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        {% include 'author/photo_viewer.html' %}
-        <p>
-            {{ form.body.label }}<br>
-            {{ form.body() }}
-            {% for error in form.body.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
+        {{ photo_viewer_button(files=files) }}
+        {{ input(form.body) }}
+
         
         <p>{{ form.submit() }}</p>
     </form>

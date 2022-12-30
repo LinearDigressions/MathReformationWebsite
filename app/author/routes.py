@@ -4,7 +4,7 @@ from app.author import bp
 from app.models import Article, Category
 from flask_login import login_required
 from app.roles import admin_permission
-from app.author.forms import ArticleForm, PhotoForm
+from app.author.forms import ArticleForm, PhotoForm, CategoryForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
@@ -23,7 +23,6 @@ def edit_article(path):
 
     path_changed = False
 
-    #form = ArticleForm()
     form = ArticleForm()
     article = db.first_or_404(Article.query.filter_by(path=path))
 
@@ -58,9 +57,10 @@ def edit_article(path):
     form.path.data = article.path
 
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
-
+    print(photos.name)
 
     return render_template('author/edit_article.html', title="Edit Article", form=form, article=article, categories_data=categories_data, setname=photos.name, files=files)
+
 
 @bp.route('/upload_photo', methods=['GET', 'POST'])
 @login_required

@@ -1,23 +1,14 @@
 {% extends "base.html" %}
+{% from 'macros/form_macros.html' import input %}
+
+
 
 {% block content %}
     <h1>Sign In</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
+        {{ input(form.username) }}
+        {{ input(form.password) }}
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
         <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
