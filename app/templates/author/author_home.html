@@ -1,7 +1,7 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<a href="{{ url_for('author.upload_photo') }}" class="btn btn-info" role="button">Upload Photos</a>
+<a href="{{ url_for('author.manage_photos') }}" class="btn btn-info" role="button">Upload Photos</a>
 <a href="{{ url_for('author.new_document', doc_type='category') }}" class="btn btn-info" role="button">New Category</a>
 <a href="{{ url_for('author.new_document', doc_type='article') }}" class="btn btn-info" role="button">New Article</a>
 <p>Test</p>

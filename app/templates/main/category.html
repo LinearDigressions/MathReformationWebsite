@@ -5,34 +5,41 @@
 
 <h1 class="text-center">{{ category.name }}</h1>
 {% if admin_permission.can() %} 
-<a href="{{ url_for('author.edit_document', doc_type='category', path=category.path) }}" class="btn btn-info" role="button">Edit Category</a>
+<a href="{{ url_for('author.edit_document', doc_type='category', path=category.path, version='main') }}" class="btn btn-info" role="button">Edit Category</a>
 {% endif %}
 <ul>
     {% if category.get_num_children() == 0 %} 
         {% for article in category.articles %}
+        {% if article.is_visible == True %} 
         <li>
             <a href = {{ url_for('main.article_page', path=article.path)}}>
                 {{ article.name }}
             </a>
         </li>
+        {% endif %}
         {% endfor %}
     {% else %}
         {% for category_child in category.children %}
+        {% if category_child.is_visible == True %} 
+
         <li>
             <a href = {{ url_for('main.category_page', path=category_child.path)}}>
                 {{ category_child.name }}
             </a>
             <ul>
-                {% for article in category_child.articles %} 
+                {% for article in category_child.articles %}
+                {% if article.is_visible == True %} 
                 <li>
                     <a href = {{ url_for('main.article_page', path=article.path)}}>
                         {{ article.name }}
                     </a>
                 </li>
+                {% endif %} 
                 {% endfor %}
             </ul>
 
         </li>
+        {% endif %} 
         {% endfor %}
     {% endif %}
 </ul>

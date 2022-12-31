@@ -1,3 +1,4 @@
+{% from 'macros/form_macros.html' import input %}
 
 {% macro photo_viewer_script() -%}
 
@@ -99,4 +100,40 @@
         </div>
     </div>
 </div>
+{%- endmacro %}
+
+
+{% macro add_photo_button(field) -%}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photoForm">
+    Upload Photo
+</button>
+
+<div class="modal fade" id="photoForm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Upload Photo</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+        
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form  enctype='multipart/form-data' method="post" action="" novalidate>
+                    {{ field.hidden_tag() }}
+                    <p>
+                        {{ input(field.photo) }}
+                        {{ input(field.name) }}
+
+                    </p>
+                    <p>{{ field.submit() }}</p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 {%- endmacro %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button %}
+{% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+{% from 'macros/form_macros.html' import input %}
 
 
 {% block head %}
@@ -39,15 +40,13 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form  enctype=multipart/form-data action="{{ url_for('author.upload_photo') }}" method="post" novalidate>
-                        {{ form.hidden_tag() }}
+                        {{ add_photo_form.hidden_tag() }}
                         <p>
-                            {{ form.photo.label }}<br>
-                            {{ form.photo }}
-                            {% for error in form.photo.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                            {% endfor %}
+                            {{ input(add_photo_form.photo) }}
+                            {{ input(add_photo_form.name) }}
+
                         </p>
-                        <p>{{ form.submit() }}</p>
+                        <p>{{ add_photo_form.submit() }}</p>
                     </form>
                 </div>
 
@@ -57,6 +56,8 @@
     
     <hr>
     <!-- Button to Open the Modal -->
+
+
     {{ photo_viewer_button(files) }}
 
 

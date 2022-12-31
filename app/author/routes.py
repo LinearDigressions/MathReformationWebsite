@@ -4,7 +4,7 @@ from app.author import bp
 from app.models import Article, Category
 from flask_login import login_required
 from app.roles import admin_permission
-from app.author.forms import ArticleForm, PhotoForm, EditingForm
+from app.author.forms import AddPhotoForm, EditingForm, DeletePhotoForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
@@ -47,10 +47,10 @@ def new_document(doc_type):
 
     return redirect(url_for('author.edit_document', doc_type=doc_type, path=new_doc_num))
 
-@bp.route("/edit/<doc_type>/<path>", methods=["GET", "POST"])
+@bp.route("/edit/<doc_type>/<path>/<version>", methods=["GET", "POST"])
 @login_required
 @admin_permission.require(http_exception=403)
-def edit_document(doc_type, path):
+def edit_document(doc_type, path, version):
     
     selected_children = []
     selected_parents = []
@@ -72,7 +72,15 @@ def edit_document(doc_type, path):
     else:
         abort(500)
 
+
+
     if form.validate_on_submit():
+
+        if form.load_draft.data:
+            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type, version="draft"))
+
+        if form.load_main.data:
+            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type, version="main"))
 
         if doc.path != form.path.data:
             path_changed = True
@@ -86,19 +94,44 @@ def edit_document(doc_type, path):
         else:
             abort(500)
 
+        if form.save_draft_to_main.data:
+            doc.body_main = markdown(form.body.data)
+            doc.body_draft = markdown(form.body.data)
+            flash("Draft Saved to Main")
 
-        doc.body = markdown(form.body.data)
+        if form.save_main_to_draft.data:
+            doc.body_draft = markdown(form.body.data)
+            flash("Draft Saved to Main")
+
+        if form.save_and_exit.data or form.submit_continue_editing.data:
+            if version == "main":
+                doc.body_main = markdown(form.body.data)
+
+            if version == "draft":
+                doc.body_draft = markdown(form.body.data)
+
         doc.header = form.header.data
         doc.name = form.name.data
         doc.path = form.path.data
+        doc.is_visible = form.is_visible.data
         db.session.commit()
         flash("Changes Saved")
 
-        if form.submit.data:
+        
+        if form.save_draft_to_main.data:
+            flash("Switching to Main View")
+            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type, version="main"))
+
+        if form.save_main_to_draft.data:
+            flash("Switching to Draft View")
+            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type, version="draft"))
+
+
+        if form.save_and_exit.data:
             return redirect(url_for('author.author_home'))
 
         if path_changed == True:
-            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type))
+            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type, version=version))
 
 
     if doc_type == "category":
@@ -110,8 +143,14 @@ def edit_document(doc_type, path):
     else:
         abort(500)
 
-    form.body.data = doc.body
+    if version == "main":
+        form.body.data = doc.body_main
+
+    if version == "draft":
+        form.body.data = doc.body_draft
+
     form.header.data = doc.header
+    form.is_visible.data = doc.is_visible
     form.name.data = doc.name
     form.path.data = doc.path
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
@@ -124,11 +163,12 @@ def edit_document(doc_type, path):
     content["form"] = form
     content["doc"] = doc
     content["selected_items"] = selected_items
-    print(selected_items)
     content["selected_parents"] = selected_parents
     content["selected_children"] = selected_children
     content["setname"] = photos.name
     content["files"] = files
+    content["version"] = version
+
 
     return render_template('author/edit_document.html', **content)
 
@@ -137,16 +177,18 @@ def edit_document(doc_type, path):
 @bp.route('/manage_photos', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require(http_exception=403)
-def upload_photo():
-    if request.method == "POST" and "photo" in request.files:
-        filename = photos.save(request.files["photo"])
+def manage_photos():
+    add_photo_form = AddPhotoForm()
+
+    # if request.method == "POST" and "photo" in request.files:
+    if add_photo_form.validate_on_submit():
+        filename = photos.save(request.files["photo"], name=add_photo_form.name.data)
         url =  url_for("_uploads.uploaded_file", setname="photos", filename=filename)
         print("Url: ", url)
         flash("Photo uploaded at: " + url)
 
-    form = PhotoForm()
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
-    return render_template("author/upload_photo.html", form=form,setname=photos.name, files=files)
+    return render_template("author/manage_photos.html", add_photo_form=add_photo_form, setname=photos.name, files=files)
 
 @bp.route("/show/<setname>/<filename>")
 def show(setname, filename):

@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field %}
-{% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button %}
+{% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
 
 {% block head %}
     {{mde.css}}
@@ -12,32 +12,6 @@
         {{ select2_header(already_selected=selected_parents, field_class = 'select2_parents') }}
         {{ select2_header(already_selected=selected_children, field_class = 'select2_children') }}
     {% endif %}
-<!-- 
-    <script type="text/javascript">
-
-
-        parent_class = ".select2_parents"
-        children_class = ".select2_children"
-
-        console.log(parent_class)
-        parents = JSON.parse({{ selected_parents|tojson }})
-        children = JSON.parse({{ selected_children|tojson }})
-
-        console.log(parents)
-        $(document).ready(function() {
-            $(parent_class).select2();
-            $(parent_class).select2({dropdownAutoWidth : true});
-            $(parent_class).val(parents).trigger('change');
-
-        });
-        $(document).ready(function() {
-
-            $(children_class).select2();
-            $(children_class).select2({dropdownAutoWidth : true});
-            $(children_class).val(children).trigger('change');
-        });
-    
-    </script> -->
 
     {{ photo_viewer_script() }}
 
@@ -46,7 +20,7 @@
 
 {% block content %}
     <h1 class="text-center">{{ title }}</h1>
-
+    <h2 class="text-center">Version: {{ version }}</h2>
     {% if doc_type == "category" %}
         <a href="{{ url_for('main.category_page', path=doc.path) }}" class="btn btn-info" role="button"  onclick="return confirm('Make sure to save article first! Please click on OK to continue.');">View Page</a>
     {%  elif doc_type == "article" %}
@@ -67,14 +41,32 @@
 
         {{ input(form.name, size=32) }}
         {{ input(form.path, size=32) }}
+        {{ input(form.is_visible) }}
         {{ input(form.header, size=32) }}
+        
+
 
         {{ photo_viewer_button(files=files) }}
         {{ input(form.body) }}
 
         
-        <p>{{ form.submit() }}</p>
+        {% if version == "main" %}
+
+        <p>{{ form.load_draft(onclick="return confirm('Unsaved main changes will be lost. Please click on OK to continue.');") }}</p>
+        <p>{{ form.save_main_to_draft(onclick="return confirm('Current draft will be lost. Please click on OK to continue.');") }}</p>
+
+        {% elif version == "draft" %}
+
+        <p>{{ form.load_main(onclick="return confirm('Unsaved draft changes will be lost. Please click on OK to continue.');") }}</p>
+        <p>{{ form.save_draft_to_main(onclick="return confirm('Current main will be lost. Please click on OK to continue.');") }}</p>
+
+        {% endif %}
+
+
+
         <p>{{ form.submit_continue_editing() }}</p>
+        <p>{{ form.save_and_exit() }}</p>
+
 
     </form>
     <hr>

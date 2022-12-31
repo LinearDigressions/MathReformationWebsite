@@ -65,7 +65,9 @@ class Article(db.Model):
         default=datetime.utcnow)
     categories = db.relationship('Category', secondary = article_categories_table,
                                  backref=db.backref('articles', lazy=True), lazy=True)
-    body = db.Column(db.String(), index=True)
+    body_main = db.Column(db.String(), index=True)
+    body_draft = db.Column(db.String(), index=True)
+    is_visible = db.Column(db.Boolean())
     header = db.Column(db.String(), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -81,9 +83,11 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     path = db.Column(db.String(50), unique=True)
-    body = db.Column(db.String(), index=True)
+    body_main = db.Column(db.String(), index=True)
+    body_draft = db.Column(db.String(), index=True)
     header = db.Column(db.String(), index=True)
     category_type = db.Column(db.String(15))
+    is_visible = db.Column(db.Boolean())
 
     parents = db.relationship('Category',secondary=parent_child_table,
         primaryjoin=id == parent_child_table.c.ChildId,
@@ -115,13 +119,6 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-# class AuthException(HTTPException):
-#     def __init__(self, message):
-#         super().__init__(message, Response(
-#             "You could not be authenticated. Please refresh the page.", 401,
-#             {'WWW-Authenticate': 'Basic realm="Login Required"'}
-#         ))
-
 
 class AdminModelView(ModelView):
 
@@ -130,6 +127,7 @@ class AdminModelView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
+
 
 admin.add_view(AdminModelView(Feedback, db.session))
 admin.add_view(AdminModelView(Category, db.session))
