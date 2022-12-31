@@ -99,7 +99,7 @@ def edit_document(doc_type, path):
     form.path.data = doc.path
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
-    return render_template('author/edit_document.html', title="Edit " + doc_type.capitalize(), opposite_type=opposite_type, form=form, doc=doc, selected_items=selected_items, setname=photos.name, files=files)
+    return render_template('author/edit_document.html', title="Edit " + doc_type.capitalize(), doc_type = doc_type, opposite_type=opposite_type, form=form, doc=doc, selected_items=selected_items, setname=photos.name, files=files)
 
 
 

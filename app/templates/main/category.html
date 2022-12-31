@@ -4,25 +4,37 @@
 {% block content %}
 
 <h1 class="text-center">{{ category.name }}</h1>
-
+{% if admin_permission.can() %} 
+<a href="{{ url_for('author.edit_document', doc_type='category', path=category.path) }}" class="btn btn-info" role="button">Edit Category</a>
+{% endif %}
 <ul>
-    {% for category_child in category.children %}
-    <li>
-        <a href = {{ url_for('main.category_page', path=category_child.path)}}>
-            {{ category_child.name }}
-        </a>
-        <ul>
-            {% for article in category_child.articles %} 
-            <li>
-                <a href = {{ url_for('main.article_page', path=article.path)}}>
-                    {{ article.name }}
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
+    {% if category.get_num_children() == 0 %} 
+        {% for article in category.articles %}
+        <li>
+            <a href = {{ url_for('main.article_page', path=article.path)}}>
+                {{ article.name }}
+            </a>
+        </li>
+        {% endfor %}
+    {% else %}
+        {% for category_child in category.children %}
+        <li>
+            <a href = {{ url_for('main.category_page', path=category_child.path)}}>
+                {{ category_child.name }}
+            </a>
+            <ul>
+                {% for article in category_child.articles %} 
+                <li>
+                    <a href = {{ url_for('main.article_page', path=article.path)}}>
+                        {{ article.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
 
-    </li>
-    {% endfor %}
+        </li>
+        {% endfor %}
+    {% endif %}
 </ul>
 
 {% endblock %}

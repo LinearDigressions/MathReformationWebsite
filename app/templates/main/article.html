@@ -5,6 +5,11 @@
 
 <h1 class="text-center">{{ article.name }}</h1>
 
+{% if admin_permission.can() %} 
+<a href="{{ url_for('author.edit_document', doc_type='article', path=article.path) }}" class="btn btn-info" role="button">Edit Article</a>
+{% endif %}
+
+
 {{ article.body | safe }}
 
 {% endblock %}

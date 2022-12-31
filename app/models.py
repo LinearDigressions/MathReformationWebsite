@@ -41,6 +41,8 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    
+
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -90,6 +92,9 @@ class Category(db.Model):
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
+    def get_num_children(self):
+        return len(list(self.children))
 
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
