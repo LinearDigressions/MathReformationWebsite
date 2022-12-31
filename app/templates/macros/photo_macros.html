@@ -7,16 +7,27 @@
 
         $('#copy_button').tooltip({title: "Copied Text", trigger: "click"}); 
 
-
         $("#photos img").click(function(){
 
-            var value = $(this)[0].src;
+            //var value = $(this)[0].src;
+            var value = $(this).attr("src");
             console.log(value);
             var input = $('#url');
             input.val(value);
+
+            
+            //var image =  document.getElementById("img_preview");
+            //image.src = value;
+            $("#img_preview").attr("src", value);
+            $("#img_preview").css("visibility", "visible");
+            $("#img_preview").css("width", "64px");
+
+
+
         });
     });
 </script>
+
 <script>
     function outFunc() {
         $('#copy_button').tooltip("hide")
@@ -75,8 +86,13 @@
 
             <div class="modal-footer">
                 <p class="me-auto">Image Source:</p>
-                <button type="button" onclick="copyFunction()" id="copy_button" onmouseout="outFunc()" class="btn btn-primary">Copy Text</button>
 
+
+                <img id="img_preview" src="", style="visibility: hidden;" name="TEST" class="img-thumbnail m-1" style="width:64px;">
+
+
+                <button type="button" onclick="copyFunction()" id="copy_button" onmouseout="outFunc()" class="btn btn-primary">Copy src</button>
+               
                 <input id="url" type="text" style="width:100%;"/>
             </div>
 

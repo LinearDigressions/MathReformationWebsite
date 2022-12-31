@@ -15,6 +15,12 @@ import random
 # I commented out the sanitizeTag function in Markdown.Sanitizer.js to allow for all html rendering
 # I added MathJax.typeset();  to the end of makePreviewHtml function in Markdown.Editor.js to allow for real time latex rendering
 
+@bp.route("/author_home")
+@login_required
+@admin_permission.require(http_exception=403)
+def author_home():
+
+    return render_template('author/author_home.html')
 
 @bp.route("/create/<doc_type>/", methods=["GET", "POST"])
 @login_required
@@ -45,19 +51,23 @@ def new_document(doc_type):
 @login_required
 @admin_permission.require(http_exception=403)
 def edit_document(doc_type, path):
-    print(doc_type)
+    
+    selected_children = []
+    selected_parents = []
     path_changed = False
 
     form = EditingForm()
 
     if doc_type == "category":
         doc = db.first_or_404(Category.query.filter_by(path=path))
-        form.select_multiple.choices = [(str(art.id), art.name) for art in Article.query.all()]
+        form.items.choices = [(str(art.id), art.name) for art in Article.query.all()]
+        form.parents.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
+        form.children.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
         opposite_type = "article"
 
     elif doc_type == "article":
         doc = db.first_or_404(Article.query.filter_by(path=path))
-        form.select_multiple.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
+        form.items.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
         opposite_type = "category"
     else:
         abort(500)
@@ -68,9 +78,11 @@ def edit_document(doc_type, path):
             path_changed = True
 
         if doc_type == "category":
-            doc.articles = [Article.query.get(article_id) for article_id in form.select_multiple.data]
+            doc.articles = [Article.query.get(article_id) for article_id in form.items.data]
+            doc.parents = [Category.query.get(category_id) for category_id in form.parents.data]
+            doc.children = [Category.query.get(category_id) for category_id in form.children.data]
         elif doc_type == "article":
-            doc.categories = [Category.query.get(category_id) for category_id in form.select_multiple.data]
+            doc.categories = [Category.query.get(category_id) for category_id in form.items.data]
         else:
             abort(500)
 
@@ -82,12 +94,17 @@ def edit_document(doc_type, path):
         db.session.commit()
         flash("Changes Saved")
 
+        if form.submit.data:
+            return redirect(url_for('author.author_home'))
+
         if path_changed == True:
-            return redirect(url_for('author.edit_article', path=doc.path))
+            return redirect(url_for('author.edit_document', path=doc.path, doc_type=doc_type))
 
 
     if doc_type == "category":
         selected_items = json.dumps([str(art.id) for art in doc.articles])
+        selected_parents = json.dumps([str(cat.id) for cat in doc.parents])
+        selected_children = json.dumps([str(cat.id) for cat in doc.children])
     elif doc_type == "article":
         selected_items = json.dumps([str(cat.id) for cat in doc.categories])
     else:
@@ -99,11 +116,25 @@ def edit_document(doc_type, path):
     form.path.data = doc.path
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
-    return render_template('author/edit_document.html', title="Edit " + doc_type.capitalize(), doc_type = doc_type, opposite_type=opposite_type, form=form, doc=doc, selected_items=selected_items, setname=photos.name, files=files)
+    content = {}
+
+    content["title"] = "Edit " + doc_type.capitalize()
+    content["doc_type"] = doc_type
+    content["opposite_type"] = opposite_type
+    content["form"] = form
+    content["doc"] = doc
+    content["selected_items"] = selected_items
+    print(selected_items)
+    content["selected_parents"] = selected_parents
+    content["selected_children"] = selected_children
+    content["setname"] = photos.name
+    content["files"] = files
+
+    return render_template('author/edit_document.html', **content)
 
 
 
-@bp.route('/upload_photo', methods=['GET', 'POST'])
+@bp.route('/manage_photos', methods=['GET', 'POST'])
 @login_required
 @admin_permission.require(http_exception=403)
 def upload_photo():

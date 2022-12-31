@@ -16,19 +16,14 @@
 {%- endmacro %}
 
 
-{% macro select2_header(selected_items, field_class) -%}
+{% macro select2_header(already_selected, field_class) -%}
 
 <script type="text/javascript">
-
-
-    field_class = "." + "{{ field_class }}"
-    console.log("here")
-    items = JSON.parse({{ selected_items|tojson }})
-    console.log(items)
+    
     $(document).ready(function() {
-        $(field_class).select2();
-        $(field_class).select2({dropdownAutoWidth : true});
-        $(field_class).val(items).trigger('change');
+        $("." + "{{ field_class }}").select2();
+        $("." + "{{ field_class }}").select2({dropdownAutoWidth : true});
+        $("." + "{{ field_class }}").val(JSON.parse( {{ already_selected|tojson }} )).trigger('change');
     });
 
 </script>

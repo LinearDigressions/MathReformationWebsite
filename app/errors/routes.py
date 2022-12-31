@@ -1,6 +1,12 @@
 from flask import render_template 
 from MathReformationWebsite import db
 from app.errors import bp
+from app.roles import admin_permission
+
+
+@bp.context_processor
+def add_imports():
+    return dict(admin_permission=admin_permission)
 
 
 @bp.app_errorhandler(404)

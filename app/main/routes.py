@@ -6,11 +6,16 @@ from app import db
 import markdown
 from app.roles import admin_permission
 
+
+@bp.context_processor
+def add_imports():
+    return dict(admin_permission=admin_permission)
+
 @bp.route("/", methods=["GET"])
 @bp.route("/index", methods=["GET"])
 def index():
     main_categories = Category.query.filter_by(parents=None)
-    return render_template('main/index.html', title="Home", main_categories=main_categories,admin_permission=admin_permission)
+    return render_template('main/index.html', title="Home", main_categories=main_categories)
 
 @bp.route("/about", methods=["GET"])
 def about():
@@ -26,10 +31,10 @@ def saved_articles():
 @bp.route("/article/<path>")
 def article_page(path):
     article = db.first_or_404(Article.query.filter_by(path=path))
-    return render_template('main/article.html', article=article,admin_permission=admin_permission)
+    return render_template('main/article.html', article=article)
 
 
 @bp.route("/category/<path>")
 def category_page(path):
     category = db.first_or_404(Category.query.filter_by(path=path))
-    return render_template('main/category.html', category=category,admin_permission=admin_permission)
+    return render_template('main/category.html', category=category)

@@ -10,10 +10,13 @@ class EditingForm(FlaskForm):
 
     name = StringField("Name", validators=[DataRequired()])
     path = StringField('URL Path', validators=[DataRequired()])
-    body = MdeField('Body', validators=[DataRequired()])
+    body = MdeField('Body')
     header = TextAreaField('Header')
-    select_multiple = SelectMultipleField('List', choices=[])
+    items = SelectMultipleField('List', choices=[])
+    parents = SelectMultipleField('Parents', choices=[])
+    children = SelectMultipleField('Children', choices=[])
     submit = SubmitField("Save")
+    submit_continue_editing = SubmitField("Save and Continue Editing")
 
 
 class ArticleForm(FlaskForm):

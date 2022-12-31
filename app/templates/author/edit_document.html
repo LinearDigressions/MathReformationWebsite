@@ -7,7 +7,37 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     {{ select2_cdn() }}
-    {{ select2_header(selected_items=selected_items, field_class = 'js-example-basic-multiple') }}
+    {{ select2_header(already_selected=selected_items, field_class = 'select2_items') }}
+    {% if doc_type == "category" %}
+        {{ select2_header(already_selected=selected_parents, field_class = 'select2_parents') }}
+        {{ select2_header(already_selected=selected_children, field_class = 'select2_children') }}
+    {% endif %}
+<!-- 
+    <script type="text/javascript">
+
+
+        parent_class = ".select2_parents"
+        children_class = ".select2_children"
+
+        console.log(parent_class)
+        parents = JSON.parse({{ selected_parents|tojson }})
+        children = JSON.parse({{ selected_children|tojson }})
+
+        console.log(parents)
+        $(document).ready(function() {
+            $(parent_class).select2();
+            $(parent_class).select2({dropdownAutoWidth : true});
+            $(parent_class).val(parents).trigger('change');
+
+        });
+        $(document).ready(function() {
+
+            $(children_class).select2();
+            $(children_class).select2({dropdownAutoWidth : true});
+            $(children_class).val(children).trigger('change');
+        });
+    
+    </script> -->
 
     {{ photo_viewer_script() }}
 
@@ -25,7 +55,16 @@
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p></p>
-        {{ select2_field(field=form.select_multiple, field_name="select_multiple", field_placeholder=opposite_type.capitalize(), field_class='js-example-basic-multiple') }}
+        {{ select2_field(field=form.items, field_name="items", field_placeholder=opposite_type.capitalize(), field_class='select2_items') }}
+
+        {% if doc_type == "category" %}
+
+        {{ select2_field(field=form.parents, field_name="parents", field_placeholder="Parent Categories", field_class='select2_parents') }}
+
+        {{ select2_field(field=form.children, field_name="children", field_placeholder="Children Categories", field_class='select2_children') }}
+
+        {% endif %}
+
         {{ input(form.name, size=32) }}
         {{ input(form.path, size=32) }}
         {{ input(form.header, size=32) }}
@@ -35,6 +74,8 @@
 
         
         <p>{{ form.submit() }}</p>
+        <p>{{ form.submit_continue_editing() }}</p>
+
     </form>
     <hr>
     <h1>Preview Article</h1>
