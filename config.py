@@ -16,3 +16,8 @@ class Config(object):
 
     UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/uploads')
     UPLOADS_AUTOSERVE = True
+
+    POSTS_PER_PAGE = 10
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+
+

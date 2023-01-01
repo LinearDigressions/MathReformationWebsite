@@ -6,12 +6,9 @@ from flask_login import current_user, login_user, logout_user, login_manager, lo
 from app.models import User
 from werkzeug.urls import url_parse
 from flask_principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, UserNeed, RoleNeed 
-from app.roles import admin_permission, author_permission
 
 
-@bp.context_processor
-def add_imports():
-    return dict(admin_permission=admin_permission)
+
 
 @login.user_loader
 def load_user(userid):

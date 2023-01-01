@@ -9,7 +9,7 @@ from flask_admin import Admin
 from flask_mde import Mde
 from flask_uploads import IMAGES, UploadSet, configure_uploads
 from flaskext.markdown import Markdown
-
+from elasticsearch import Elasticsearch
 
 
 # Flask Principal signal stuff
@@ -23,7 +23,6 @@ login = LoginManager()
 principals = Principal()
 admin = Admin()
 mde = Mde()
-
 
 
 photos = UploadSet("photos", IMAGES)
@@ -54,6 +53,15 @@ def create_app(config_class=Config):
     admin.init_app(app)
     mde.init_app(app)
     Markdown(app)
+
+
+    if app.config['ELASTICSEARCH_URL']:
+        app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+    else:
+        app.elasticsearch = None
+    
+
+
 
     configure_uploads(app, photos)
 

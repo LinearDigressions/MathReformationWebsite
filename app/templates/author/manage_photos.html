@@ -39,7 +39,7 @@
             
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form  enctype=multipart/form-data action="{{ url_for('author.upload_photo') }}" method="post" novalidate>
+                    <form  enctype=multipart/form-data action="{{ url_for('author.manage_photos') }}" method="post" novalidate>
                         {{ add_photo_form.hidden_tag() }}
                         <p>
                             {{ input(add_photo_form.photo) }}
