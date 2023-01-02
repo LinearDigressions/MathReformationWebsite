@@ -130,6 +130,25 @@ class Article(SearchableMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order = db.Column(db.Integer())
 
+    def next_sibling(self):
+        secondary_category = self.categories[0]
+        siblings = secondary_category.ordered_articles()
+        num_siblings = len(siblings)
+        idx = np.where(siblings == self)[0][0]
+        if idx + 2 > num_siblings:
+            return None
+        else:
+            return siblings[idx + 1]
+
+    def prev_sibling(self):
+        secondary_category = self.categories[0]
+        siblings = secondary_category.ordered_articles()
+        idx = np.where(siblings == self)[0][0]
+        if idx == 0:
+            return None
+        else:
+            return siblings[idx - 1]
+
 
     def __repr__(self):
         return '<Article {}>'.format(self.name)
@@ -169,6 +188,31 @@ class Category(SearchableMixin, db.Model):
         articles_idx = np.array([article.order if article.order else 1 for article in articles])
         sorted_articles_idx = np.argsort(articles_idx)
         return articles[sorted_articles_idx]
+
+    def next_sibling(self):
+        if self.category_type == "root":
+            return None
+
+        parent = self.parents[0]
+        siblings = parent.ordered_children()
+        num_siblings = len(siblings)
+        idx = np.where(siblings == self)[0][0]
+        if idx + 2 > num_siblings:
+            return None
+        else:
+            return siblings[idx + 1]
+
+    def prev_sibling(self):
+        if self.category_type == "root":
+            return None
+            
+        parent = self.parents[0]
+        siblings = parent.ordered_children()
+        idx = np.where(siblings == self)[0][0]
+        if idx == 0:
+            return None
+        else:
+            return siblings[idx - 1]
 
 
     def __repr__(self):

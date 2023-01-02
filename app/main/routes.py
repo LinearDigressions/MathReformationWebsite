@@ -46,6 +46,45 @@ def article_page(path):
 
     article = db.first_or_404(Article.query.filter_by(path=path))
 
+
+    article_next_sibling = article.next_sibling()
+
+    # If next article in same category exists, then return that article
+    if article_next_sibling:
+        next_page_url = url_for('main.article_page', path=article_next_sibling.path)
+        next_page_name = article_next_sibling.name
+    else:
+        # If no next article, return the next secondary category.
+        category_next_sibling = article.categories[0].next_sibling()
+
+        if category_next_sibling:
+            next_page_url = url_for('main.category_page', path=category_next_sibling.path)    
+            next_page_name = category_next_sibling.name
+        else:
+            next_page_url = None
+            next_page_name = None
+
+
+    article_prev_sibling = article.prev_sibling()
+    # If prev article in same category exists, then return that article
+
+    if article_prev_sibling:
+        prev_page_url = url_for('main.article_page', path=article_prev_sibling.path)
+        prev_page_name = article_prev_sibling.name
+    else:
+        
+        # If no next article, return the next secondary category.
+        category_prev_sibling = article.categories[0].prev_sibling()
+
+        if category_prev_sibling:
+            prev_page_url = url_for('main.category_page', path=category_prev_sibling.path)    
+            prev_page_name = category_prev_sibling.name
+        else:
+            prev_page_url = None
+            prev_page_name = None
+
+
+
     if current_user.is_authenticated:
 
         user = User.query.get(current_user.get_id())
@@ -67,14 +106,25 @@ def article_page(path):
         return redirect(url_for('main.article_page', path=path))
         
 
+    content = {}
 
-    return render_template('main/article.html', article=article, form=form, user=user)
+    content["article"] = article
+    content["form"] = form
+    content["user"] = user
+    content["prev_page_url"] = prev_page_url
+    content["next_page_url"] = next_page_url
+    content["prev_page_name"] = prev_page_name
+    content["next_page_name"] = next_page_name
+
+
+
+    return render_template('main/article.html', **content)
 
 
 @bp.route("/category/<path>")
 def category_page(path):
-    category = db.first_or_404(Category.query.filter_by(path=path))
 
+    category = db.first_or_404(Category.query.filter_by(path=path))
     return render_template('main/category.html', category=category)
 
 @bp.route("/feedback", methods=["GET","POST"])
