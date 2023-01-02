@@ -4,6 +4,10 @@ from wtforms import StringField, SubmitField, SelectField, EmailField, TextAreaF
 from flask_wtf import FlaskForm
 
 
+
+class SaveForm(FlaskForm):
+    submit = SubmitField("Submit")
+
 class SearchForm(FlaskForm):
     q = StringField("Search", validators=[DataRequired()])
     #submit = SubmitField("Search")

@@ -1,10 +1,11 @@
 from flask import current_app
 import html2text
 
+
+
 h = html2text.HTML2Text()
 h.ignore_links=True
 h.ignore_emphasis=True
-
 
 
 def add_to_index(index, model):

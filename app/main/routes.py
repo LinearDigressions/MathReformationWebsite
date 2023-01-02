@@ -2,11 +2,11 @@ from flask import render_template, abort, g, redirect, url_for, request, current
 from flask_login import current_user
 from app.main import bp
 from flask_login import login_required
-from app.models import Category, Article, Feedback
+from app.models import Category, Article, Feedback, User
 from app import db
 import markdown
 from app.roles import admin_permission
-from app.main.forms import SearchForm, FeedbackForm
+from app.main.forms import SearchForm, FeedbackForm, SaveForm
 import numpy as np
 
 
@@ -30,22 +30,51 @@ def index():
 def about():
     return render_template('main/about.html', title="About")
 
-
-@bp.route("/saved_articles", methods=["GET"])
+@bp.route("/profile", methods=["GET"])
 @login_required
-def saved_articles():
-    return render_template('main/saved_articles.html', title="Saved Articles")
+def profile():
+
+    user = User.query.get(current_user.get_id())
+
+    return render_template('main/profile.html', title="Profile", user=user)
 
 
-@bp.route("/article/<path>")
+@bp.route("/article/<path>", methods=["POST", "GET"])
 def article_page(path):
+
+    form = SaveForm()
+
     article = db.first_or_404(Article.query.filter_by(path=path))
-    return render_template('main/article.html', article=article)
+
+    if current_user.is_authenticated:
+
+        user = User.query.get(current_user.get_id())
+        
+        if user.has_saved_article(article):
+            form.submit.label.text = "Unsave Article"
+        else:
+            form.submit.label.text = "Save Article"
+    else:
+        user = None
+
+    if form.validate_on_submit():
+        if user.has_saved_article(article):
+            user.unsave_article(article)
+        else:
+            user.save_article(article)
+        db.session.commit()
+
+        return redirect(url_for('main.article_page', path=path))
+        
+
+
+    return render_template('main/article.html', article=article, form=form, user=user)
 
 
 @bp.route("/category/<path>")
 def category_page(path):
     category = db.first_or_404(Category.query.filter_by(path=path))
+
     return render_template('main/category.html', category=category)
 
 @bp.route("/feedback", methods=["GET","POST"])

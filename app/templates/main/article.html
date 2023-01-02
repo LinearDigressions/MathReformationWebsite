@@ -5,6 +5,13 @@
 
 <h1 class="text-center">{{ article.name }}</h1>
 
+{% if user %} 
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.submit }}
+</form>
+{% endif %}
+
 {% if admin_permission.can() %} 
 <a href="{{ url_for('author.edit_document', doc_type='article', path=article.path, version='main') }}" class="btn btn-info" role="button">Edit Article</a>
 {% endif %}

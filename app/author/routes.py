@@ -92,6 +92,7 @@ def edit_document(doc_type, path, version):
         form.category_type.data="secondary"
 
 
+
     # Gets available category and article choices for form)
     if doc_type == "category":
         doc = db.first_or_404(Category.query.filter_by(path=path))
@@ -218,7 +219,10 @@ def edit_document(doc_type, path, version):
     form.is_visible.data = doc.is_visible
     form.name.data = doc.name
     form.path.data = doc.path
-    form.order.data = doc.order
+    if doc.order:
+        form.order.data = doc.order
+    else:
+        form.order.data = 1
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
 

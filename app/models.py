@@ -71,7 +71,7 @@ class User(UserMixin, db.Model):
     articles = db.relationship('Article', backref='author', lazy='dynamic')
 
     saved_articles = db.relationship('Article', secondary = saved_articles_table,
-                                 backref=db.backref('articles', lazy=True), lazy=True)
+                                 backref=db.backref('saved_articles', lazy=True), lazy=True)
     
     roles = db.relationship('Role', secondary = roles_table,
                                  backref=db.backref('users', lazy=True), lazy=True)
@@ -84,6 +84,17 @@ class User(UserMixin, db.Model):
         
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def save_article(self, article):
+        if not self.has_saved_article(article):
+            self.saved_articles.append(article)
+    
+    def unsave_article(self, article):
+        if self.has_saved_article(article):
+            self.saved_articles.remove(article)
+    
+    def has_saved_article(self, article): 
+        return article in self.saved_articles
 
     
 

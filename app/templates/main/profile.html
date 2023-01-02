@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+{% from 'macros/form_macros.html' import view_document_button %}
+
+{% block content %}
+<h1 class="text-center">Saved Articles</h1>
+
+{% if user.saved_articles %}
+{% for article in user.saved_articles %}
+<h3>{{ article.name }}</h2>
+{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}
