@@ -24,8 +24,7 @@ def add_imports():
 @bp.route("/index", methods=["GET"])
 def index():
     math_category = Category.query.filter_by(name="math")[0]
-    main_categories = math_category.children
-    return render_template('main/index.html', title="Home", main_categories=main_categories)
+    return render_template('main/index.html', title="Home", math_category=math_category)
 
 @bp.route("/about", methods=["GET"])
 def about():

@@ -5,12 +5,12 @@
 
 <h1 class="text-center">Home Page</h1>
 <ul>
-    {% for category in main_categories %}
-    {% if category.is_visible == True %} 
+    {% for primary_category in math_category.ordered_children() %}
+    {% if primary_category.is_visible == True %} 
 
     <li>
-        <a href = {{ url_for('main.category_page', path=category.path)}}>
-            {{ category.name }}
+        <a href = {{ url_for('main.category_page', path=primary_category.path)}}>
+            {{ primary_category.name }}
         </a>
     </li>
     {% endif %} 

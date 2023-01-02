@@ -67,6 +67,12 @@ def new_document(doc_type):
 @admin_permission.require(http_exception=403)
 def edit_document(doc_type, path, version):
 
+    if version not in ["main", "draft"]:
+        abort(404)
+
+    if doc_type not in ["category", "article"]:
+        abort(404)
+
     
     # Setting variables to preload multiple selection fields 
     selected_items=[]
@@ -106,18 +112,13 @@ def edit_document(doc_type, path, version):
         opposite_type = "article"
         form.items.label="Articles"
 
-    elif doc_type == "article":
+    if doc_type == "article":
         doc = db.first_or_404(Article.query.filter_by(path=path))
         form.items.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="secondary")]
-        print(form.items.choices)
-        print(form.items.data)
-        print(form.children.data)
-        print(form.parents.data)
-        print(form.category_type.data)
+
         opposite_type = "category"
         form.items.label="Categories"
-    else:
-        abort(500)
+    
 
 
 
@@ -169,6 +170,7 @@ def edit_document(doc_type, path, version):
         doc.header = form.header.data
         doc.name = form.name.data
         doc.path = form.path.data
+        doc.order = form.order.data
         doc.is_visible = form.is_visible.data
         db.session.commit()
         flash("Changes Saved")
@@ -216,6 +218,7 @@ def edit_document(doc_type, path, version):
     form.is_visible.data = doc.is_visible
     form.name.data = doc.name
     form.path.data = doc.path
+    form.order.data = doc.order
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
 

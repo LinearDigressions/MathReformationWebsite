@@ -57,3 +57,18 @@
 <a href="{{ url_for('author.delete_file', item_type=doc_type, item_name=path) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this {{ doc_type }}?');" role="button">Delete {{ doc_type }}</a>
 
 {%- endmacro %}
+
+
+{% macro view_document_button(path, doc_type, warning) -%}
+
+{% if doc_type == "category" %}
+
+<a href="{{ url_for('main.category_page', path=path) }}" class="btn btn-info" role="button"  {% if warning %}onclick="return confirm('Make sure to save article first! Please click on OK to continue.');" {% endif %}>View Page</a>
+
+
+{% elif doc_type == "article" %} 
+
+<a href="{{ url_for('main.article_page', path=path) }}" class="btn btn-info" role="button"  {% if warning %}onclick="return confirm('Make sure to save article first! Please click on OK to continue.');"{% endif %}>View Page</a>
+
+{% endif %}
+{%- endmacro %}

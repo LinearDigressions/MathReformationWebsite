@@ -6,7 +6,7 @@ from app.roles import admin_permission
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.search import add_to_index, remove_from_index, query_index
-
+import numpy as np
 
 # Search Mixin
 class SearchableMixin(object):
@@ -120,7 +120,6 @@ class Article(SearchableMixin, db.Model):
     order = db.Column(db.Integer())
 
 
-
     def __repr__(self):
         return '<Article {}>'.format(self.name)
 
@@ -148,21 +147,18 @@ class Category(SearchableMixin, db.Model):
         secondaryjoin=id == parent_child_table.c.ParentId,
         backref= db.backref('children'))
 
-    # def get_children_options(self):
-    #     if self.category_type == "root":
-    #         return self.query.filter_by(category_type="primary")
-    #     elif self.category_type == "primary":
-    #         return self.query.filter_by(category_type="secondary")
-    #     else:
-    #         return None
+    def ordered_children(self):
+        children = np.array(self.children)
+        children_idx = np.array([child.order if child.order else 1 for child in children])
+        sorted_children_idx = np.argsort(children_idx)
+        return children[sorted_children_idx]
 
-    # def get_parent_options(self):
-    #     if self.category_type == "secondary":
-    #         return self.query.filter_by(category_type="primary")
-    #     elif self.category_type == "primary":
-    #         return self.query.filter_by(category_type="root")
-    #     else:
-    #         return None
+    def ordered_articles(self):
+        articles = np.array(self.articles)
+        articles_idx = np.array([article.order if article.order else 1 for article in articles])
+        sorted_articles_idx = np.argsort(articles_idx)
+        return articles[sorted_articles_idx]
+
 
     def __repr__(self):
         return '<Category ' + self.name + ' (' + self.category_type + ')>'

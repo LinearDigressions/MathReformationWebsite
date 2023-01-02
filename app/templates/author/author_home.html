@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% from 'macros/form_macros.html' import input, edit_document_button, delete_document_button %}
+{% from 'macros/form_macros.html' import input, edit_document_button, delete_document_button, view_document_button %}
 {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
 
 {% block head %}
@@ -33,20 +33,26 @@
 {{ edit_document_button(path=root_category.path, doc_type='category') }}
 {{ delete_document_button(path=root_category.path, doc_type='category') }}
 
-{% for primary_category in root_category.children %}
+
+{% for primary_category in root_category.ordered_children() %}
 
 <h3>{{ primary_category.name }}</h2>
+{{ view_document_button(path=primary_category.path, doc_type='category', warning=False) }}
 {{ edit_document_button(path=primary_category.path, doc_type='category') }}
 {{ delete_document_button(path=primary_category.path, doc_type='category') }}
 
-{% for secondary_category in primary_category.children %}
+
+{% for secondary_category in primary_category.ordered_children() %}
+
 <h4>{{ secondary_category.name }}</h3>
+{{ view_document_button(path=secondary_category.path, doc_type='category', warning=False) }}
 {{ edit_document_button(path=secondary_category.path, doc_type='category') }}
 {{ delete_document_button(path=secondary_category.path, doc_type='category') }}
 
 
-{% for article in secondary_category.articles %}
+{% for article in secondary_category.ordered_articles() %}
 <h5>{{ article.name }}</h3>
+{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
 {{ edit_document_button(path=article.path, doc_type='article') }}
 {{ delete_document_button(path=article.path, doc_type='article') }}
 
