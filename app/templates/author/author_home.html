@@ -1,8 +1,60 @@
 {% extends "base.html" %} 
+{% from 'macros/form_macros.html' import input, edit_document_button, delete_document_button %}
+{% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#photos img").click(function(){
+            var value = $(this)[0].src;
+            console.log(value)
+            var input = $('#url');
+            input.val(value);
+        });
+    });
+</script>
+
+{{ photo_viewer_script() }}
+
+{% endblock %}
+
 
 {% block content %}
-<a href="{{ url_for('author.manage_photos') }}" class="btn btn-info" role="button">Upload Photos</a>
+{{ add_photo_button(field=add_photo_form) }}
+{{ photo_viewer_button(files, can_delete=True, btn_name="View/Delete Photos") }}
+
 <a href="{{ url_for('author.new_document', doc_type='category', version='main') }}" class="btn btn-info" role="button">New Category</a>
 <a href="{{ url_for('author.new_document', doc_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
-<p>Test</p>
+
+{% for root_category in root_categories %}
+<h2>{{ root_category.name }}</h2>
+{{ edit_document_button(path=root_category.path, doc_type='category') }}
+{{ delete_document_button(path=root_category.path, doc_type='category') }}
+
+{% for primary_category in root_category.children %}
+
+<h3>{{ primary_category.name }}</h2>
+{{ edit_document_button(path=primary_category.path, doc_type='category') }}
+{{ delete_document_button(path=primary_category.path, doc_type='category') }}
+
+{% for secondary_category in primary_category.children %}
+<h4>{{ secondary_category.name }}</h3>
+{{ edit_document_button(path=secondary_category.path, doc_type='category') }}
+{{ delete_document_button(path=secondary_category.path, doc_type='category') }}
+
+
+{% for article in secondary_category.articles %}
+<h5>{{ article.name }}</h3>
+{{ edit_document_button(path=article.path, doc_type='article') }}
+{{ delete_document_button(path=article.path, doc_type='article') }}
+
+
+
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
 {% endblock %}

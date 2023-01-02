@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field %}
+{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field, delete_document_button %}
 {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
 
 {% block head %}
@@ -9,6 +9,7 @@
     {{ select2_cdn() }}
     {{ select2_header(already_selected=selected_items, field_class = 'select2_items') }}
     {% if doc_type == "category" %}
+        {{ select2_header(already_selected=selected_category_type, field_class = 'select2_category_type') }}
         {{ select2_header(already_selected=selected_parents, field_class = 'select2_parents') }}
         {{ select2_header(already_selected=selected_children, field_class = 'select2_children') }}
     {% endif %}
@@ -29,13 +30,28 @@
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p></p>
-        {{ select2_field(field=form.items, field_name="items", field_placeholder=opposite_type.capitalize(), field_class='select2_items') }}
+        
 
         {% if doc_type == "category" %}
 
-        {{ select2_field(field=form.parents, field_name="parents", field_placeholder="Parent Categories", field_class='select2_parents') }}
 
-        {{ select2_field(field=form.children, field_name="children", field_placeholder="Children Categories", field_class='select2_children') }}
+        {{ select2_field(field=form.category_type, field_name="category_type", field_placeholder="Category Type", field_class='select2_category_type', is_multiple=False) }}
+        
+        {% if category_type != "root" %}
+        {{ select2_field(field=form.parents, field_name="parents", field_placeholder="Parent Category", field_class='select2_parents', is_multiple=False) }}
+        {% endif %}
+
+        {% if category_type != "secondary" %}
+        {{ select2_field(field=form.children, field_name="children", field_placeholder="Children Categories", field_class='select2_children', is_multiple=True) }}
+        {% endif %}
+
+        {% if category_type == "secondary" %}
+        {{ select2_field(field=form.items, field_name="items", field_placeholder=opposite_type.capitalize(), field_class='select2_items', is_multiple=True) }}
+        {% endif %}
+
+        {% elif doc_type == "article" %}
+
+        {{ select2_field(field=form.items, field_name="items", field_placeholder=opposite_type.capitalize(), field_class='select2_items', is_multiple=True) }}
 
         {% endif %}
 
@@ -46,7 +62,7 @@
         
 
 
-        {{ photo_viewer_button(files=files) }}
+        {{ photo_viewer_button(files=files, can_delete=False, btn_name="View Photos") }}
         {{ input(form.body) }}
 
         
@@ -64,6 +80,7 @@
 
         <p>{{ form.submit_continue_editing() }}</p>
         <p>{{ form.save_and_exit() }}</p>
+        {{ delete_document_button(path=doc.path, doc_type=doc_type) }}
 
 
     </form>

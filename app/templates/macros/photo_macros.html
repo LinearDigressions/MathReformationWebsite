@@ -23,6 +23,11 @@
             $("#img_preview").css("visibility", "visible");
             $("#img_preview").css("width", "64px");
 
+            $("#delete_button").attr("href", "/delete" + value.slice(5))
+            console.log("delete_button_updated")
+            $("#delete_button").css("visibility", "visible");
+
+
 
 
         });
@@ -54,9 +59,9 @@
 </script>
 {%- endmacro %}
 
-{% macro photo_viewer_button(files) -%}
+{% macro photo_viewer_button(files, can_delete, btn_name) -%}
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewImages">
-    View Photos
+    {{ btn_name }}
 </button>
 
 <div class="modal fade" id="viewImages">
@@ -93,6 +98,11 @@
 
 
                 <button type="button" onclick="copyFunction()" id="copy_button" onmouseout="outFunc()" class="btn btn-primary">Copy src</button>
+
+                {% if can_delete %}
+                <a href="#", style="visibility: hidden;", class="btn btn-danger" id="delete_button" role="button" onclick="return confirm('Are you sure you want to delete this photo?');">Delete Image</a>
+                {% endif %}
+
                
                 <input id="url" type="text" style="width:100%;"/>
             </div>

@@ -1,6 +1,6 @@
 from flask_mde import MdeField
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, FileField, StringField, TextAreaField, SelectMultipleField, BooleanField
+from wtforms import SubmitField, FileField, StringField, TextAreaField, SelectMultipleField, BooleanField, SelectField
 from wtforms.validators import DataRequired
 
 
@@ -13,8 +13,9 @@ class EditingForm(FlaskForm):
     body = MdeField('Body')
     header = TextAreaField('Header')
     items = SelectMultipleField('List', choices=[])
-    parents = SelectMultipleField('Parents', choices=[])
+    parents = SelectMultipleField('Parent', choices=[])
     children = SelectMultipleField('Children', choices=[])
+    category_type = SelectField('Category Type', choices=[("root", "Root"),("primary", "Primary"), ("secondary", "Secondary")])
 
     is_visible = BooleanField("Is Visible")
 

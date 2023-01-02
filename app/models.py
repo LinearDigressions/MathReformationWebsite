@@ -117,6 +117,9 @@ class Article(SearchableMixin, db.Model):
     is_visible = db.Column(db.Boolean())
     header = db.Column(db.String(), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    order = db.Column(db.Integer())
+
+
 
     def __repr__(self):
         return '<Article {}>'.format(self.name)
@@ -137,6 +140,7 @@ class Category(SearchableMixin, db.Model):
     body_draft = db.Column(db.String(), index=True)
     header = db.Column(db.String(), index=True)
     category_type = db.Column(db.String(15))
+    order = db.Column(db.Integer())
     is_visible = db.Column(db.Boolean())
 
     parents = db.relationship('Category',secondary=parent_child_table,
@@ -144,8 +148,24 @@ class Category(SearchableMixin, db.Model):
         secondaryjoin=id == parent_child_table.c.ParentId,
         backref= db.backref('children'))
 
+    # def get_children_options(self):
+    #     if self.category_type == "root":
+    #         return self.query.filter_by(category_type="primary")
+    #     elif self.category_type == "primary":
+    #         return self.query.filter_by(category_type="secondary")
+    #     else:
+    #         return None
+
+    # def get_parent_options(self):
+    #     if self.category_type == "secondary":
+    #         return self.query.filter_by(category_type="primary")
+    #     elif self.category_type == "primary":
+    #         return self.query.filter_by(category_type="root")
+    #     else:
+    #         return None
+
     def __repr__(self):
-        return '<Category %r>' % self.name
+        return '<Category ' + self.name + ' (' + self.category_type + ')>'
 
     def get_num_children(self):
         return len(list(self.children))

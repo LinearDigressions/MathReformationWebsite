@@ -31,16 +31,29 @@
 {%- endmacro %}
 
 
-{% macro select2_field(field, field_name, field_placeholder, field_class) -%}
+{% macro select2_field(field, field_name, field_placeholder, field_class, is_multiple) -%}
 
 <div class="form-group">
     <label>{{ field.label }}</label>
-    <select data-placeholder="{{ field_placeholder }}" class="{{ field_class }}" multiple="multiple" style="width:100%"; name="{{ field_name }}">
+    <select data-placeholder="{{ field_placeholder }}" class="{{ field_class }}" {% if is_multiple %}multiple="multiple" {% endif %} style="width:100%"; name="{{ field_name }}">
         <option></option>
         {% for choice in field.choices %}
               <option value="{{ choice[0] }}">{{ choice[1] }}</option>
         {% endfor %}
     </select>
 </div>
+
+{%- endmacro %}
+
+{% macro edit_document_button(path, doc_type) -%}
+
+<a href="{{ url_for('author.edit_document', doc_type=doc_type, path=path, version='main') }}" class="btn btn-info" role="button">Edit {{ doc_type }}</a>
+
+{%- endmacro %}
+
+
+{% macro delete_document_button(path, doc_type) -%}
+
+<a href="{{ url_for('author.delete_file', item_type=doc_type, item_name=path) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this {{ doc_type }}?');" role="button">Delete {{ doc_type }}</a>
 
 {%- endmacro %}
