@@ -7,8 +7,11 @@ from app.models import User
 from werkzeug.urls import url_parse
 from flask_principal import Principal, Identity, AnonymousIdentity, identity_changed, identity_loaded, UserNeed, RoleNeed 
 from app.email import send_password_reset_email
+from app.roles import author_permission, admin_permission
 
-
+@bp.context_processor
+def add_imports():
+    return dict(admin_permission=admin_permission, author_permission=author_permission)
 
 @login.user_loader
 def load_user(userid):

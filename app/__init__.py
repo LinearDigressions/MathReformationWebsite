@@ -18,6 +18,7 @@ import os
 # Flask Principal signal stuff
 from flask_login import current_user
 from flask_principal import UserNeed, RoleNeed, identity_loaded
+from app.roles import EditArticleNeed
 
 # Initializing Extension Objects
 db = SQLAlchemy()
@@ -108,6 +109,13 @@ def create_app(config_class=Config):
         if hasattr(current_user, 'roles'):
             for role in current_user.roles:
                 identity.provides.add(RoleNeed(role.name))
+                print(RoleNeed(role.name))
+
+
+        if hasattr(current_user, 'articles'):
+            for article in current_user.articles:
+                identity.provides.add(EditArticleNeed(article.id))
+                print(EditArticleNeed(article.id))
         
     return app
 

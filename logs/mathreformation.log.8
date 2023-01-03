@@ -1,0 +1,100 @@
+2023-01-02 17:00:49,102 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:17:22,527 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:18:35,186 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:20:15,741 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:39:44,388 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:42:46,370 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:43:30,297 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:44:50,163 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 17:46:48,437 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 18:14:10,354 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 18:15:45,026 ERROR: Exception on /auth/reset_password_request [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 89, in reset_password_request
+    send_password_reset_email(user)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/email.py", line 15, in send_password_reset_email
+    text_body=render_template('email/reset_password.txt', user=user, token=token), html_body=render_template('email/reset_password.html',user=user, token=token))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: email/reset_password.txt
+2023-01-02 18:16:39,905 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 18:17:18,512 ERROR: Exception on /auth/reset_password_request [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 89, in reset_password_request
+    send_password_reset_email(user)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/email.py", line 15, in send_password_reset_email
+    text_body=render_template('email/reset_password.txt', user=user, token=token), html_body=render_template('email/reset_password.html',user=user, token=token))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 62, in get_source
+    return self._get_source_fast(environment, template)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: email/reset_password.html
+2023-01-02 18:18:56,470 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-02 18:19:02,653 ERROR: Exception on /auth/reset_password_request [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 89, in reset_password_request
+    send_password_reset_email(user)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/email.py", line 15, in send_password_reset_email
+    text_body=render_template('email/reset_password.txt', user=user, token=token), html_body=render_template('auth/reset_password.html',user=user, token=token))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/reset_password.html", line 6, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/reset_password.html", line 9, in block 'content'
+    {{ form.hidden_tag() }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'form' is undefined
+2023-01-02 18:21:02,454 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]

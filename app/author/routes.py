@@ -1,30 +1,35 @@
 from flask import render_template, request, redirect, url_for, current_app, abort, flash, send_from_directory, json
+from flask_login import current_user
 from app import photos, db
 from app.author import bp
-from app.models import Article, Category
+from app.models import Article, CategoryType, Category
 from flask_login import login_required
-from app.roles import admin_permission
+from app.roles import admin_permission, EditArticlePermission, author_permission
 from app.author.forms import AddPhotoForm, EditingForm, DeletePhotoForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
 import random
+from flask_principal import identity_changed, Identity
 
 
 # I modified the flask_mde in two ways.
 # I commented out the sanitizeTag function in Markdown.Sanitizer.js to allow for all html rendering
 # I added MathJax.typeset();  to the end of makePreviewHtml function in Markdown.Editor.js to allow for real time latex rendering
 
+
+@bp.context_processor
+def add_imports():
+    return dict(admin_permission=admin_permission, author_permission=author_permission)
+
 @bp.route("/author_home", methods=["GET", "POST"])
 @login_required
-@admin_permission.require(http_exception=403)
+@author_permission.require(http_exception=403)
 def author_home():
 
-    root_categories = Category.query.filter_by(category_type="root")
 
     add_photo_form = AddPhotoForm()
 
-        # if request.method == "POST" and "photo" in request.files:
     if add_photo_form.validate_on_submit():
         filename = photos.save(request.files["photo"], name=add_photo_form.name.data)
         url =  url_for("_uploads.uploaded_file", setname="photos", filename=filename)
@@ -33,13 +38,24 @@ def author_home():
 
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
+    if admin_permission.can():
 
-    return render_template('author/author_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
+        root_categories = CategoryType.query.filter_by(name="root").first().categories
+        #lost_articles = Article.query.filter_by(categories=None)
+
+
+        return render_template('author/admin_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
+
+    else:
+
+        authored_articles = Article.query.filter_by(author=current_user)
+
+        return render_template('author/author_home.html', authored_articles= authored_articles, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
 
 
 @bp.route("/create/<doc_type>/", methods=["GET", "POST"])
 @login_required
-@admin_permission.require(http_exception=403)
+@author_permission.require(http_exception=403)
 def new_document(doc_type):
 
     new_doc_num = str(random.randint(0, 10000000000000000000000))
@@ -49,13 +65,15 @@ def new_document(doc_type):
             new_doc_num = str(random.randint(0, 10000000000000000000000))
         
         new_doc = Category(name=new_doc_num, path=new_doc_num)
-
     elif doc_type == "article":
         while Article.query.filter_by(name=new_doc_num).first() != None:
             new_doc_num = str(random.randint(0, 10000000000000000000000))
         
         new_doc = Article(name=new_doc_num, path=new_doc_num)
 
+        if new_doc.author == None:
+            new_doc.author = current_user
+            
 
     db.session.add(new_doc)
     db.session.commit()
@@ -64,8 +82,8 @@ def new_document(doc_type):
 
 @bp.route("/edit/<doc_type>/<path>/<version>", methods=["GET", "POST"])
 @login_required
-@admin_permission.require(http_exception=403)
 def edit_document(doc_type, path, version):
+
 
     if version not in ["main", "draft"]:
         abort(404)
@@ -87,7 +105,7 @@ def edit_document(doc_type, path, version):
 
     form = EditingForm()
 
-     # To avoid errors for article
+     # To avoid errors for article (NEED TO FIX)
     if doc_type == "article":
         form.category_type.data="secondary"
 
@@ -95,19 +113,33 @@ def edit_document(doc_type, path, version):
 
     # Gets available category and article choices for form)
     if doc_type == "category":
+            # Only admins can create categories
+        if not admin_permission.can():
+            abort(403)
+
+        
+
+
         doc = db.first_or_404(Category.query.filter_by(path=path))
+
+        # To avoid errors
+        if doc.category_type == None:
+            doc.category_type = CategoryType.query.filter_by(name="secondary").first()
+
+
         form.items.choices = [(str(art.id), art.name) for art in Article.query.all()]
 
+        form.category_type.choices = [(str(cat_type.id), cat_type.name) for cat_type in CategoryType.query.all()]
 
         # Selecting only the allowable parents/children for each category type
-        if doc.category_type == "root":
+        if doc.category_type.name == "root":
             form.parents.choices = []
-            form.children.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="primary")]
-        elif doc.category_type == "primary":
-            form.parents.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="root")]
-            form.children.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="secondary")]
+            form.children.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="primary").first().categories]
+        elif doc.category_type.name == "primary":
+            form.parents.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="root").first().categories]
+            form.children.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="secondary").first().categories]
         else:
-            form.parents.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="primary")]
+            form.parents.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="primary").first().categories]
             form.children.choices = []
         
         opposite_type = "article"
@@ -115,13 +147,14 @@ def edit_document(doc_type, path, version):
 
     if doc_type == "article":
         doc = db.first_or_404(Article.query.filter_by(path=path))
-        form.items.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="secondary")]
+        form.items.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="secondary").first().categories]
 
         opposite_type = "category"
         form.items.label="Categories"
-    
 
-
+        # Only admins or specific authors can edit
+        if not (EditArticlePermission(doc.id).can() or admin_permission.can()):
+                abort(403)
 
     if form.validate_on_submit():
 
@@ -143,7 +176,7 @@ def edit_document(doc_type, path, version):
             doc.articles = [Article.query.get(article_id) for article_id in form.items.data]
             doc.parents = [Category.query.get(category_id) for category_id in form.parents.data]
             doc.children = [Category.query.get(category_id) for category_id in form.children.data]
-            doc.category_type = form.category_type.data
+            doc.category_type = CategoryType.query.get(form.category_type.data)
         elif doc_type == "article":
             doc.categories = [Category.query.get(category_id) for category_id in form.items.data]
         else:
@@ -200,7 +233,7 @@ def edit_document(doc_type, path, version):
         selected_items = json.dumps([str(art.id) for art in doc.articles])
         selected_parents = json.dumps([str(cat.id) for cat in doc.parents])
         selected_children = json.dumps([str(cat.id) for cat in doc.children])
-        selected_category_type = json.dumps([doc.category_type])
+        selected_category_type = json.dumps([doc.category_type.id])
     elif doc_type == "article":
         selected_items = json.dumps([str(cat.id) for cat in doc.categories])
         print(selected_items)
@@ -230,7 +263,7 @@ def edit_document(doc_type, path, version):
     content = {}
 
     if doc_type == "category":
-        content["category_type"] = doc.category_type
+        content["category_type"] = doc.category_type.name
     else:
         content["category_type"] = None
 
@@ -282,8 +315,12 @@ def show(setname, filename):
 
 @bp.route("/delete/<item_type>/<item_name>", methods=["GET"])
 @login_required
-@admin_permission.require(http_exception=403)
+@author_permission.require(http_exception=403)
 def delete_file(item_type, item_name):
+
+    # Only admins can delete photos and categories
+    if not admin_permission.can() and item_type != "article":
+        abort(403)
 
     if item_type == "photos":
         path = photos.path(item_name)
@@ -298,7 +335,12 @@ def delete_file(item_type, item_name):
         flash(item_name + " category deleted.")
         return redirect(url_for('author.author_home'))
     elif item_type == "article":
+        
         art = db.first_or_404(Article.query.filter_by(path=item_name))
+
+        if not (EditArticlePermission(art.id).can() or admin_permission.can()):
+            abort(403)
+
         db.session.delete(art)
         db.session.commit()
         flash(item_name + " article deleted.")

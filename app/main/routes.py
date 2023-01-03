@@ -5,7 +5,7 @@ from flask_login import login_required
 from app.models import Category, Article, Feedback, User
 from app import db
 import markdown
-from app.roles import admin_permission
+from app.roles import admin_permission, author_permission
 from app.main.forms import SearchForm, FeedbackForm, SaveForm
 import numpy as np
 from app.email import send_feedback_email
@@ -18,7 +18,7 @@ def before_request():
 
 @bp.context_processor
 def add_imports():
-    return dict(admin_permission=admin_permission)
+    return dict(admin_permission=admin_permission, author_permission=author_permission)
 
 @bp.route("/", methods=["GET"])
 @bp.route("/index", methods=["GET"])
@@ -43,6 +43,7 @@ def profile():
 
 @bp.route("/article/<path>", methods=["POST", "GET"])
 def article_page(path):
+
 
     form = SaveForm()
 

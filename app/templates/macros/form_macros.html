@@ -41,6 +41,9 @@
               <option value="{{ choice[0] }}">{{ choice[1] }}</option>
         {% endfor %}
     </select>
+    {% for error in field.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
 </div>
 
 {%- endmacro %}

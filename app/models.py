@@ -9,6 +9,8 @@ from app.search import add_to_index, remove_from_index, query_index
 import numpy as np
 from time import time
 import jwt
+from sqlalchemy.orm import backref
+
 
 # Search Mixin
 class SearchableMixin(object):
@@ -129,8 +131,8 @@ class Article(SearchableMixin, db.Model):
     __searchable__ = ["body_main", "name"]
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
-    path = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(64), index=True, unique=True, nullable=False)
+    path = db.Column(db.String(50), unique=True, nullable=False)
     date_added = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
     categories = db.relationship('Category', secondary = article_categories_table,
@@ -176,13 +178,13 @@ class Category(SearchableMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    path = db.Column(db.String(50), unique=True)
+    path = db.Column(db.String(50), unique=True, nullable=False)
     body_main = db.Column(db.String(), index=True)
     body_draft = db.Column(db.String(), index=True)
     header = db.Column(db.String(), index=True)
-    category_type = db.Column(db.String(15))
     order = db.Column(db.Integer())
     is_visible = db.Column(db.Boolean())
+    
 
     parents = db.relationship('Category',secondary=parent_child_table,
         primaryjoin=id == parent_child_table.c.ChildId,
@@ -202,7 +204,7 @@ class Category(SearchableMixin, db.Model):
         return articles[sorted_articles_idx]
 
     def next_sibling(self):
-        if self.category_type == "root":
+        if self.category_type.name == "root":
             return None
 
         parent = self.parents[0]
@@ -215,7 +217,7 @@ class Category(SearchableMixin, db.Model):
             return siblings[idx + 1]
 
     def prev_sibling(self):
-        if self.category_type == "root":
+        if self.category_type.name == "root":
             return None
             
         parent = self.parents[0]
@@ -226,12 +228,29 @@ class Category(SearchableMixin, db.Model):
         else:
             return siblings[idx - 1]
 
-
     def __repr__(self):
-        return '<Category ' + self.name + ' (' + self.category_type + ')>'
+        return '<Category ' + self.name +')>'
 
     def get_num_children(self):
         return len(list(self.children))
+
+    categorytype_id = db.Column(db.Integer, db.ForeignKey('categorytype.id'))
+
+
+class CategoryType(db.Model):
+    __tablename__ = "categorytype"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+
+    categories = db.relationship('Category', backref='category_type', lazy='dynamic')
+
+    parent_id = db.Column(db.Integer, db.ForeignKey('categorytype.id'))
+
+    parent = db.relationship('CategoryType', remote_side=[id], backref='child')
+
+    def __repr__(self):
+        return '<Category Type %r>' % self.name
+
 
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -268,3 +287,4 @@ admin.add_view(AdminModelView(Category, db.session))
 admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Article, db.session))
 admin.add_view(AdminModelView(Role, db.session))
+admin.add_view(AdminModelView(CategoryType, db.session))

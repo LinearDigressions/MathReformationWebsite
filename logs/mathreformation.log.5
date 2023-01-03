@@ -1,0 +1,105 @@
+2023-01-03 09:51:03,602 ERROR: Exception on /author_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 47, in author_home
+    return render_template('author/author_home.html', authored_articles= authored_articles, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/author_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 52, in top-level template code
+    {% if author_permission.can() %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'author_permission' is undefined
+2023-01-03 09:52:13,621 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 09:52:29,959 ERROR: Exception on /create/article/ [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 72, in new_document
+    new_doc.author.append(current_user)
+AttributeError: 'NoneType' object has no attribute 'append'
+2023-01-03 09:53:13,300 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 09:53:14,199 ERROR: Exception on /edit/article/4053966437226639194961/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 146, in edit_document
+    if not edit_article_permission(doc.id).can():
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/roles.py", line 18, in edit_article_permission
+    return Permission(admin_permission, EditArticlePermission(article_id))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/roles.py", line 14, in __init__
+    super(EditArticleNeed, self).__init__(need)
+TypeError: super() argument 1 must be type, not functools.partial
+2023-01-03 09:57:48,426 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 09:57:51,481 ERROR: Exception on /edit/article/4053966437226639194961/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 146, in edit_document
+    if not edit_article_permission(doc.id).can():
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/roles.py", line 18, in edit_article_permission
+    return Permission(admin_permission, EditArticlePermission(article_id))
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/roles.py", line 14, in __init__
+    super(EditArticleNeed, self).__init__(need)
+TypeError: super() argument 1 must be type, not functools.partial
+2023-01-03 10:01:40,712 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:02:19,646 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:02:38,827 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:04:03,304 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:07:49,478 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:08:30,660 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:09:26,061 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:16:51,268 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:21:34,904 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:23:12,788 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:23:50,524 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 10:32:59,629 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]

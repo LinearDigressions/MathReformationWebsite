@@ -18,7 +18,7 @@ class EditingForm(FlaskForm):
     items = SelectMultipleField('List', choices=[])
     parents = SelectMultipleField('Parent', choices=[])
     children = SelectMultipleField('Children', choices=[])
-    category_type = SelectField('Category Type', choices=[("root", "Root"),("primary", "Primary"), ("secondary", "Secondary")])
+    category_type = SelectField('Category Type', choices=[])
 
     is_visible = BooleanField("Is Visible")
 

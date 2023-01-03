@@ -8,14 +8,14 @@
 <ul class="breadcrumb">
 
 
-    {% if category.category_type == "secondary" %}
+    {% if category.category_type.name == "secondary" %}
     <li class="breadcrumb-item">
         <a href="{{ url_for('main.category_page', path=category.parents[0].parents[0].path) }}">
             {{ category.parents[0].parents[0].name }}
         </a>
     </li>
     {% endif %}
-    {% if category.category_type == "secondary" or category.category_type == "primary" %}
+    {% if category.category_type.name == "secondary" or category.category_type.name == "primary" %}
 
     <li class="breadcrumb-item">
         <a href="{{ url_for('main.category_page', path=category.parents[0].path) }}">
