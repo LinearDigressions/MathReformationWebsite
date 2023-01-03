@@ -13,3 +13,4 @@ Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 148, in next_sibling
     secondary_category = self.categories[0]
 IndexError: list index out of range
+2023-01-03 15:19:22,591 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
