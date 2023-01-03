@@ -102,3 +102,7 @@ Traceback (most recent call last):
     recipients=current_app.config['ADMINS'] + current_app.config['MAIL_USERNAME'],
 TypeError: can only concatenate list (not "str") to list
 2023-01-02 23:41:16,434 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-03 08:19:31,155 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-03 08:22:21,312 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-03 08:22:34,089 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]
+2023-01-03 08:27:24,843 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:93]

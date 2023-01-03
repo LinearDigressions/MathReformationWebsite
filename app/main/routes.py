@@ -24,7 +24,9 @@ def add_imports():
 @bp.route("/index", methods=["GET"])
 def index():
     math_category = Category.query.filter_by(name="math")[0]
-    return render_template('main/index.html', title="Home", math_category=math_category)
+    recent_articles = Article.query.order_by(Article.date_added.desc()).filter_by(is_visible=True).limit(5)
+
+    return render_template('main/index.html', title="Home", math_category=math_category, recent_articles=recent_articles)
 
 @bp.route("/about", methods=["GET"])
 def about():
