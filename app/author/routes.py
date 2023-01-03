@@ -41,7 +41,6 @@ def author_home():
     if admin_permission.can():
 
         root_categories = CategoryType.query.filter_by(name="root").first().categories
-        #lost_articles = Article.query.filter_by(categories=None)
 
 
         return render_template('author/admin_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
@@ -158,7 +157,6 @@ def edit_document(doc_type, path, version):
 
     if form.validate_on_submit():
 
-        print("here")
 
         # Switches versions (Does not save current changes so there is a JS alert)
         if form.load_draft.data:

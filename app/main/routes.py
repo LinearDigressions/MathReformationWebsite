@@ -30,7 +30,8 @@ def index():
 
 @bp.route("/about", methods=["GET"])
 def about():
-    return render_template('main/about.html', title="About")
+    about_article = Article.query.filter_by(name="about")
+    return render_template('main/about.html', title="About", about_article=about_article)
 
 @bp.route("/profile", methods=["GET"])
 @login_required
