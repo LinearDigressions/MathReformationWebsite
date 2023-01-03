@@ -8,7 +8,7 @@ import markdown
 from app.roles import admin_permission
 from app.main.forms import SearchForm, FeedbackForm, SaveForm
 import numpy as np
-
+from app.email import send_feedback_email
 
 
 
@@ -118,14 +118,14 @@ def article_page(path):
 
 
 
-    return render_template('main/article.html', **content)
+    return render_template('main/article.html', **content, title=article.name)
 
 
 @bp.route("/category/<path>")
 def category_page(path):
 
     category = db.first_or_404(Category.query.filter_by(path=path))
-    return render_template('main/category.html', category=category)
+    return render_template('main/category.html', category=category, title =category.name)
 
 @bp.route("/feedback", methods=["GET","POST"])
 def feedback():
@@ -144,10 +144,12 @@ def feedback():
         db.session.add(new_feedback)
         db.session.commit()
 
+        send_feedback_email(new_feedback)
+
         flash("Feedback Submitted!")
         return redirect(url_for('main.index'))
 
-    return render_template('main/feedback.html', form=form)
+    return render_template('main/feedback.html', form=form, title="Feedback")
 
 
 @bp.route('/search')

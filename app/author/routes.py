@@ -34,7 +34,7 @@ def author_home():
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
 
-    return render_template('author/author_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files)
+    return render_template('author/author_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
 
 
 @bp.route("/create/<doc_type>/", methods=["GET", "POST"])
@@ -249,6 +249,7 @@ def edit_document(doc_type, path, version):
     content["setname"] = photos.name
     content["files"] = files
     content["version"] = version
+    content["title"] = "Edit Document"
 
     #flash(form.errors)
     return render_template('author/edit_document.html', **content)
