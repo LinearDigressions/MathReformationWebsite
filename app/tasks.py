@@ -36,8 +36,8 @@ def export_articles(user_id):
                         'header': article.header, 'order': article.order,
                         'categories': catagories})
             _set_task_progress(100 * i // total_articles)
-        print(data)
-        send_email('[Math Reformation] Articles', sender=app.config['ADMINS'][0], recipients=[user.email], text_body=render_template('email/export_articles.txt', user=user), html_body=render_template('email/export_articles.html', user=user), attachments=[('articles.json', 'application/json',json.dumps({'articles': data}, indent=4))], sync=False)
+        print(app.config['ADMINS'][0])
+        send_email('[Math Reformation] Articles', sender=app.config['ADMINS'][0], recipients=[user.email], text_body=render_template('email/export_articles.txt', user=user), html_body=render_template('email/export_articles.html', user=user), attachments=[('articles.json', 'application/json',json.dumps({'articles': data}, indent=4))], sync=True)
     except:
         app.logger.error('Unhandled exception', exc_info=sys.exc_info())
     finally:

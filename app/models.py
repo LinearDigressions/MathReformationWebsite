@@ -189,6 +189,7 @@ class Article(SearchableMixin, db.Model):
     def next_sibling(self):
         if not self.categories:
             return None
+
         secondary_category = self.categories[0]
         siblings = secondary_category.ordered_articles()
         if len(siblings) == 0:
@@ -198,7 +199,11 @@ class Article(SearchableMixin, db.Model):
         if idx + 2 > num_siblings:
             return None
         else:
-            return siblings[idx + 1]
+            sibling = siblings[idx + 1]
+            if sibling.is_visible:
+                return sibling
+            else:
+                return sibling.next_sibling()
 
     def prev_sibling(self):
         if not self.categories:
@@ -211,7 +216,11 @@ class Article(SearchableMixin, db.Model):
         if idx == 0:
             return None
         else:
-            return siblings[idx - 1]
+            sibling = siblings[idx - 1]
+            if sibling.is_visible:
+                return sibling
+            else:
+                return sibling.prev_sibling()
 
 
     def __repr__(self):

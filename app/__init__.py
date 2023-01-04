@@ -83,7 +83,6 @@ def create_app(config_class=Config):
         
     else:
         app.elasticsearch = None
-        print("None")
 
 
     # Background tasks

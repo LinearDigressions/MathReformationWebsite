@@ -326,9 +326,8 @@ def delete_file(item_type, item_name):
 @login_required
 @admin_permission.require(http_exception=403)
 def export_articles():
-    task = current_user.get_task_in_progress('export_articles')
-    if task: 
-        flash('An export task is currently in progress (' + str(task.get_progress()) + '%)')
+    if current_user.get_task_in_progress('export_articles'):
+        flash('An export task is currently in progress')
     else:
         current_user.launch_task('export_articles','Exporting articles...')
         db.session.commit()
