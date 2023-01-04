@@ -1,7 +1,0 @@
-Dear {{ user.username }},
-
-Please find attached the archive of all articles that you requested.
-
-Sincerely,
-
-The Math Reformation Team

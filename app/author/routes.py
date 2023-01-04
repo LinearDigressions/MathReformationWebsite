@@ -53,11 +53,11 @@ def author_home():
         return render_template('author/author_home.html', authored_articles= authored_articles, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
 
 
-@bp.route("/create/<article_category>/<doc_type>/", methods=["GET", "POST"])
+@bp.route("/create/<doc_type>/<parent_category>", methods=["GET", "POST"])
 @bp.route("/create/<doc_type>/", methods=["GET", "POST"])
 @login_required
 @author_permission.require(http_exception=403)
-def new_document(doc_type, article_category=None):
+def new_document(doc_type, parent_category=None):
 
     new_doc_num = str(random.randint(0, 10000000000000000000000))
 
@@ -67,15 +67,32 @@ def new_document(doc_type, article_category=None):
         
 
         new_doc = Category(name=new_doc_num, path=new_doc_num)
-        new_doc.category_type = CategoryType.query.filter_by(name="primary").first()
+
+        if parent_category:
+            parent = Category.query.filter_by(name=parent_category).first()
+            new_doc.parents.append(parent)
+
+            parent_category_type = parent.category_type.name
+
+            if parent_category_type == "root":
+                new_doc.category_type = CategoryType.query.filter_by(name="primary").first()
+            elif parent_category_type == "primary":
+                new_doc.category_type = CategoryType.query.filter_by(name="secondary").first()
+            elif parent_category_type == "special":
+                new_doc.category_type = CategoryType.query.filter_by(name="special").first()
+            elif parent_category_type == "secondary":
+                abort(500)
+        else:
+            new_doc.category_type = CategoryType.query.filter_by(name="primary").first()
+
 
     elif doc_type == "article":
         while Article.query.filter_by(name=new_doc_num).first() != None:
             new_doc_num = str(random.randint(0, 10000000000000000000000))
         
         new_doc = Article(name=new_doc_num, path=new_doc_num)
-        if article_category:
-            new_doc.categories.append(Category.query.filter_by(name=article_category).first())
+        if parent_category:
+            new_doc.categories.append(Category.query.filter_by(name=parent_category).first())
         if new_doc.author == None:
             new_doc.author = current_user
             
@@ -322,13 +339,14 @@ def delete_file(item_type, item_name):
         abort(404)
 
 
-@bp.route('/export_articles')
+
+@bp.route('/export/<doc_type>')
 @login_required
 @admin_permission.require(http_exception=403)
-def export_articles():
-    if current_user.get_task_in_progress('export_articles'):
+def export(doc_type):
+    if current_user.get_task_in_progress('export'):
         flash('An export task is currently in progress')
     else:
-        current_user.launch_task('export_articles','Exporting articles...')
+        current_user.launch_task('export_' + doc_type,'Exporting ' + doc_type +'...')
         db.session.commit()
     return redirect(url_for('author.author_home'))

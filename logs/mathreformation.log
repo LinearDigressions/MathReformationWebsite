@@ -1,17 +1,40 @@
-2023-01-04 15:51:55,336 ERROR: Exception on /edit/article/test/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-04 16:41:06,522 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:62]
 Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 157, in edit_document
-    print(form.parents.data)
-AttributeError: 'EditArticleForm' object has no attribute 'parents'
-2023-01-04 15:52:49,933 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:54:34,881 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 34, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:41:59,465 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:42:02,540 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:02,597 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:02,597 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:02,613 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:62]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 34, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:42:02,613 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:62]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 34, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:42:25,132 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:42:28,113 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:28,158 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:28,158 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:52,634 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:52,934 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:42:52,934 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:43:09,226 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:43:09,281 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:43:09,281 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:47:15,322 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:47:20,142 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:47:20,187 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:47:20,187 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:48:27,341 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:48:33,714 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:48:33,775 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:48:33,775 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:48:47,185 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:48:47,230 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:48:47,230 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]

@@ -1,4 +1,4 @@
-2023-01-04 15:33:44,504 ERROR: Exception on /edit/category/integral_calculus/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-04 16:34:47,047 ERROR: Exception on /author_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,57 +10,10 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 158, in edit_document
-    if form.validate_on_submit():
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_wtf/form.py", line 86, in validate_on_submit
-    return self.is_submitted() and self.validate()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/form.py", line 329, in validate
-    return super().validate(extra)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/form.py", line 146, in validate
-    if not field.validate(self, extra):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/fields/core.py", line 242, in validate
-    stop_validation = self._run_validation_chain(form, chain)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/fields/core.py", line 262, in _run_validation_chain
-    validator(form, self)
-TypeError: validate_parents() takes 1 positional argument but 2 were given
-2023-01-04 15:33:48,746 ERROR: Exception on /edit/category/integral_calculus/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 158, in edit_document
-    if form.validate_on_submit():
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_wtf/form.py", line 86, in validate_on_submit
-    return self.is_submitted() and self.validate()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/form.py", line 329, in validate
-    return super().validate(extra)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/form.py", line 146, in validate
-    if not field.validate(self, extra):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/fields/core.py", line 242, in validate
-    stop_validation = self._run_validation_chain(form, chain)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/wtforms/fields/core.py", line 262, in _run_validation_chain
-    validator(form, self)
-TypeError: validate_parents() takes 1 positional argument but 2 were given
-2023-01-04 15:36:59,050 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:36:59,606 ERROR: Exception on /article/5702069780983490878962 [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 123, in article_page
-    return render_template('main/article.html', **content, title=article.name)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 46, in author_home
+    return render_template('author/admin_home.html', root_categories=root_categories,  special_categories=special_categories, add_photo_form=add_photo_form, setname=photos.name,
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -69,26 +22,86 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/article.html", line 1, in top-level template code
-    {% extends "base.html" %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/admin_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 90, in top-level template code
     {% block content %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/article.html", line 10, in block 'content'
-    <a href="{{ url_for('main.category_page', path=article.categories[0].parents[0].parents[0].path) }}">
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
-2023-01-04 15:37:42,738 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:38:04,982 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:38:27,684 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:39:01,079 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:39:35,623 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:39:40,128 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:40:18,379 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:40:58,301 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:41:23,801 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:42:23,096 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:42:56,254 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:45:16,470 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:50:02,013 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-04 15:51:43,947 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/admin_home.html", line 33, in block 'content'
+    <a href="{{ url_for('author.export_articles') }}" class="btn btn-info" role="button">Export Articles</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'author.export_articles'. Did you mean 'author.export' instead?
+2023-01-04 16:35:44,740 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:35:44,892 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:35:44,892 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:35:44,910 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:61]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 33, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:35:44,910 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:61]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 33, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:38:11,063 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:38:13,617 ERROR: Exception on /export/article [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 350, in export
+    current_user.launch_task('export','Exporting ' + doc_type +'...', doc_type=doc_type)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 138, in launch_task
+    print(doc_type)
+NameError: name 'doc_type' is not defined
+2023-01-04 16:38:32,027 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:38:42,276 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:38:45,538 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:38:45,597 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:38:45,597 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:38:45,611 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:61]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 33, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:38:45,611 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:61]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 33, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:39:11,756 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:39:11,838 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:39:11,838 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:39:11,856 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:61]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 33, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:39:11,856 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:61]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 33, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
+2023-01-04 16:40:58,486 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-04 16:41:06,455 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:41:06,508 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:41:06,508 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-04 16:41:06,522 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:62]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 34, in export
+    if doc_type == category:
+UnboundLocalError: local variable 'category' referenced before assignment
