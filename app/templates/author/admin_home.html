@@ -29,6 +29,11 @@
 <a href="{{ url_for('author.new_document', doc_type='category', version='main') }}" class="btn btn-info" role="button">New Category</a>
 <a href="{{ url_for('author.new_document', doc_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
 
+{% if not current_user.get_task_in_progress('export_articles') %}
+<a href="{{ url_for('author.export_articles') }}" class="btn btn-info" role="button">Export Articles</a>
+{% endif %}
+
+
 {% for root_category in root_categories %}
 <h2>{{ root_category.name }}</h2>
 {{ view_document_button(path=root_category.path, doc_type='category', warning=False) }}

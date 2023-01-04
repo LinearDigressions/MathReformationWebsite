@@ -190,3 +190,6 @@ def search():
         prev_url = None
     return render_template('main/search.html', title="Search", results=results,
     next_url=next_url, prev_url=prev_url)
+
+
+

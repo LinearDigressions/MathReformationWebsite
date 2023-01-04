@@ -14,6 +14,9 @@ from flaskext.markdown import Markdown
 from elasticsearch import Elasticsearch
 from flask_mail import Mail
 
+# For background tasks
+from redis import Redis
+import rq
 
 # Logging Imports
 import logging
@@ -81,6 +84,11 @@ def create_app(config_class=Config):
     else:
         app.elasticsearch = None
         print("None")
+
+
+    # Background tasks
+    app.redis = Redis.from_url(app.config['REDIS_URL'])
+    app.task_queue = rq.Queue('mathreformation-tasks', connection=app.redis)
     
 
     # Setting up Logger

@@ -1,117 +1,85 @@
-2023-01-03 20:36:38,834 ERROR: Exception on /edit/article/9502066356886999019227/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-03 23:46:34,591 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:44]
 Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
-    self.dialect.do_execute(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.IntegrityError: UNIQUE constraint failed: article.path
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 492, in send
+    message.send(connection)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 427, in send
+    connection.send(self)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 188, in send
+    self.host.sendmail(sanitize_address(envelope_from or message.sender),
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 872, in sendmail
+    self.ehlo_or_helo_if_needed()
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 611, in ehlo_or_helo_if_needed
+    if not (200 <= self.ehlo()[0] <= 299):
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 451, in ehlo
+    self.putcmd(self.ehlo_msg, name or self.local_hostname)
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 378, in putcmd
+    self.send(f'{s}{CRLF}')
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 365, in send
+    raise SMTPServerDisconnected('please run connect() first')
+smtplib.SMTPServerDisconnected: please run connect() first
 
-The above exception was the direct cause of the following exception:
+During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 194, in edit_document
-    db.session.commit()
-  File "<string>", line 2, in commit
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
-    self._transaction.commit(_to_root=self.future)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 829, in commit
-    self._prepare_impl()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 808, in _prepare_impl
-    self.session.flush()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 3444, in flush
-    self._flush(objects)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 3584, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
-    compat.raise_(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
-    raise exception
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 3544, in _flush
-    flush_context.execute()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 456, in execute
-    rec.execute(self)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 630, in execute
-    util.preloaded.orm_persistence.save_obj(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 237, in save_obj
-    _emit_update_statements(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 1001, in _emit_update_statements
-    c = connection._execute_20(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
-    return meth(self, args_10style, kwargs_10style, execution_options)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
-    return connection._execute_clauseelement(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
-    ret = self._execute_context(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
-    self._handle_dbapi_exception(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
-    util.raise_(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
-    raise exception
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
-    self.dialect.do_execute(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: article.path
-[SQL: UPDATE article SET name=?, path=?, is_visible=? WHERE article.id = ?]
-[parameters: ('test', 'test', 1, 1)]
-(Background on this error at: https://sqlalche.me/e/14/gkpj)
-2023-01-03 20:43:39,999 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:113]
-2023-01-03 20:50:14,313 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:113]
-2023-01-03 20:50:20,995 ERROR: Exception on /article/abc [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 40, in export_articles
+    send_email('[Math Reformation] Articles', sender=app.config['ADMINS'][0], recipients=[user.email], text_body=render_template('email/export_articles.txt', user=user), html_body=render_template('email/export_articles.html', user=user), attachments=[('posts.json', 'application/json',json.dumps({'posts': data}, indent=4))], sync=True)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/email.py", line 23, in send_email
+    mail.send(msg)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 492, in send
+    message.send(connection)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 152, in __exit__
+    self.host.quit()
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 1004, in quit
+    res = self.docmd("quit")
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 431, in docmd
+    self.putcmd(cmd, args)
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 378, in putcmd
+    self.send(f'{s}{CRLF}')
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 365, in send
+    raise SMTPServerDisconnected('please run connect() first')
+smtplib.SMTPServerDisconnected: please run connect() first
+2023-01-03 23:48:04,178 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:121]
+2023-01-03 23:51:08,590 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:121]
+2023-01-03 23:51:12,897 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:121]
+2023-01-03 23:51:12,955 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:121]
+2023-01-03 23:51:12,955 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:121]
+2023-01-03 23:51:23,044 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:42]
 Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 52, in article_page
-    article_next_sibling = article.next_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 173, in next_sibling
-    secondary_category = self.categories[0]
-IndexError: list index out of range
-2023-01-03 20:53:47,607 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:113]
-2023-01-03 21:00:21,180 ERROR: Exception on /article/5702069780983490878962 [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 492, in send
+    message.send(connection)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 427, in send
+    connection.send(self)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 188, in send
+    self.host.sendmail(sanitize_address(envelope_from or message.sender),
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 872, in sendmail
+    self.ehlo_or_helo_if_needed()
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 611, in ehlo_or_helo_if_needed
+    if not (200 <= self.ehlo()[0] <= 299):
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 451, in ehlo
+    self.putcmd(self.ehlo_msg, name or self.local_hostname)
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 378, in putcmd
+    self.send(f'{s}{CRLF}')
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 365, in send
+    raise SMTPServerDisconnected('please run connect() first')
+smtplib.SMTPServerDisconnected: please run connect() first
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 60, in article_page
-    category_next_sibling = article.categories[0].next_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 247, in next_sibling
-    parent = self.parents[0]
-IndexError: list index out of range
-2023-01-03 21:24:59,806 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:113]
-2023-01-03 21:25:54,246 ERROR: Exception on /article/intermediate_value_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 52, in article_page
-    article_next_sibling = article.next_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 177, in next_sibling
-    if not siblings:
-ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 40, in export_articles
+    send_email('[Math Reformation] Articles', sender=app.config['ADMINS'][0], recipients=[user.email], text_body=render_template('email/export_articles.txt', user=user), html_body=render_template('email/export_articles.html', user=user), attachments=[('articles.json', 'application/json',json.dumps({'articles': data}, indent=4))], sync=True)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/email.py", line 23, in send_email
+    mail.send(msg)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 492, in send
+    message.send(connection)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_mail.py", line 152, in __exit__
+    self.host.quit()
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 1004, in quit
+    res = self.docmd("quit")
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 431, in docmd
+    self.putcmd(cmd, args)
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 378, in putcmd
+    self.send(f'{s}{CRLF}')
+  File "/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/smtplib.py", line 365, in send
+    raise SMTPServerDisconnected('please run connect() first')
+smtplib.SMTPServerDisconnected: please run connect() first

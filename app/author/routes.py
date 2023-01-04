@@ -114,7 +114,7 @@ def edit_document(doc_type, path, version):
     form.previous_name = doc.name
     form.previous_path = doc.path
 
-    
+
     # CHECKING PERMISSIONS
     if doc_type == "category" and not admin_permission.can():
             abort(403)
@@ -320,3 +320,16 @@ def delete_file(item_type, item_name):
     else:
         print('here')
         abort(404)
+
+
+@bp.route('/export_articles')
+@login_required
+@admin_permission.require(http_exception=403)
+def export_articles():
+    task = current_user.get_task_in_progress('export_articles')
+    if task: 
+        flash('An export task is currently in progress (' + str(task.get_progress()) + '%)')
+    else:
+        current_user.launch_task('export_articles','Exporting articles...')
+        db.session.commit()
+    return redirect(url_for('author.author_home'))
