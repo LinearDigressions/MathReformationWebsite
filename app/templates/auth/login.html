@@ -9,7 +9,7 @@
         {{ form.hidden_tag() }}
         {{ input(form.username) }}
         {{ input(form.password) }}
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.remember_me.label }} {{ form.remember_me() }}</p>
         <p>{{ form.submit() }}</p>
         <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
     </form>

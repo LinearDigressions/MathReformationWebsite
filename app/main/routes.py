@@ -6,31 +6,29 @@ from app.models import Category, Article, Feedback, User
 from app import db
 import markdown
 from app.roles import admin_permission, author_permission
-from app.main.forms import SearchForm, FeedbackForm, SaveForm
+from app.main.forms import SearchForm, FeedbackForm, BookmarkArticleForm
 import numpy as np
 from app.email import send_feedback_email
 
 
-
+# Used for search form
 @bp.before_app_request
 def before_request():
     g.search_form = SearchForm(meta={'csrf': False})
 
-@bp.context_processor
-def add_imports():
-    return dict(admin_permission=admin_permission, author_permission=author_permission)
-
 @bp.route("/", methods=["GET"])
 @bp.route("/index", methods=["GET"])
 def index():
-    math_category = Category.query.filter_by(name="math")[0]
+
+    math_category = Category.query.filter_by(name="math").first()
     recent_articles = Article.query.order_by(Article.date_added.desc()).filter_by(is_visible=True).limit(5)
 
     return render_template('main/index.html', title="Home", math_category=math_category, recent_articles=recent_articles)
 
 @bp.route("/about", methods=["GET"])
 def about():
-    about_article = Article.query.filter_by(name="about")
+    about_article = Article.query.filter_by(path='about').first()
+    print(about_article)
     return render_template('main/about.html', title="About", about_article=about_article)
 
 @bp.route("/profile", methods=["GET"])
@@ -46,7 +44,7 @@ def profile():
 def article_page(path):
 
 
-    form = SaveForm()
+    form = BookmarkArticleForm()
 
     article = db.first_or_404(Article.query.filter_by(path=path))
 
@@ -161,6 +159,7 @@ def search():
   
 
     if not g.search_form.validate():
+        flash(g.search_form.errors)
         return redirect(url_for('main.index'))
 
     page = request.args.get('page', 1, type=int)

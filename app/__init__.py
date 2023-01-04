@@ -1,5 +1,8 @@
+# General Imports
 from flask import Flask
 from config import Config
+
+# Flask Extensions
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -11,11 +14,13 @@ from flaskext.markdown import Markdown
 from elasticsearch import Elasticsearch
 from flask_mail import Mail
 
+
+# Logging Imports
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 
-# Flask Principal signal stuff
+# Flask Principal Imports
 from flask_login import current_user
 from flask_principal import UserNeed, RoleNeed, identity_loaded
 from app.roles import EditArticleNeed
@@ -29,15 +34,17 @@ admin = Admin()
 mde = Mde()
 mail = Mail()
 
-
+# Creating Photo Manager
 photos = UploadSet("photos", IMAGES)
 
 
 def create_app(config_class=Config):
 
+    # Creating App
     app = Flask(__name__)
     app.config.from_object(config_class)
 
+    # Registering Blueprints
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
@@ -48,8 +55,10 @@ def create_app(config_class=Config):
     app.register_blueprint(author_bp)
 
     from app.errors import bp as errors_bp
-    app.register_blueprint(errors_bp)
+    app.register_blueprint(errors_bp, url_prefix='/error')
 
+
+    # Registering Extensions
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
@@ -61,11 +70,20 @@ def create_app(config_class=Config):
     mail.init_app(app)
 
 
+    # Registering Photo Manager
+    configure_uploads(app, photos)
+
+
+    # Registering Elastic Search If Available
     if app.config['ELASTICSEARCH_URL']:
         app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+        
     else:
         app.elasticsearch = None
+        print("None")
     
+
+    # Setting up Logger
     if not app.debug:
         if app.config['MAIL_SERVER']:
             auth = None
@@ -83,6 +101,7 @@ def create_app(config_class=Config):
             mail_handler.setLevel(logging.ERROR) 
             app.logger.addHandler(mail_handler)
 
+    # Storing and Initalizing Log System
     if not os.path.exists('logs'): 
         os.mkdir('logs')
     file_handler = RotatingFileHandler('logs/mathreformation.log', maxBytes=10240, backupCount=10)
@@ -94,8 +113,7 @@ def create_app(config_class=Config):
     app.logger.info('Mathreformation startup')
 
 
-    configure_uploads(app, photos)
-
+    # Loads User Permissions and Needs
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         # Set the identity user object
@@ -109,16 +127,13 @@ def create_app(config_class=Config):
         if hasattr(current_user, 'roles'):
             for role in current_user.roles:
                 identity.provides.add(RoleNeed(role.name))
-                print(RoleNeed(role.name))
 
-
+        # Adds need for every article where the user is the author
         if hasattr(current_user, 'articles'):
             for article in current_user.articles:
                 identity.provides.add(EditArticleNeed(article.id))
-                print(EditArticleNeed(article.id))
         
     return app
-
 
 from app import models
 

@@ -2,7 +2,7 @@ from flask import current_app
 import html2text
 
 
-
+# Creating convertor so that search index is not including the html tags
 h = html2text.HTML2Text()
 h.ignore_links=True
 h.ignore_emphasis=True

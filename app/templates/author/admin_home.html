@@ -65,4 +65,19 @@
 {% endfor %}
 {% endfor %}
 
+{% for special_category in special_categories %}
+<h2>{{ special_category.name }}</h2>
+{{ view_document_button(path=special_category.path, doc_type='category', warning=False) }}
+{{ edit_document_button(path=special_category.path, doc_type='category') }}
+{{ delete_document_button(path=special_category.path, doc_type='category') }}
+
+{% for article in special_category.ordered_articles() %}
+<h5>{{ article.name }}</h3>
+{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
+{{ edit_document_button(path=article.path, doc_type='article') }}
+{{ delete_document_button(path=article.path, doc_type='article') }}
+
+{% endfor %}
+{% endfor %}
+
 {% endblock %}

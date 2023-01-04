@@ -1,25 +1,22 @@
 from flask_mde import MdeField
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, FileField, StringField, TextAreaField, SelectMultipleField, BooleanField, SelectField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, ValidationError
+from app.models import Category, Article
 
 
 
 class EditingForm(FlaskForm):
-
+    previous_name = None
+    previous_path = None
 
     name = StringField("Name", validators=[DataRequired()])
     path = StringField('URL Path', validators=[DataRequired()])
     body = MdeField('Body')
     order = IntegerField("Order Number:", validators=[DataRequired()])
     header = TextAreaField('Header')
-    #header = MdeField('Header')
     body = MdeField('Body')
-    items = SelectMultipleField('List', choices=[])
-    parents = SelectMultipleField('Parent', choices=[])
-    children = SelectMultipleField('Children', choices=[])
-    category_type = SelectField('Category Type', choices=[])
-
+    
     is_visible = BooleanField("Is Visible")
 
     save_draft_to_main = SubmitField("Save to Main")
@@ -30,6 +27,39 @@ class EditingForm(FlaskForm):
 
     save_and_exit = SubmitField("Save and Exit")
     submit_continue_editing = SubmitField("Save and Continue Editing")
+
+   
+
+
+class EditCategoryForm(EditingForm):
+    parents = SelectMultipleField('Parent', choices=[])
+    children = SelectMultipleField('Children', choices=[])
+    category_type = SelectField('Category Type', choices=[])
+    articles = SelectMultipleField('Articles', choices=[])
+
+    def validate_path(self, path):
+        cat = Category.query.filter_by(path=path.data).first() 
+        if cat is not None and path.data != self.previous_path:
+            raise ValidationError('Please use a different category path.')
+
+    def validate_name(self, name):
+        cat = Category.query.filter_by(name=name.data).first() 
+        if cat is not None and name.data != self.previous_name:
+            raise ValidationError('Please use a different category name.')
+
+class EditArticleForm(EditingForm):
+    categories = SelectMultipleField('Categories', choices=[])
+
+    def validate_path(self, path):
+        art = Article.query.filter_by(path=path.data).first() 
+        if art is not None and path.data != self.previous_path:
+            raise ValidationError('Please use a different article path.')
+
+    def validate_name(self, name):
+        art = Article.query.filter_by(name=name.data).first() 
+        if art is not None and name.data != self.previous_name:
+            raise ValidationError('Please use a different article name.')
+
 
 
 class AddPhotoForm(FlaskForm):

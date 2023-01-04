@@ -7,8 +7,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     {{ select2_cdn() }}
-    {{ select2_header(already_selected=selected_items, field_class = 'select2_items') }}
-    {% if doc_type == "category" %}
+
+    {% if doc_type == 'article' %}
+        {{ select2_header(already_selected=selected_categories, field_class = 'select2_categories') }}
+    {% endif %}
+
+    {% if doc_type == 'category' %}
+        {{ select2_header(already_selected=selected_articles, field_class = 'select2_articles') }}
         {{ select2_header(already_selected=selected_category_type, field_class = 'select2_category_type') }}
         {{ select2_header(already_selected=selected_parents, field_class = 'select2_parents') }}
         {{ select2_header(already_selected=selected_children, field_class = 'select2_children') }}
@@ -20,8 +25,9 @@
 
 
 {% block content %}
-    <h1 class="text-center">{{ title }}</h1>
-    <h2 class="text-center">Version: {{ version }}</h2>
+    <h1 class="text-center">Editing {{ doc_type.capitalize() }}</h1>
+    <h2 class="text-center">{{ form.name.data }}</h1>
+    <h3 class="text-center">Version: {{ version }}</h2>
     {% if doc_type == "category" %}
         <a href="{{ url_for('main.category_page', path=doc.path) }}" class="btn btn-info" role="button"  onclick="return confirm('Make sure to save article first! Please click on OK to continue.');">View Page</a>
     {%  elif doc_type == "article" %}
@@ -31,28 +37,20 @@
         {{ form.hidden_tag() }}
         <p></p>
         
-
         {% if doc_type == "category" %}
-
-
-        {{ select2_field(field=form.category_type, field_name="category_type", field_placeholder="Category Type", field_class='select2_category_type', is_multiple=False) }}
         
-        {% if category_type != "root" %}
+        {{ select2_field(field=form.category_type, field_name="category_type", field_placeholder="Category Type", field_class='select2_category_type', is_multiple=False) }}
+
         {{ select2_field(field=form.parents, field_name="parents", field_placeholder="Parent Category", field_class='select2_parents', is_multiple=False) }}
-        {% endif %}
 
-        {% if category_type != "secondary" %}
         {{ select2_field(field=form.children, field_name="children", field_placeholder="Children Categories", field_class='select2_children', is_multiple=True) }}
+
+        {{ select2_field(field=form.articles, field_name="articles", field_placeholder="Articles",field_class='select2_articles', is_multiple=True) }}
+
         {% endif %}
 
-        {% if category_type == "secondary" %}
-        {{ select2_field(field=form.items, field_name="items", field_placeholder=opposite_type.capitalize(), field_class='select2_items', is_multiple=True) }}
-        {% endif %}
-
-        {% elif doc_type == "article" %}
-
-        {{ select2_field(field=form.items, field_name="items", field_placeholder=opposite_type.capitalize(), field_class='select2_items', is_multiple=True) }}
-
+        {% if doc_type == 'article' %}
+        {{ select2_field(field=form.categories, field_name="categories", field_placeholder="Categories",field_class='select2_categories', is_multiple=True) }}
         {% endif %}
 
         {{ input(form.name, size=32) }}
@@ -61,7 +59,6 @@
         {{ input(form.is_visible) }}
         {{ input(form.header, size=32) }}
         
-
 
         {{ photo_viewer_button(files=files, can_delete=False, btn_name="View Photos") }}
         {{ input(form.body) }}

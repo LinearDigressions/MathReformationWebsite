@@ -1,20 +1,4 @@
-2023-01-03 21:25:56,208 ERROR: Exception on /article/intermediate_value_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 52, in article_page
-    article_next_sibling = article.next_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 177, in next_sibling
-    if not siblings:
-ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
-2023-01-03 21:26:44,087 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:113]
-2023-01-03 21:27:29,856 ERROR: Exception on /author_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-03 12:17:50,820 ERROR: Exception on /author_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -28,8 +12,8 @@ Traceback (most recent call last):
     return current_app.ensure_sync(func)(*args, **kwargs)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
     rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 46, in author_home
-    return render_template('author/admin_home.html', root_categories=root_categories,  special_categories=special_categories, add_photo_form=add_photo_form, setname=photos.name,
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 47, in author_home
+    return render_template('author/admin_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -42,10 +26,20 @@ Traceback (most recent call last):
     {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 90, in top-level template code
     {% block content %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/admin_home.html", line 47, in block 'content'
-    {% for secondary_category in primary_category.ordered_children() %}
-TypeError: 'NoneType' object is not iterable
-2023-01-03 21:27:31,715 ERROR: Exception on /author_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/admin_home.html", line 34, in block 'content'
+    {{ view_document_button(path=root_category.path, doc_type='category', warning=False) }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/form_macros.html", line 69, in template
+    <a href="{{ url_for('main.category_page', path=path) }}" class="btn btn-info" role="button"  {% if warning %}onclick="return confirm('Make sure to save article first! Please click on OK to continue.');" {% endif %}>View Page</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.category_page'. Did you forget to specify values ['path']?
+2023-01-03 12:18:30,309 ERROR: Exception on /author_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -59,8 +53,8 @@ Traceback (most recent call last):
     return current_app.ensure_sync(func)(*args, **kwargs)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
     rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 46, in author_home
-    return render_template('author/admin_home.html', root_categories=root_categories,  special_categories=special_categories, add_photo_form=add_photo_form, setname=photos.name,
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/author/routes.py", line 47, in author_home
+    return render_template('author/admin_home.html', root_categories=root_categories, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -73,7 +67,21 @@ Traceback (most recent call last):
     {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 90, in top-level template code
     {% block content %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/admin_home.html", line 47, in block 'content'
-    {% for secondary_category in primary_category.ordered_children() %}
-TypeError: 'NoneType' object is not iterable
-2023-01-03 21:28:46,691 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:113]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/author/admin_home.html", line 34, in block 'content'
+    {{ view_document_button(path=root_category.path, doc_type='category', warning=False) }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/form_macros.html", line 69, in template
+    <a href="{{ url_for('main.category_page', path=path) }}" class="btn btn-info" role="button"  {% if warning %}onclick="return confirm('Make sure to save article first! Please click on OK to continue.');" {% endif %}>View Page</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.category_page'. Did you forget to specify values ['path']?
+2023-01-03 12:20:25,257 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 12:20:35,010 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 12:20:39,444 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 12:20:43,655 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]
+2023-01-03 12:24:31,305 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:94]

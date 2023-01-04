@@ -29,6 +29,10 @@
 
 {% if admin_permission.can() %} 
 <a href="{{ url_for('author.edit_document', doc_type='category', path=category.path, version='main') }}" class="btn btn-info" role="button">Edit Category</a>
+
+{% if category.category_type.name == "secondary" %}
+<a href="{{ url_for('author.new_document', doc_type='article', article_category=category.name) }}" class="btn btn-info" role="button">New Article</a>
+{% endif %}
 {% endif %}
 <ul>
     {% if category.get_num_children() == 0 %} 
