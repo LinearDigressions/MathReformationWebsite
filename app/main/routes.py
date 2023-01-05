@@ -9,7 +9,8 @@ from app.roles import admin_permission, author_permission
 from app.main.forms import SearchForm, FeedbackForm, BookmarkArticleForm
 import numpy as np
 from app.email import send_feedback_email
-
+import datetime
+import calendar
 
 # Used for search form
 @bp.before_app_request
@@ -28,7 +29,6 @@ def index():
 @bp.route("/about", methods=["GET"])
 def about():
     about_article = Article.query.filter_by(path='about').first()
-    print(about_article)
     return render_template('main/about.html', title="About", about_article=about_article)
 
 @bp.route("/profile", methods=["GET"])
@@ -193,3 +193,30 @@ def search():
 
 
 
+
+@bp.route('/citation/<page_type>/<page_name>/<page_url>')
+def citation(page_type, page_name, page_url):
+    
+
+    page_url = current_app.config["MAIN_URL"] + "/" + page_url.replace("%2F", "/")
+
+    year = datetime.date.today().year
+    month = datetime.date.today().month
+    month = calendar.month_name[month]
+    day = datetime.date.today().month
+
+
+    if page_type == "Math Reformation":
+        page_name = "Math Reformation - " + page_name
+
+    if page_type == "Article":
+        art = Article.query.filter_by(name=page_name).first()
+        if art != None:
+            year = art.date_added.year
+            month = calendar.month_name[art.date_added.month]
+            day = art.date_added.day
+
+    
+
+    return render_template('main/citation.html', page_type=page_type, page_url=page_url,
+                            page_name=page_name, day=day, month=month, year=year, title="Citation")

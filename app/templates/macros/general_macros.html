@@ -1,0 +1,14 @@
+{% macro citation_info(page_type, page_name) -%}
+
+{% if page_name == "Citation" %} 
+{{ url_for('main.citation', 
+            page_type=page_type, 
+            page_name=page_name, 
+            page_url="citation") }}
+{% else %}
+{{ url_for('main.citation', 
+            page_type=page_type, 
+            page_name=page_name, 
+            page_url=request.path[1:].replace("/", "%2F")) }}
+{% endif %}
+{%- endmacro %}

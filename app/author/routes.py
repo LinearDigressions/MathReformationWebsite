@@ -287,7 +287,7 @@ def manage_photos():
     # if request.method == "POST" and "photo" in request.files:
     if add_photo_form.validate_on_submit():
         filename = photos.save(request.files["photo"], name=add_photo_form.name.data)
-        url =  url_for("_uploads.uploaded_file", setname="photos", filename=filename)
+        url =  url_for("_uploads.uplo`aded_file", setname="photos", filename=filename)
         print("Url: ", url)
         flash("Photo uploaded at: " + url)
 

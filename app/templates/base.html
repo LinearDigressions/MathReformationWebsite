@@ -1,3 +1,5 @@
+{% from 'macros/general_macros.html' import citation_info %}
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -99,6 +101,7 @@
             <div class="container p-4 pb-0">
                 <section class="mb-2">
                     <p>Website by James Boyer</p>
+                    <a href="{% block citation %}{% endblock %}">Cite This Page</a>
                 </section>
             </div>
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

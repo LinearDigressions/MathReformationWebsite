@@ -35,7 +35,7 @@ class Config(object):
     # Admins will recieve email notifications on errors and feedback
     ADMINS = ['skylerboyer@gmail.com']
 
-    
+    MAIN_URL = "http://mathreformation.com"
 
 
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'

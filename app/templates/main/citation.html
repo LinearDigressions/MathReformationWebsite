@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+
+
+{% block content %}
+<h1 class="text-center">Citation:</h1>
+<h2 class="text-center">Page: {{page_name}}</h2>
+
+MLA Style
+<textarea id="mlaCitation" rows="3" style="width:100%;">
+Boyer, James. "{{ page_name }}." Math Reformation, Ed. James Boyer, {{ day }} {{month}} {{year}}. {{ page_url }}
+</textarea>
+
+APA Style
+<textarea id="apaCitation" rows="3" style="width:100%;">
+Boyer, James. ({{ year }}, {{month}} {{day}}). "{{ page_name }}." Math Reformation. {{ page_url }}
+</textarea>
+
+Chicago Style
+<textarea id="chicagoCitation" rows="3" style="width:100%;">
+Boyer, James. "{{ page_name }}." Math Reformation, Ed. James Boyer, {{ month }} {{ day }}, {{ year }}. {{ page_url }}
+</textarea>
+<p></p>
+{% endblock %}
+
+{% block citation %}
+{{ citation_info(page_type="Math Reformation", page_name="Citation") }}
+{% endblock %}
