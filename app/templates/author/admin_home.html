@@ -37,6 +37,8 @@
 {% endif %}
 
 
+
+
 {% for root_category in root_categories %}
 <h2>{{ root_category.name }}</h2>
 {{ view_document_button(path=root_category.path, doc_type='category', warning=False) }}

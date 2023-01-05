@@ -23,7 +23,7 @@ class SearchForm(FlaskForm):
         super(SearchForm, self).__init__(*args, **kwargs)
 
 class FeedbackForm(FlaskForm):
-    name = StringField('Name (Enter anonymous if you want to keep name private)', validators=[DataRequired()])
+    name = StringField('Name (Or anonymous)', validators=[DataRequired()])
     email = EmailField('Email (If you want a response)')
     category = SelectField("Subject", choices=[('general', 'General Feedback'), ('recommendation', 'Website / Category / Article Recommendation'), ('problem', 'Website Problem'), ('thank_you', "Thank You")])
     text= TextAreaField('Message', validators=[DataRequired()])

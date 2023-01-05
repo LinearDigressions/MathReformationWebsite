@@ -29,7 +29,7 @@ def index():
 
     math_children = Category.query.filter_by(name="Math").first().children
     articles = Article.query.order_by(Article.date_added.desc()).filter_by(is_visible=True, ).limit(20)
-    recent_articles = [art for art in articles if art.categories[0].name == "secondary"]
+    recent_articles = [art for art in articles if art.categories[0].category_type == "secondary"]
 
     return render_template('main/index.html', title="Home", math_children=math_children, recent_articles=recent_articles)
 
@@ -63,52 +63,14 @@ def article_page(path):
     if article.categories[0].category_type == "special":
         abort(404)
 
-    article_next_sibling = article.next_sibling()
-
-    # If next article in same category exists, then return that article
-    if article_next_sibling:
-        next_page_url = url_for('main.article_page', path=article_next_sibling.path)
-        next_page_name = article_next_sibling.name
-    else:
-        # If no next article, return the next secondary category.
-        category_next_sibling = article.categories[0].next_sibling()
-
-        if category_next_sibling:
-            next_page_url = url_for('main.category_page', path=category_next_sibling.path)    
-            next_page_name = category_next_sibling.name
-        else:
-            next_page_url = None
-            next_page_name = None
-
-
-    article_prev_sibling = article.prev_sibling()
-    # If prev article in same category exists, then return that article
-
-    if article_prev_sibling:
-        prev_page_url = url_for('main.article_page', path=article_prev_sibling.path)
-        prev_page_name = article_prev_sibling.name
-    else:
-        
-        # If no next article, return the next secondary category.
-        category_prev_sibling = article.categories[0].prev_sibling()
-
-        if category_prev_sibling:
-            prev_page_url = url_for('main.category_page', path=category_prev_sibling.path)    
-            prev_page_name = category_prev_sibling.name
-        else:
-            prev_page_url = None
-            prev_page_name = None
-
-
-
     if current_user.is_authenticated:
 
         user = User.query.get(current_user.get_id())
         
         if user.has_saved_article(article):
-            form.submit.label.text = "Unsave Article"
+            form.submit.label.text = "Unbookmark Article"
         else:
-            form.submit.label.text = "Save Article"
+            form.submit.label.text = "Bookmark Article"
     else:
         user = None
 
@@ -127,10 +89,10 @@ def article_page(path):
     content["article"] = article
     content["form"] = form
     content["user"] = user
-    content["prev_page_url"] = prev_page_url
-    content["next_page_url"] = next_page_url
-    content["prev_page_name"] = prev_page_name
-    content["next_page_name"] = next_page_name
+    content["prev_page_url"] = article.prev_page_url
+    content["next_page_url"] = article.next_page_url
+    content["prev_page_name"] = article.prev_page_name
+    content["next_page_name"] = article.next_page_name
 
 
 
@@ -145,7 +107,17 @@ def category_page(path):
     if category.parents == [] and category.category_type != "root":
         abort(404)
 
-    return render_template('main/category.html', category=category, title =category.name)
+
+    content = {}
+
+    content["category"] = category
+    content["prev_page_url"] = category.prev_page_url
+    content["next_page_url"] = category.next_page_url
+    content["prev_page_name"] = category.prev_page_name
+    content["next_page_name"] = category.next_page_name
+
+
+    return render_template('main/category.html', **content, title =category.name)
 
 @bp.route("/feedback", methods=["GET","POST"])
 def feedback():

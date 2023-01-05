@@ -2,13 +2,22 @@
 {% from 'macros/form_macros.html' import view_document_button %}
 
 {% block content %}
-<h1 class="text-center">Saved Articles</h1>
+<h1 class="text-center">Bookmarked Articles:</h1>
 
 {% if user.saved_articles %}
+<ul class="list-group">
 {% for article in user.saved_articles %}
-<h3>{{ article.name }}</h2>
-{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
+<li class="list-group-item">
+    <h4>{{ article.name }}</h4>
+    {{ view_document_button(path=article.path, doc_type='article', warning=False) }}
+</li>
+
 {% endfor %}
+</h3>
+
+
+{% else %} 
+<p>It appears you have not saved any articles. Visit an article page and click "Save Article" to see it here!</p>
 
 {% endif %}
 

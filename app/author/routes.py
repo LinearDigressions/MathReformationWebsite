@@ -219,11 +219,20 @@ def edit_document(doc_type, path, version):
             doc.category_type = form.category_type.data
         elif doc_type == "article":
             doc.categories = [Category.query.get(category_id) for category_id in form.categories.data]
+
         doc.header = form.header.data
         doc.name = form.name.data
         doc.path = form.path.data
         doc.order = form.order.data
         doc.is_visible = form.is_visible.data
+
+        if doc.is_visible:
+            doc.update_self_page_info()
+            doc.update_neighbors_page_info()
+
+
+
+
         db.session.commit()
         flash("Changes Saved")
 
@@ -253,7 +262,7 @@ def edit_document(doc_type, path, version):
         selected_articles = json.dumps([str(art.id) for art in doc.articles])
         selected_parents = json.dumps([str(cat.id) for cat in doc.parents])
         selected_children = json.dumps([str(cat.id) for cat in doc.children])
-        selected_category_type = json.dumps([doc.category_type.id])
+        selected_category_type = json.dumps([doc.category_type])
 
     elif doc_type == "article":
         selected_categories = json.dumps([str(cat.id) for cat in doc.categories])
@@ -331,7 +340,13 @@ def delete_file(item_type, item_name):
 
     elif item_type == "category":
         cat = db.first_or_404(Category.query.filter_by(path=item_name))
+
+        cat.is_visible = False
+        cat.update_neighbors_page_info()
+
+        
         db.session.delete(cat)
+
         db.session.commit()
         flash(item_name + " category deleted.")
         return redirect(url_for('author.author_home'))
@@ -342,7 +357,13 @@ def delete_file(item_type, item_name):
         if not (EditArticlePermission(art.id).can() or admin_permission.can()):
             abort(403)
 
+
+        art.is_visible = False
+        art.update_neighbors_page_info()
+
         db.session.delete(art)
+
+
         db.session.commit()
         flash(item_name + " article deleted.")
         return redirect(url_for('author.author_home'))

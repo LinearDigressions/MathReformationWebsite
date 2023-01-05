@@ -1,4 +1,4 @@
-{% from 'macros/form_macros.html' import input %}
+{% from 'macros/form_macros.html' import form_text, form_button, input %}
 
 {% macro photo_viewer_script() -%}
 
@@ -91,20 +91,20 @@
             </div>
 
             <div class="modal-footer">
-                <p class="me-auto">Image Source:</p>
+                <p class="me-auto">Image Source</p>
 
 
                 <img id="img_preview" src="", style="visibility: hidden;" name="TEST" class="img-thumbnail m-1" style="width:64px;">
 
 
-                <button type="button" onclick="copyFunction()" id="copy_button" onmouseout="outFunc()" class="btn btn-primary">Copy src</button>
+                <button type="button" onclick="copyFunction()" id="copy_button" onmouseout="outFunc()" class="btn btn-primary">Copy URL</button>
 
                 {% if can_delete %}
                 <a href="#", style="visibility: hidden;", class="btn btn-danger" id="delete_button" role="button" onclick="return confirm('Are you sure you want to delete this photo?');">Delete Image</a>
                 {% endif %}
 
                
-                <input id="url" type="text" style="width:100%;"/>
+                <input class="form-control" id="url" type="text" style="width:100%;"/>
             </div>
 
         </div>
@@ -134,11 +134,16 @@
                 <form  enctype='multipart/form-data' method="post" action="" novalidate>
                     {{ field.hidden_tag() }}
                     <p>
-                        {{ input(field.photo) }}
-                        {{ input(field.name) }}
+                        <div class="form-group">
+                            <label for="formFile" class="form-label mt-4">Upload Photo</label>
+                            {{ field.photo(class="form-control") }}
+                        </div>
+                       
+                        {{ form_text(field.name) }}
+
 
                     </p>
-                    <p>{{ field.submit() }}</p>
+                    <p>{{ form_button(field.submit) }}</p>
                 </form>
             </div>
 

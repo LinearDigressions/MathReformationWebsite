@@ -12,3 +12,37 @@
             page_url=request.path[1:].replace("/", "%2F")) }}
 {% endif %}
 {%- endmacro %}
+
+{% macro page_navigation(next_page_name, next_page_url, prev_page_name, prev_page_url) -%}
+
+<div class="container text-center mt-3 mb-5">
+    <div class="row align-items-start">
+      <div class="col d-flex flex-column">
+          {% if prev_page_url %}
+          <a href="{{ prev_page_url }}" class="btn btn-info" role="button">
+              <i class="bi bi-arrow-left"></i> Previous Page<br>
+              {{prev_page_name}}
+          </a>
+          {% else %}
+          <a href="#" class="btn btn-info disabled" role="button">
+              <i class="bi bi-arrow-left"></i> Previous Page<br>
+              None
+          </a>
+          {% endif %}    </div>
+      <div class="col d-flex flex-column">
+          {% if next_page_url %}
+          <a href="{{ next_page_url }}" class="btn btn-info" role="button">
+              Next Page <i class="bi bi-arrow-right"></i><br>
+              {{next_page_name}}
+          </a>
+          {% else %}
+          <a href="#" class="btn btn-info disabled" role="button">
+              Next Page <i class="bi bi-arrow-right"></i><br>
+              None
+          </a>
+          {% endif %}    
+        </div>
+  </div>
+</div>
+
+{%- endmacro %}  

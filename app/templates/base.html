@@ -103,9 +103,16 @@
                     <ul class="navbar-nav d-flex">
                         {% if current_user.is_anonymous %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.login') }}">
-                                <i class="bi bi-box-arrow-in-right"></i>  Login</a> 
+                            <a class="nav-link" href="{{ url_for('auth.register') }}">
+                                <i class="bi bi-person-add"></i> Register
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">
+                                <i class="bi bi-box-arrow-in-right"></i>  Login
+                            </a> 
+                        </li>
+                        
                         {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.profile') }}">
