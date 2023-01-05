@@ -13,7 +13,7 @@ class EditingForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     path = StringField('URL Path', validators=[DataRequired()])
     body = MdeField('Body')
-    order = IntegerField("Order Number:", validators=[DataRequired()])
+    order = IntegerField("Order Number", validators=[DataRequired()])
     header = TextAreaField('Header')
     body = MdeField('Body')
     

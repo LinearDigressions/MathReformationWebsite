@@ -1,10 +1,9 @@
 {% extends "base.html" %} 
-{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field, delete_document_button %}
+{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field, delete_document_button, form_text, form_button, form_switch %}
 {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
 
 {% block head %}
     {{mde.css}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     {{ select2_cdn() }}
 
@@ -25,14 +24,27 @@
 
 
 {% block content %}
-    <h1 class="text-center">Editing {{ doc_type.capitalize() }}</h1>
-    <h2 class="text-center">{{ form.name.data }}</h1>
-    <h3 class="text-center">Version: {{ version }}</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="text-center card-title">{{ doc_type.capitalize() }} Editor</h1>
+        <h5 class="text-center card-subtitle">Name: {{ form.name.data }}</h3>
+        <h5 class="text-center card-subtitle mt-1">Version: {{ version.capitalize() }}</h2>
+        </div>
+    <div class="card-body">
+        
+    
+
+    
+    
+    <div class="d-grid gap-2">
+
     {% if doc_type == "category" %}
         <a href="{{ url_for('main.category_page', path=doc.path) }}" class="btn btn-info" role="button"  onclick="return confirm('Make sure to save article first! Please click on OK to continue.');">View Page</a>
     {%  elif doc_type == "article" %}
         <a href="{{ url_for('main.article_page', path=doc.path) }}" class="btn btn-info" role="button" onclick="return confirm('Make sure to save article first! Please click on OK to continue.');">View Page</a>
     {% endif %} 
+    </div>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p></p>
@@ -52,37 +64,44 @@
         {% if doc_type == 'article' %}
         {{ select2_field(field=form.categories, field_name="categories", field_placeholder="Categories",field_class='select2_categories', is_multiple=True) }}
         {% endif %}
+        <p></p>
+        {{ form_text(form.name, size=32) }}
+        {{ form_text(form.order, size=32) }}
+        {{ form_text(form.path, size=32) }}
+        {{ form_switch(form.is_visible) }}
+        <p></p>
+        {{ form_text(form.header, size=32) }}
+        <div class="d-grid gap-2">
+            {{ photo_viewer_button(files=files, can_delete=False, btn_name="View Photos") }}
+        </div>
+        <p></p>
+        {{ form.body.label }}
+        {{ form.body() }}
 
-        {{ input(form.name, size=32) }}
-        {{ input(form.order, size=32) }}
-        {{ input(form.path, size=32) }}
-        {{ input(form.is_visible) }}
-        {{ input(form.header, size=32) }}
-        
+        <div class="d-grid gap-2 mt-4">
 
-        {{ photo_viewer_button(files=files, can_delete=False, btn_name="View Photos") }}
-        {{ input(form.body) }}
-
-        
         {% if version == "main" %}
-
-        <p>{{ form.load_draft(onclick="return confirm('Unsaved main changes will be lost. Please click on OK to continue.');") }}</p>
-        <p>{{ form.save_main_to_draft(onclick="return confirm('Current draft will be lost. Please click on OK to continue.');") }}</p>
+            {{ form.load_draft(onclick="return confirm('Unsaved main changes will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
+            
+            {{ form.save_main_to_draft(onclick="return confirm('Current draft will be lost. Please click on OK to continue.');", class="btn btn-primary mt-2") }}
 
         {% elif version == "draft" %}
 
-        <p>{{ form.load_main(onclick="return confirm('Unsaved draft changes will be lost. Please click on OK to continue.');") }}</p>
-        <p>{{ form.save_draft_to_main(onclick="return confirm('Current main will be lost. Please click on OK to continue.');") }}</p>
+            {{ form.load_main(onclick="return confirm('Unsaved draft changes will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
+
+            {{ form.save_draft_to_main(onclick="return confirm('Current main will be lost. Please click on OK to continue.');", class="btn btn-primary mt-2") }}
 
         {% endif %}
 
-        <p>{{ form.submit_continue_editing() }}</p>
-        <p>{{ form.save_and_exit() }}</p>
-        {{ delete_document_button(path=doc.path, doc_type=doc_type) }}
+            {{ form.submit_continue_editing(class="btn btn-primary mt-2") }}
+            {{ form.save_and_exit(class="btn btn-primary mt-2 mb-2") }}
+            {{ delete_document_button(path=doc.path, doc_type=doc_type) }}
+        </div>
 
 
     </form>
-    <hr>
+</div>
+</div>
     <h1>Preview Article</h1>
     {{mde.preview}}
     {{mde.js}}

@@ -290,7 +290,11 @@ class Category(SearchableMixin, db.Model):
         if idx + 2 > num_siblings:
             return None
         else:
-            return siblings[idx + 1]
+            sibling = siblings[idx + 1]
+            if sibling.is_visible:
+                return sibling
+            else:
+                return sibling.next_sibling()
 
     def prev_sibling(self):
         if self.category_type.name == "root":
@@ -307,7 +311,12 @@ class Category(SearchableMixin, db.Model):
         if idx == 0:
             return None
         else:
-            return siblings[idx - 1]
+            sibling = siblings[idx - 1]
+            if sibling.is_visible:
+                return sibling
+            else:
+                return sibling.next_sibling()
+
 
     # To check if category has children (SHOULD CHANGE?)
     def get_num_children(self):

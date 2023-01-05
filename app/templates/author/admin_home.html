@@ -88,6 +88,26 @@
 {% endfor %}
 {% endfor %}
 
+{% if lost_articles %}
+<h3>Lost Articles:</h3>
+{% for article in lost_articles %}
+<h5>{{ article.name }}</h3>
+{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
+{{ edit_document_button(path=article.path, doc_type='article') }}
+{{ delete_document_button(path=article.path, doc_type='article') }}
+{% endfor %}
+{% endif %}
+
+{% if lost_categories %}
+<h3>Lost Categories:</h3>
+{% for category in lost_categories %}
+<h5>{{ article.name }}</h3>
+{{ view_document_button(path=category.path, doc_type='category', warning=False) }}
+{{ edit_document_button(path=category.path, doc_type='category') }}
+{{ delete_document_button(path=category.path, doc_type='category') }}
+{% endfor %}
+{% endif %}
+
 {% endblock %}
 
 

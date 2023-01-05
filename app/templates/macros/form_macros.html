@@ -1,11 +1,49 @@
+
+{% macro form_switch(field) -%}
+
+<div class="form-check form-switch">
+    {{ field(class="form-check-input", type="checkbox", id="flexSwitchCheckDefault") }}
+    <label class="form-check-label" for="flexSwitchCheckDefault">
+        {{ field.label }}
+    </label>
+</div>
+
+{%- endmacro %}
+
+{% macro form_checkbox(field) -%}
+
+<div class="form-check">
+    {{ field(class="form-check-input", type="checkbox", id="flexCheckDefault") }}
+    <label class="form-check-label" for="flexCheckDefault">
+        {{ field.label }}
+    </label>
+</div>
+
+{%- endmacro %}
+
+
 {% macro input(field, size) -%}
 <p>
     {{ field.label }}<br>
     {{ field(size=size) }}
     {% for error in field.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <p class="text-danger">{{ error }}</p>
     {% endfor %}
 </p>
+{%- endmacro %}
+
+{% macro form_text(field, size) -%}
+<p>
+    {{ field.label }}<br>
+    {{ field(size=size, class="form-control") }}
+    {% for error in field.errors %}
+    <p class="text-danger">{{ error }}</p>
+    {% endfor %}
+</p>
+{%- endmacro %}
+
+{% macro form_button(field, size, onclick=None) -%}        
+<p>{{ field(class="btn btn-primary mt-2", onclick=onclick) }}</p>
 {%- endmacro %}
 
 
@@ -35,7 +73,7 @@
 
 <div class="form-group">
     <label>{{ field.label }}</label>
-    <select data-placeholder="{{ field_placeholder }}" class="{{ field_class }}" {% if is_multiple %}multiple="multiple" {% endif %} style="width:100%"; name="{{ field_name }}">
+    <select data-placeholder="{{ field_placeholder }}" class="{{ field_class}}" {% if is_multiple %}multiple="multiple" {% endif %} style="width:100%"; name="{{ field_name }}">
         <option></option>
         {% for choice in field.choices %}
               <option value="{{ choice[0] }}">{{ choice[1] }}</option>

@@ -43,8 +43,20 @@ def author_home():
         root_categories = CategoryType.query.filter_by(name="root").first().categories
         special_categories = CategoryType.query.filter_by(name="special").first().categories
 
-        return render_template('author/admin_home.html', root_categories=root_categories,  special_categories=special_categories, add_photo_form=add_photo_form, setname=photos.name, 
-        files=files, title="Author Home")
+
+        lost_articles = [art for art in Article.query.filter_by(categories=None)]
+
+        lost_categories = [cat for cat in Category.query.filter_by(parents=None) if cat.category_type.name not in ["root", "special"]]
+
+        return render_template('author/admin_home.html', 
+                                root_categories=root_categories,  
+                                special_categories=special_categories,
+                                lost_articles=lost_articles,
+                                lost_categories=lost_categories,
+                                add_photo_form=add_photo_form, 
+                                setname=photos.name, 
+                                files=files, 
+                                title="Author/Admin Home")
 
     else:
 

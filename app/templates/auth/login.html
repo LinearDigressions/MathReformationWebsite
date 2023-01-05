@@ -1,16 +1,18 @@
 {% extends "base.html" %}
-{% from 'macros/form_macros.html' import input %}
+{% from 'macros/form_macros.html' import input, form_text, form_button, form_checkbox %}
 
 
 
 {% block content %}
-    <h1>Sign In</h1>
+    
+    <h1>Login:</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        {{ input(form.username) }}
-        {{ input(form.password) }}
-        <p>{{ form.remember_me.label }} {{ form.remember_me() }}</p>
-        <p>{{ form.submit() }}</p>
+        {{ form_text(form.username) }}
+        {{ form_text(form.password) }}
+        {{ form_checkbox(form.remember_me)}}
+        
+        <p>{{ form_button(form.submit) }}</p>
         <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
     </form>
     <p>

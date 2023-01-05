@@ -1,4 +1,4 @@
-2023-01-04 20:26:31,099 ERROR: Exception on /article/rolles_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-05 11:00:25,395 ERROR: Exception on /auth/reset_password_request [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -8,8 +8,8 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 124, in article_page
-    return render_template('main/article.html', **content, title=article.name)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 99, in reset_password_request
+    return render_template('auth/reset_password_request.html', title='Reset Password', form=form)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -18,42 +18,31 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/article.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 1, in top-level template code
-    {% from 'macros/general_macros.html' import citation_info %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/general_macros.html", line 7, in template
-    page_url=request.path }}
-jinja2.exceptions.TemplateSyntaxError: unexpected '}', expected ')'
-2023-01-04 20:26:32,326 ERROR: Exception on /citation/Article//%2Farticle%2Frolles_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1785, in dispatch_request
-    self.raise_routing_exception(req)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1767, in raise_routing_exception
-    raise request.routing_exception  # type: ignore
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/ctx.py", line 351, in match_request
-    result = self.url_adapter.match(return_rule=True)  # type: ignore
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 624, in match
-    raise NotFound() from None
-werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/reset_password_request.html", line 2, in top-level template code
+    {% from 'macros/form_macros.html' import input, form_button, form_text %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 138, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/reset_password_request.html", line 10, in block 'content'
+    <p>{{ form_button(submit) }}</p>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/form_macros.html", line 23, in template
+    {{ field.label }}<br>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'submit' is undefined
+2023-01-05 11:03:07,241 ERROR: Exception on /auth/register [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1666, in handle_user_exception
-    return self.handle_http_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1606, in handle_http_exception
-    return self.ensure_sync(handler)(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/errors/handlers.py", line 8, in not_found_error
-    return render_template('errors/404.html', title="Error 404"), 404
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 77, in register
+    return render_template('auth/register.html', title='Register', form=form)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -62,12 +51,45 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/errors/404.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 1, in top-level template code
-    {% from 'macros/general_macros.html' import citation_info %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/register.html", line 2, in top-level template code
+    {% from 'macros/form_macros.html' import input %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 138, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/register.html", line 8, in block 'content'
+    {{ form_text(form.username, size=32) }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+jinja2.exceptions.UndefinedError: 'form_text' is undefined
+2023-01-05 11:03:17,977 ERROR: Exception on /auth/register [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 77, in register
+    return render_template('auth/register.html', title='Register', form=form)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/general_macros.html", line 7, in template
-    page_url=request.path }}
-jinja2.exceptions.TemplateSyntaxError: unexpected '}', expected ')'
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/register.html", line 2, in top-level template code
+    {% from 'macros/form_macros.html' import input, form_button, form_text %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 138, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/register.html", line 12, in block 'content'
+    <p>{{ form_button(submit) }}</p>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/form_macros.html", line 22, in template
+    <p>{{ field(class="btn btn-primary mt-2") }}</p>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+jinja2.exceptions.UndefinedError: 'submit' is undefined

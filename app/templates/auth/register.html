@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% from 'macros/form_macros.html' import input %}
+{% from 'macros/form_macros.html' import input, form_button, form_text %}
 
 {% block content %}
-    <h1>Register</h1>
+    <h1>Register:</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        {{ input(form.username, size=32) }}
-        {{ input(form.email, size=64) }}
-        {{ input(form.password, size=32) }}
-        {{ input(form.password2, size=32) }}
-        <p>{{ form.submit() }}</p>
+        {{ form_text(form.username, size=32) }}
+        {{ form_text(form.email, size=64) }}
+        {{ form_text(form.password, size=32) }}
+        {{ form_text(form.password2, size=32) }}
+        <p>{{ form_button(form.submit) }}</p>
     </form>
 {% endblock %}
 

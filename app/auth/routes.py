@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, current_app, session
+from flask import render_template, flash, redirect, url_for, request, current_app, session, make_response, g
 from app import db, login
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordRequestForm, ResetPasswordForm
@@ -36,6 +36,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('main.index')
 
+  
         return redirect(next_page)
         
     return render_template('auth/login.html', title='Sign In', form=form)
@@ -54,6 +55,8 @@ def logout():
                           identity=AnonymousIdentity())
 
     return redirect(url_for('main.index'))
+
+ 
 
 
 @bp.route('/register', methods=['GET', 'POST']) 

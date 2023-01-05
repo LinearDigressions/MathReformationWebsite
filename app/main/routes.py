@@ -1,4 +1,4 @@
-from flask import render_template, abort, g, redirect, url_for, request, current_app, flash
+from flask import render_template, abort, g, redirect, url_for, request, current_app, flash, session
 from flask_login import current_user
 from app.main import bp
 from flask_login import login_required
@@ -16,6 +16,12 @@ import calendar
 @bp.before_app_request
 def before_request():
     g.search_form = SearchForm(meta={'csrf': False})
+
+    if g.search_form.validate():
+        print("here")
+   
+    
+
 
 @bp.route("/", methods=["GET"])
 @bp.route("/index", methods=["GET"])
@@ -44,10 +50,13 @@ def profile():
 def article_page(path):
 
 
+
     form = BookmarkArticleForm()
 
     article = db.first_or_404(Article.query.filter_by(path=path))
 
+    if article.categories[0].category_type.name == "special":
+        abort(404)
 
     article_next_sibling = article.next_sibling()
 
