@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, current_app, abor
 from flask_login import current_user
 from app import photos, db
 from app.author import bp
-from app.models import Article, CategoryType, Category
+from app.models import Article, Category
 from flask_login import login_required
 from app.roles import admin_permission, EditArticlePermission, author_permission
 from app.author.forms import AddPhotoForm, EditingForm, DeletePhotoForm, EditCategoryForm, EditArticleForm
@@ -40,13 +40,13 @@ def author_home():
 
     if admin_permission.can():
 
-        root_categories = CategoryType.query.filter_by(name="root").first().categories
-        special_categories = CategoryType.query.filter_by(name="special").first().categories
+        root_categories = Category.query.filter_by(category_type="root")
+        special_categories = Category.query.filter_by(category_type="special")
 
 
         lost_articles = [art for art in Article.query.filter_by(categories=None)]
 
-        lost_categories = [cat for cat in Category.query.filter_by(parents=None) if cat.category_type.name not in ["root", "special"]]
+        lost_categories = [cat for cat in Category.query.filter_by(parents=None) if cat.category_type not in ["root", "special"]]
 
         return render_template('author/admin_home.html', 
                                 root_categories=root_categories,  
@@ -84,18 +84,18 @@ def new_document(doc_type, parent_category=None):
             parent = Category.query.filter_by(name=parent_category).first()
             new_doc.parents.append(parent)
 
-            parent_category_type = parent.category_type.name
+            parent_category_type = parent.category_type
 
             if parent_category_type == "root":
-                new_doc.category_type = CategoryType.query.filter_by(name="primary").first()
+                new_doc.category_type = "primary"
             elif parent_category_type == "primary":
-                new_doc.category_type = CategoryType.query.filter_by(name="secondary").first()
+                new_doc.category_type = "secondary"
             elif parent_category_type == "special":
-                new_doc.category_type = CategoryType.query.filter_by(name="special").first()
+                new_doc.category_type = "special"
             elif parent_category_type == "secondary":
                 abort(500)
         else:
-            new_doc.category_type = CategoryType.query.filter_by(name="primary").first()
+            new_doc.category_type = "primary"
 
 
     elif doc_type == "article":
@@ -155,33 +155,33 @@ def edit_document(doc_type, path, version):
     if doc_type == "category":
 
        
-        form.category_type.choices = [(str(cat_type.id), cat_type.name) for cat_type in CategoryType.query.all()]
+        form.category_type.choices = [(cat_type, cat_type.capitalize()) for cat_type in ["special", "root","primary","secondary"]]
 
         # Selecting only the allowable parents/children/articles for each category type
-        if doc.category_type.name == "root":
+        if doc.category_type == "root":
             form.parents.choices = []
-            form.children.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="primary").first().categories]
+            form.children.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="primary")]
             form.articles.choices=[]
-        elif doc.category_type.name == "primary":
-            form.parents.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="root").first().categories]
-            form.children.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="secondary").first().categories]
+        elif doc.category_type == "primary":
+            form.parents.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="root")]
+            form.children.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="secondary")]
             form.articles.choices=[]
-        elif doc.category_type.name == "secondary":
-            form.parents.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="primary").first().categories]
+        elif doc.category_type == "secondary":
+            form.parents.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="primary")]
             form.children.choices = []
             form.articles.choices = [(str(art.id), art.name) for art in Article.query.all()]
-        elif doc.category_type.name == "special":
-            form.parents.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="special").first().categories]
+        elif doc.category_type == "special":
+            form.parents.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="special")]
             form.children.choices = []
             form.articles.choices = [(str(art.id), art.name) for art in Article.query.all()]
     elif doc_type == "article":
 
         if admin_permission.can():
-            secondary_choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="secondary").first().categories]
-            special_choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="special").first().categories]
+            secondary_choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="secondary")]
+            special_choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="special")]
             form.categories.choices = secondary_choices + special_choices
         else:
-            form.categories.choices = [(str(cat.id), cat.name) for cat in CategoryType.query.filter_by(name="secondary").first().categories]
+            form.categories.choices = [(str(cat.id), cat.name) for cat in Category.query.filter_by(category_type="secondary")]
 
 
     if form.validate_on_submit():
@@ -216,7 +216,7 @@ def edit_document(doc_type, path, version):
             print(doc.parents)
             print(form.parents.data)
             doc.children = [Category.query.get(category_id) for category_id in form.children.data]
-            doc.category_type = CategoryType.query.get(form.category_type.data)
+            doc.category_type = form.category_type.data
         elif doc_type == "article":
             doc.categories = [Category.query.get(category_id) for category_id in form.categories.data]
         doc.header = form.header.data

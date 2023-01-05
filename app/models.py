@@ -243,10 +243,8 @@ class Category(SearchableMixin, db.Model):
     header = db.Column(db.String(), index=True)
     order = db.Column(db.Integer())
     is_visible = db.Column(db.Boolean())
+    category_type = db.Column(db.String(10), index=True)
     
-
-    # Foreign Key for CategoryType relation
-    categorytype_id = db.Column(db.Integer, db.ForeignKey('categorytype.id'))
 
 
     # Relations
@@ -276,7 +274,7 @@ class Category(SearchableMixin, db.Model):
 
     # For getting next/prev category for articles at the beginning or end of a category
     def next_sibling(self):
-        if self.category_type.name == "root":
+        if self.category_type == "root":
             return None
 
         if not self.parents:
@@ -297,7 +295,7 @@ class Category(SearchableMixin, db.Model):
                 return sibling.next_sibling()
 
     def prev_sibling(self):
-        if self.category_type.name == "root":
+        if self.category_type == "root":
             return None
 
         if not self.parents:
@@ -324,23 +322,6 @@ class Category(SearchableMixin, db.Model):
 
     def __repr__(self):
         return '<Category ' + self.name +'>'
-
-class CategoryType(db.Model):
-    # Added to resolve errors
-    __tablename__ = "categorytype"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-
-    # Foreign key for parent/child relation
-    parent_id = db.Column(db.Integer, db.ForeignKey('categorytype.id'))
-
-    # Relations
-    categories = db.relationship('Category', backref='category_type', lazy='dynamic')
-    parent = db.relationship('CategoryType', remote_side=[id], backref='child')
-
-    def __repr__(self):
-        return '<Category Type %r>' % self.name
 
 
 class Feedback(db.Model):
@@ -390,5 +371,4 @@ admin.add_view(AdminModelView(Category, db.session))
 admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Article, db.session))
 admin.add_view(AdminModelView(Role, db.session))
-admin.add_view(AdminModelView(CategoryType, db.session))
 admin.add_view(AdminModelView(Task, db.session))

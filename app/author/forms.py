@@ -2,7 +2,7 @@ from flask_mde import MdeField
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, FileField, StringField, TextAreaField, SelectMultipleField, BooleanField, SelectField, IntegerField
 from wtforms.validators import DataRequired, ValidationError
-from app.models import Category, Article, CategoryType
+from app.models import Category, Article
 
 
 
@@ -38,9 +38,8 @@ class EditCategoryForm(EditingForm):
     articles = SelectMultipleField('Articles', choices=[])
 
     def validate_parents(self, parents):
-        cat_type = CategoryType.query.get(self.category_type.data).name
-        if cat_type in ["primary", "secondary"] and len(parents.data) == 0:
-            raise ValidationError(cat_type.capitalize() + ' category must have a parent category.')
+        if self.category_type in ["primary", "secondary"] and len(parents.data) == 0:
+            raise ValidationError(self.category_type.capitalize() + ' category must have a parent category.')
 
     def validate_path(self, path):
         cat = Category.query.filter_by(path=path.data).first() 

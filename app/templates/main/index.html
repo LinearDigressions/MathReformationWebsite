@@ -5,7 +5,7 @@
 
 <h1 class="text-center">Home Page</h1>
 <ul>
-    {% for primary_category in math_category.ordered_children() %}
+    {% for primary_category in math_children %}
     {% if primary_category.is_visible == True %} 
 
     <li>

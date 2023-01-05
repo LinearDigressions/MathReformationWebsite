@@ -27,11 +27,13 @@ def before_request():
 @bp.route("/index", methods=["GET"])
 def index():
 
-    math_category = Category.query.filter_by(name="math").first()
-    recent_articles = Article.query.order_by(Article.date_added.desc()).filter_by(is_visible=True).limit(5)
+    math_children = Category.query.filter_by(name="Math").first().children
+    articles = Article.query.order_by(Article.date_added.desc()).filter_by(is_visible=True, ).limit(20)
+    recent_articles = [art for art in articles if art.categories[0].name == "secondary"]
 
-    return render_template('main/index.html', title="Home", math_category=math_category, recent_articles=recent_articles)
+    return render_template('main/index.html', title="Home", math_children=math_children, recent_articles=recent_articles)
 
+@bp.route("/article/about")
 @bp.route("/about", methods=["GET"])
 def about():
     about_article = Article.query.filter_by(path='about').first()
@@ -55,7 +57,10 @@ def article_page(path):
 
     article = db.first_or_404(Article.query.filter_by(path=path))
 
-    if article.categories[0].category_type.name == "special":
+    if article.categories == []:
+        abort(404)
+
+    if article.categories[0].category_type == "special":
         abort(404)
 
     article_next_sibling = article.next_sibling()
@@ -134,8 +139,12 @@ def article_page(path):
 
 @bp.route("/category/<path>")
 def category_page(path):
-
     category = db.first_or_404(Category.query.filter_by(path=path))
+
+
+    if category.parents == [] and category.category_type != "root":
+        abort(404)
+
     return render_template('main/category.html', category=category, title =category.name)
 
 @bp.route("/feedback", methods=["GET","POST"])
@@ -178,11 +187,11 @@ def search():
 
     cat = [("category", item) for item in cat]
     art = [("article", item) for item in art]
-
+   
     scores = cat_scores + art_scores
 
     sorted_scores_idx = np.argsort(scores)
-
+   
     total = cat_total + art_total
 
     results = np.array(cat + art)[sorted_scores_idx]
