@@ -4,7 +4,8 @@ from functools import partial
 
 # Creating Role Permissions
 admin_permission = Permission(RoleNeed('admin'))
-author_permission = Permission(RoleNeed('author'), RoleNeed('admin'))
+editor_permission = Permission(RoleNeed('editor'))
+author_permission = Permission(RoleNeed('author'), RoleNeed('editor'))
 
 
 # Creating Article Permission

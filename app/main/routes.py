@@ -2,7 +2,7 @@ from flask import render_template, abort, g, redirect, url_for, request, current
 from flask_login import current_user
 from app.main import bp
 from flask_login import login_required
-from app.models import Category, Article, Feedback, User
+from app.models import Category, Article, Feedback, User, Document
 from app import db
 import markdown
 from app.roles import admin_permission, author_permission
@@ -27,13 +27,12 @@ def before_request():
 @bp.route("/index", methods=["GET"])
 def index():
 
-    math_children = Category.query.filter_by(name="Math").first().children
-    articles = Article.query.order_by(Article.date_added.desc()).filter_by(is_visible=True, ).limit(20)
-    recent_articles = [art for art in articles if art.categories[0].category_type == "secondary"]
+    #exploring_math_children = Document.query.filter_by(name="Exploring Math").first().children
+    exploring_math_children = []
+    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(20)
 
-    return render_template('main/index.html', title="Home", math_children=math_children, recent_articles=recent_articles)
+    return render_template('main/index.html', title="Home", exploring_math_children=exploring_math_children, recent_documents=recent_documents)
 
-@bp.route("/article/about")
 @bp.route("/about", methods=["GET"])
 def about():
     about_article = Article.query.filter_by(path='about').first()
@@ -46,6 +45,59 @@ def profile():
     user = User.query.get(current_user.get_id())
 
     return render_template('main/profile.html', title="Profile", user=user)
+
+
+@bp.route("/exploring_math/<path>", methods=["POST", "GET"])
+def document_page(book_path=None, path=None):
+
+    form = BookmarkArticleForm()
+
+    document = db.first_or_404(Document.query.filter_by(path=path))
+
+    if document.parent == None:
+        abort(404)
+
+    if document.document_type == "special":
+        abort(404)
+
+    if current_user.is_authenticated:
+
+        user = User.query.get(current_user.get_id())
+        
+        if user.has_bookmarked_document(document):
+            form.submit.label.text = "Unbookmark " + document.document_type.capitalize()
+        else:
+            form.submit.label.text = "Bookmark " + document.document_type.capitalize()
+    else:
+        user = None
+
+    if form.validate_on_submit():
+        if user.has_bookmarked_document(document):
+            user.unbookmark_document(document)
+        else:
+            user.bookmark_document(document)
+        db.session.commit()
+
+        return redirect(url_for('main.document_page', path=path))
+
+
+    breadcrumb_links = []
+    doc = document
+
+    while True:
+        breadcrumb_links.append({"name":doc.name, "path":doc.path})
+        doc = doc.parent
+
+        if doc == None:
+            break
+        
+    content = {}
+    content["breadcrumb_links"] = breadcrumb_links
+    content["document"] = document
+    content["form"] = form
+    content["user"] = user
+
+    return render_template('main/document.html', **content, title=document.name)
 
 
 @bp.route("/article/<path>", methods=["POST", "GET"])
@@ -104,7 +156,7 @@ def category_page(path):
     category = db.first_or_404(Category.query.filter_by(path=path))
 
 
-    if category.parents == [] and category.category_type != "root":
+    if category.parents == [] and category.category_type != "book":
         abort(404)
 
 

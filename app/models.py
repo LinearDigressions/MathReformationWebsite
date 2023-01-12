@@ -9,9 +9,10 @@ from app.search import add_to_index, remove_from_index, query_index
 import numpy as np
 from time import time
 import jwt
-from sqlalchemy.orm import backref
+from sqlalchemy.orm import backref, Mapper
 import redis
 import rq
+
 
 # SEARCH MIXIN
 class SearchableMixin(object):
@@ -81,6 +82,10 @@ parent_child_table = db.Table('CategoryChild',
     db.Column('ParentId', db.Integer, db.ForeignKey('category.id')),
     db.Column('ChildId', db.Integer, db.ForeignKey('category.id')))
 
+bookmarked_documents_table = db.Table('bookmarked_documents',
+    db.Column('document_id', db.Integer, db.ForeignKey('document.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+)
 
 class User(UserMixin, db.Model):
     # Attributes
@@ -91,10 +96,15 @@ class User(UserMixin, db.Model):
 
     # Relations
     articles = db.relationship('Article', backref='author', lazy='dynamic')
+    documents = db.relationship('Document', backref='author', lazy='dynamic')
 
     saved_articles = db.relationship('Article', secondary = saved_articles_table,
                                  backref=db.backref('saved_articles', lazy=True), lazy=True)
     
+    bookmarked_documents = db.relationship('Document', secondary = bookmarked_documents_table,
+                                 backref=db.backref('bookmarked_users', lazy=True), lazy=True)
+    
+
     roles = db.relationship('Role', secondary = roles_table,
                             backref=db.backref('users', lazy=True), lazy=True)
 
@@ -111,6 +121,17 @@ class User(UserMixin, db.Model):
     
     def has_saved_article(self, article): 
         return article in self.saved_articles
+
+    def bookmark_document(self, document):
+        if not self.has_bookmarked_document(document):
+            self.bookmarked_documents.append(document)
+    
+    def unbookmark_document(self, document):
+        if self.has_bookmarked_document(document):
+            self.bookmarked_documents.remove(document)
+    
+    def has_bookmarked_document(self, document): 
+        return document in self.bookmarked_documents
 
 
     # Login Methods
@@ -518,6 +539,156 @@ class Category(SearchableMixin, db.Model):
         return '<Category ' + self.name +'>'
 
 
+class Document(SearchableMixin, db.Model):
+
+    __tablename__ = "document"
+
+    # Attributes that are indexed by search engine
+    __searchable__ = ["body_main", "name"]
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=False)
+    path = db.Column(db.String(250), unique=True, nullable=False)
+    body_main = db.Column(db.String(), index=True)
+    body_draft = db.Column(db.String(), index=True)
+    date_added = db.Column(db.DateTime, nullable=False,
+        default=datetime.utcnow)
+    header = db.Column(db.String(), index=True)
+    order = db.Column(db.Integer())
+    is_visible = db.Column(db.Boolean())
+    document_type = db.Column(db.String(10), index=True)
+
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    
+
+    prev_page_id = db.Column(db.Integer(), db.ForeignKey("document.id"))
+    next_page = db.relationship("Document", backref=backref("prev_page", remote_side=[id]), uselist=False, foreign_keys=[prev_page_id])
+
+    parent_id = db.Column(db.Integer(), db.ForeignKey("document.id"))
+    children = db.relationship("Document", backref=backref("parent", remote_side=[id]), foreign_keys=[parent_id])
+
+
+    # For displaying articles/categories in specific order
+    def ordered_children(self):
+
+        if self.children == []:
+            return []
+
+        children_idx = np.array([child.order if child.order else 1 for child in self.children])
+        sorted_children_idx = np.argsort(children_idx)
+        return self.children[sorted_children_idx]
+
+
+    # For getting next/prev category for articles at the beginning or end of a category
+
+    def find_next_sibling(self):
+
+        if self.parent == None:
+            return None
+
+        else:
+            siblings = self.parent.ordered_children()
+
+            if self == siblings[-1]:
+                return None
+
+            else:
+                idx = siblings.index(self)
+                return siblings[idx + 1]
+
+    def find_prev_sibling(self):
+
+        if self.parent == None:
+            return None
+            
+        else:
+            siblings = self.parent.ordered_children()
+
+            if self == siblings[0]:
+                return self.parent.find_prev_sibling()
+
+            else:
+
+                idx = siblings.index(self)
+                return siblings[idx - 1]
+
+    def find_next_page(self):
+
+        if self.children != []:
+            return self.ordered_children[0]
+
+        else:
+
+            doc = self
+
+            while True:
+                next_sibling = doc.find_next_sibling()
+
+                if next_sibling == None:
+                    doc = doc.parent
+                else:
+                    return next_sibling
+
+                if doc.document_type == "book":
+                    return None
+    
+    def find_prev_page(self):
+
+        doc = self
+
+        while True:
+            prev_sibling = doc.find_prev_sibling()
+
+            if prev_sibling == None:
+                doc = doc.parent 
+            else:
+                break
+
+            if doc.document_type == "book":
+                return None
+
+        while True:
+
+            if doc.children == []:
+                return doc
+            else:
+                doc = doc.children[-1]
+  
+    def set_links(self):
+        self.prev_page = self.find_prev_page()
+        self.next_page = self.find_next_page()
+
+    def remove_links(self):
+        if self.prev_page == None and self.next_page == None:
+            return
+
+        self.prev_page.next_page = self.next_page.prev_page
+        self.prev_page = None
+        self.next_page = None
+
+    def update_path(self):
+        self.path = ""
+
+        doc = self
+
+        while True:
+
+            self.path = "/" + doc.name.lower().replace(" ", "_") + self.path
+
+            if doc.document_type == "book":
+                break
+            else:
+                doc = doc.parent
+
+
+    def __repr__(self):
+        return '<Document ' + self.name + '>'
+
+
+
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
@@ -566,3 +737,4 @@ admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Article, db.session))
 admin.add_view(AdminModelView(Role, db.session))
 admin.add_view(AdminModelView(Task, db.session))
+admin.add_view(AdminModelView(Document, db.session))

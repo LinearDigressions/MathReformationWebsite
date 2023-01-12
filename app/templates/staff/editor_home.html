@@ -39,30 +39,30 @@
 
 
 
-{% for root_category in root_categories %}
-<h2>{{ root_category.name }}</h2>
+{% for book in books %}
+<h2>{{ book.name }}</h2>
 {{ view_document_button(path=root_category.path, doc_type='category', warning=False) }}
 {{ edit_document_button(path=root_category.path, doc_type='category') }}
 {{ delete_document_button(path=root_category.path, doc_type='category') }}
 
 
-{% for primary_category in root_category.ordered_children() %}
+{% for chapter in book.ordered_children() %}
 
-<h3>{{ primary_category.name }}</h2>
-{{ view_document_button(path=primary_category.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=primary_category.path, doc_type='category') }}
-{{ delete_document_button(path=primary_category.path, doc_type='category') }}
-
-
-{% for secondary_category in primary_category.ordered_children() %}
-
-<h4>{{ secondary_category.name }}</h3>
-{{ view_document_button(path=secondary_category.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=secondary_category.path, doc_type='category') }}
-{{ delete_document_button(path=secondary_category.path, doc_type='category') }}
+<h3>{{ chapter.name }}</h2>
+{{ view_document_button(path=chapter.path, doc_type='category', warning=False) }}
+{{ edit_document_button(path=chapter.path, doc_type='category') }}
+{{ delete_document_button(path=chapter.path, doc_type='category') }}
 
 
-{% for article in secondary_category.ordered_articles() %}
+{% for section in chapter.ordered_children() %}
+
+<h4>{{ section.name }}</h3>
+{{ view_document_button(path=section.path, doc_type='category', warning=False) }}
+{{ edit_document_button(path=section.path, doc_type='category') }}
+{{ delete_document_button(path=section.path, doc_type='category') }}
+
+
+{% for article in section.ordered_children() %}
 <h5>{{ article.name }}</h3>
 {{ view_document_button(path=article.path, doc_type='article', warning=False) }}
 {{ edit_document_button(path=article.path, doc_type='article') }}
@@ -75,44 +75,27 @@
 {% endfor %}
 {% endfor %}
 
-{% for special_category in special_categories %}
-<h2>{{ special_category.name }}</h2>
-{{ view_document_button(path=special_category.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=special_category.path, doc_type='category') }}
-{{ delete_document_button(path=special_category.path, doc_type='category') }}
-
-{% for article in special_category.ordered_articles() %}
+{% for article in special %}
 <h5>{{ article.name }}</h3>
 {{ view_document_button(path=article.path, doc_type='article', warning=False) }}
 {{ edit_document_button(path=article.path, doc_type='article') }}
 {{ delete_document_button(path=article.path, doc_type='article') }}
-
-{% endfor %}
 {% endfor %}
 
-{% if lost_articles %}
-<h3>Lost Articles:</h3>
-{% for article in lost_articles %}
-<h5>{{ article.name }}</h3>
-{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
-{{ edit_document_button(path=article.path, doc_type='article') }}
-{{ delete_document_button(path=article.path, doc_type='article') }}
+{% if lost_documents %}
+<h3>Lost Documents:</h3>
+{% for document in lost_documents %}
+<h5>{{ document.name }}</h3>
+{{ view_document_button(path=document.path, doc_type='article', warning=False) }}
+{{ edit_document_button(path=document.path, doc_type='article') }}
+{{ delete_document_button(path=document.path, doc_type='article') }}
 {% endfor %}
 {% endif %}
 
-{% if lost_categories %}
-<h3>Lost Categories:</h3>
-{% for category in lost_categories %}
-<h5>{{ article.name }}</h3>
-{{ view_document_button(path=category.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=category.path, doc_type='category') }}
-{{ delete_document_button(path=category.path, doc_type='category') }}
-{% endfor %}
-{% endif %}
 
 {% endblock %}
 
 
 {% block citation %}
-{{ citation_info(page_type="Math Reformation", page_name="Admin Home") }}
+{{ citation_info(page_type="Math Reformation", page_name="Editor Home") }}
 {% endblock %}

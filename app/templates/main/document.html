@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %} 
+
+
+
+
+<h1 class="text-center">{{ document.name }}</h1>
+
+
+
+<ul class="breadcrumb">
+    {% for link in breadcrumb_links %}
+    <li class="breadcrumb-item {% if loop.last %}active{% endif %}">
+        <a href="{{ url_for('main.document_page', path=link['path']) }}">
+            {{ link['name'] }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+{% if not document.is_visible %}
+<h5 class="badge bg-info">Article Invisible</h5>
+{% endif %}
+
+{% if user %} 
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.submit(class="btn btn-success") }}
+</form>
+{% endif %}
+
+{% if admin_permission.can() %} 
+<a href="{{ url_for('author.edit_document', doc_type='article', path=article.path, version='main') }}" class="btn btn-info" role="button">Edit Document</a>
+{% endif %}
+
+
+{{ article.body_main | safe }}
+
+{{ page_navigation(next_page_name=document.next_page.name, next_page_url=document.next_page.path, prev_page_name=document.prev_page.name, prev_page_url=document.prev_page.path)}}
+
+{% endblock %}
+
+
+{% block citation %}
+{{ citation_info(page_type="Document", page_name=document.name) }}
+{% endblock %}
