@@ -11,6 +11,7 @@ def not_found_error(error):
 def forbidden_error(error):
     return render_template('errors/403.html', title="Error 403"), 403
 
+@bp.app_errorhandler(405)
 @bp.app_errorhandler(500)
 def internal_error(error):
     db.session.rollback()

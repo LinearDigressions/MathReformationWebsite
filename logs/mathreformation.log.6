@@ -1,4 +1,4 @@
-2023-01-05 13:18:04,996 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 15:22:09,006 ERROR: Exception on /editor_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -8,29 +8,12 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 200, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:24:15,771 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:24:44,425 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:25:46,114 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:29:01,984 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:41:33,240 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:41:40,127 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:52:48,938 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:52:56,071 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 14:02:12,306 ERROR: Exception on /auth/register [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 77, in register
-    return render_template('auth/register.html', title='Register', form=form)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 71, in editor_home
+    return render_template('staff/editor_home.html',
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -39,14 +22,22 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/register.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 117, in template
-    <a class="nav-link" href="{{ url_for('main.profile') }}">
-jinja2.exceptions.TemplateSyntaxError: expected token ',', got 'main'
-2023-01-05 14:02:13,967 ERROR: Exception on /auth/register [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 29, in block 'content'
+    <a href="{{ url_for('staff.new_document', doc_type='book', version='main') }}" class="btn btn-info" role="button">New Book</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'staff.new_document' with values ['doc_type', 'version']. Did you forget to specify values ['document_type', 'parent_path']?
+2023-01-12 15:24:16,206 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:25:27,142 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:25:31,352 ERROR: Exception on /edit/book/9200832520150949333710/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -56,24 +47,13 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/auth/routes.py", line 77, in register
-    return render_template('auth/register.html', title='Register', form=form)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/auth/register.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 117, in template
-    <a class="nav-link" href="{{ url_for('main.profile') }}">
-jinja2.exceptions.TemplateSyntaxError: expected token ',', got 'main'
-2023-01-05 14:02:14,890 ERROR: Exception on /index [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 143, in edit_document
+    form.category_type.choices = [(doc_type, doc_type.capitalize()) for doc_type in ["special", "book","chapter","section", "article"]]
+AttributeError: 'EditDocumentForm' object has no attribute 'category_type'
+2023-01-12 15:26:06,673 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:26:09,090 ERROR: Exception on /edit/book/9200832520150949333710/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -83,20 +63,41 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 34, in index
-    return render_template('main/index.html', title="Home", math_children=math_children, recent_articles=recent_articles)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/index.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 117, in template
-    <a class="nav-link" href="{{ url_for('main.profile') }}">
-jinja2.exceptions.TemplateSyntaxError: expected token ',', got 'main'
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 232, in edit_document
+    selected_parents = json.dumps([str(document.parent.id)])
+AttributeError: 'NoneType' object has no attribute 'id'
+2023-01-12 15:28:44,913 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:28:46,383 ERROR: Exception on /edit/book/9200832520150949333710/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 232, in edit_document
+    if document_parent != None:
+NameError: name 'document_parent' is not defined
+2023-01-12 15:29:02,354 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:29:02,668 ERROR: Exception on /edit/book/9200832520150949333710/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 237, in edit_document
+    selected_document_type = json.dumps([document.category_type])
+AttributeError: 'Document' object has no attribute 'category_type'
+2023-01-12 15:29:19,118 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]

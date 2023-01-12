@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 
 
 
-class BookmarkArticleForm(FlaskForm):
+class BookmarkDocumentForm(FlaskForm):
     submit = SubmitField("Submit")
 
 

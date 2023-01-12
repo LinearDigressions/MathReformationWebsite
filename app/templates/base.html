@@ -85,9 +85,13 @@
                             <a class="nav-link" href="{{ url_for('main.about')}}">About</a>
                         </li>
                         
-                        {% if author_permission.can() %} 
+                        {% if editor_permission.can() %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('author.author_home') }}">Author</a> 
+                            <a class="nav-link" href="{{ url_for('staff.editor_home') }}">Editor</a> 
+                        </li>
+                        {% elif author_permission.can() %} 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('staff.author_home') }}">Author</a> 
                         </li>
                         {% endif %}
                         {% if g.search_form %}

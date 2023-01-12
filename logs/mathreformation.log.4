@@ -1,5 +1,4 @@
-2023-01-05 15:35:53,020 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:36:07,180 ERROR: Exception on /category/integral_calculus [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 15:35:10,084 ERROR: Exception on /edit/book/9200832520150949333710/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -9,50 +8,10 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 199, in category_page
-    if prev_sibling_articles:
-ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
-2023-01-05 15:36:11,417 ERROR: Exception on /category/integral_calculus [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 199, in category_page
-    if prev_sibling_articles:
-ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
-2023-01-05 15:40:18,400 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:40:21,733 ERROR: Exception on /category/integral_calculus [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 172, in category_page
-    if category_ordered_articles.any():
-AttributeError: 'InstrumentedList' object has no attribute 'any'
-2023-01-05 15:41:07,907 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:42:39,204 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:42:40,969 ERROR: Exception on /category/integral_calculus [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 219, in category_page
-    return render_template('main/category.html', **content, title =category.name)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 266, in edit_document
+    return render_template('staff/edit_document.html', **content)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
     return _render(app, template, context)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
@@ -61,17 +20,19 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/category.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 146, in top-level template code
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/edit_document.html", line 3, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
     {% block content %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/category.html", line 84, in block 'content'
-    {{ page_navigation(next_page_name=next_page_name, next_page_url=next_page_url, prev_page_name=prev_page_name, prev_page_url=prev_page_url)}}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/utils.py", line 83, in from_obj
-    if hasattr(obj, "jinja_pass_arg"):
-jinja2.exceptions.UndefinedError: 'page_navigation' is undefined
-2023-01-05 15:44:05,843 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:44:27,544 ERROR: Exception on /category/math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/edit_document.html", line 81, in block 'content'
+    {{ delete_document_button(path=doc.path, document_type=document_type) }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'doc' is undefined
+2023-01-12 15:37:44,595 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:39:22,477 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:45:07,026 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:45:53,016 ERROR: Exception on /edit/book/9200832520150949333710/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -81,10 +42,17 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 213, in category_page
-    content["prev_page_url"] = prev_page_url
-UnboundLocalError: local variable 'prev_page_url' referenced before assignment
-2023-01-05 15:44:30,036 ERROR: Exception on /category/math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 202, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 268, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 257, in find_prev_page
+    if doc.document_type == "book":
+AttributeError: 'NoneType' object has no attribute 'document_type'
+2023-01-12 15:47:42,655 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:47:43,257 ERROR: Exception on /edit/book/9200832520150949333710/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -94,13 +62,33 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 213, in category_page
-    content["prev_page_url"] = prev_page_url
-UnboundLocalError: local variable 'prev_page_url' referenced before assignment
-2023-01-05 15:44:48,383 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:45:24,151 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:46:44,807 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:46:56,710 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:47:16,050 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:47:37,297 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 15:48:39,693 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 202, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 272, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 256, in find_prev_page
+    if doc.parent == None:
+AttributeError: 'NoneType' object has no attribute 'parent'
+2023-01-12 15:47:58,655 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 15:47:59,394 ERROR: Exception on /edit/book/9200832520150949333710/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 202, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 273, in set_links
+    self.next_page = self.find_next_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 242, in find_next_page
+    if doc.document_type == "book":
+AttributeError: 'NoneType' object has no attribute 'document_type'
+2023-01-12 15:48:35,130 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]

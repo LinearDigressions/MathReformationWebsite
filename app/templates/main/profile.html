@@ -4,12 +4,12 @@
 {% block content %}
 <h1 class="text-center">Bookmarked Articles:</h1>
 
-{% if user.saved_articles %}
+{% if user.bookmarked_documents %}
 <ul class="list-group">
-{% for article in user.saved_articles %}
+{% for document in user.bookmarked_documents %}
 <li class="list-group-item">
-    <h4>{{ article.name }}</h4>
-    {{ view_document_button(path=article.path, doc_type='article', warning=False) }}
+    <h4>{{ document.name }}</h4>
+    {{ view_document_button(path=document.path, warning=False) }}
 </li>
 
 {% endfor %}

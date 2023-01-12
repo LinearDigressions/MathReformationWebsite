@@ -21,7 +21,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="text-center card-title">{{ doc_type.capitalize() }} Editor</h1>
+        <h4 class="text-center card-title">{{ document_type.capitalize() }} Editor</h1>
         <h5 class="text-center card-subtitle">Name: {{ form.name.data }}</h3>
         <h5 class="text-center card-subtitle mt-1">Version: {{ version.capitalize() }}</h2>
         </div>
@@ -34,7 +34,6 @@
         <div class="d-grid gap-2">
 
             <a href="{{ url_for('main.document_page', path=document.path) }}" class="btn btn-info" role="button" onclick="return confirm('Make sure to save first! Please click on OK to continue.');">View Page</a>
-        {% endif %} 
         </div>
         <form action="" method="post" novalidate>
             {{ form.hidden_tag() }}
@@ -79,7 +78,7 @@
 
                 {{ form.submit_continue_editing(class="btn btn-primary mt-2") }}
                 {{ form.save_and_exit(class="btn btn-primary mt-2 mb-2") }}
-                {{ delete_document_button(path=doc.path, doc_type=document_type) }}
+                {{ delete_document_button(path=document.path, document_type=document_type) }}
             </div>
 
 

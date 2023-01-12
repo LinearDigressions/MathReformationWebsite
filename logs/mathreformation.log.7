@@ -1,4 +1,4 @@
-2023-01-05 13:06:55,432 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 15:01:06,171 ERROR: Exception on /editor_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -8,10 +8,38 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 196, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:06:55,432 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 71, in editor_home
+    return render_template('staff/editor_home.html',
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 27, in block 'content'
+    {{ photo_viewer_button(files, can_delete=True, btn_name="View/Delete Photos") }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/photo_macros.html", line 89, in template
+    <img src="{{ url_for('author.show', setname='photos', filename=file) }}", name="{{ file }}" class="img-thumbnail m-1" style="width: 64px">
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'author.show' with values ['filename', 'setname']. Did you mean 'staff.show' instead?
+2023-01-12 15:01:30,498 ERROR: Exception on /editor_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -21,81 +49,31 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 196, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:07:21,330 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:07:21,877 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 197, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:08:07,607 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:08:07,730 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 199, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:08:26,765 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:08:27,692 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 193, in search
-    print(sorted_scores_idx)
-UnboundLocalError: local variable 'sorted_scores_idx' referenced before assignment
-2023-01-05 13:08:45,432 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:08:45,836 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 200, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:10:45,902 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:13:48,688 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:14:22,442 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:15:58,398 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:16:01,387 ERROR: Exception on /search [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 200, in search
-    results = np.array(cat + art)[sorted_scores_idx]
-IndexError: index 2 is out of bounds for axis 0 with size 1
-2023-01-05 13:17:39,011 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-05 13:18:00,282 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 71, in editor_home
+    return render_template('staff/editor_home.html',
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 29, in block 'content'
+    <a href="{{ url_for('author.new_document', doc_type='category', version='main') }}" class="btn btn-info" role="button">New Category</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'author.new_document' with values ['doc_type', 'version']. Did you mean 'staff.new_document' instead?
+2023-01-12 15:22:08,311 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]

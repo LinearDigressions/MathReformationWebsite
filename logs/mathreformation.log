@@ -1,5 +1,4 @@
-2023-01-12 13:04:30,818 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:04:34,205 ERROR: Exception on / [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 15:57:29,418 ERROR: Exception on /editor_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -9,11 +8,34 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 30, in index
-    exploring_math_children = Document.query.filter_by(name="Exploring Math").first().children
-AttributeError: 'NoneType' object has no attribute 'children'
-2023-01-12 13:05:04,356 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:05:05,970 ERROR: Exception on / [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 71, in editor_home
+    return render_template('staff/editor_home.html',
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 44, in block 'content'
+    {{ edit_document_button(path=book.path, document_type='category') }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/form_macros.html", line 101, in template
+    <a href="{{ url_for('staff.edit_document', document_type=doc_type, path=path, version='main') }}" class="btn btn-info btn-sm" role="button">Edit {{ doc_type.capitalize() }}</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'doc_type' is undefined
+2023-01-12 15:58:07,291 ERROR: Exception on /editor_home [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -23,37 +45,30 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 32, in index
-    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(20)
-AttributeError: type object 'Document' has no attribute 'date_added'
-2023-01-12 13:05:08,515 ERROR: Exception on /index [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 32, in index
-    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(20)
-AttributeError: type object 'Document' has no attribute 'date_added'
-2023-01-12 13:05:55,770 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:06:00,486 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:06:03,327 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:09:36,131 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:10:05,264 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:10:34,979 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:10:59,539 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:18:31,820 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:18:37,120 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:18:41,764 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:18:55,528 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:19:17,625 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:19:23,207 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:19:47,158 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:19:51,545 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:19:56,827 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:20:01,322 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 13:20:06,170 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 71, in editor_home
+    return render_template('staff/editor_home.html',
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 4, in top-level template code
+    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
+    {% block content %}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/editor_home.html", line 44, in block 'content'
+    {{ edit_document_button(path=book.path, document_type='category') }}
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/runtime.py", line 777, in _invoke
+    rv = self._func(*arguments)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/macros/form_macros.html", line 101, in template
+    <a href="{{ url_for('staff.edit_document', document_type=document_type, path=path, version='main') }}" class="btn btn-info btn-sm" role="button">Edit {{ doc_type.capitalize() }}</a>
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'doc_type' is undefined

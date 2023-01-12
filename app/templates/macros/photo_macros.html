@@ -86,7 +86,7 @@
             <!-- Modal body -->
             <div class="modal-body" id="photos">
                 {% for file in files %}
-                <img src="{{ url_for('author.show', setname='photos', filename=file) }}", name="{{ file }}" class="img-thumbnail m-1" style="width: 64px">
+                <img src="{{ url_for('staff.show', setname='photos', filename=file) }}", name="{{ file }}" class="img-thumbnail m-1" style="width: 64px">
                 {% endfor %}                
             </div>
 

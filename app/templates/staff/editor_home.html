@@ -26,14 +26,13 @@
 {{ add_photo_button(field=add_photo_form) }}
 {{ photo_viewer_button(files, can_delete=True, btn_name="View/Delete Photos") }}
 
-<a href="{{ url_for('author.new_document', doc_type='category', version='main') }}" class="btn btn-info" role="button">New Category</a>
-<a href="{{ url_for('author.new_document', doc_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
+<a href="{{ url_for('staff.new_document', document_type='book', version='main') }}" class="btn btn-info" role="button">New Book</a>
+<a href="{{ url_for('staff.new_document', document_type='chapter', version='main') }}" class="btn btn-info" role="button">New Chapter</a>
+<a href="{{ url_for('staff.new_document', document_type='section', version='main') }}" class="btn btn-info" role="button">New Section</a>
+<a href="{{ url_for('staff.new_document', document_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
 
-{% if not current_user.get_task_in_progress('export_article') %}
-<a href="{{ url_for('author.export' ,doc_type='article') }}" class="btn btn-info" role="button">Export Articles</a>
-{% endif %} 
-{% if not current_user.get_task_in_progress('export_category') %}
-<a href="{{ url_for('author.export', doc_type='category') }}" class="btn btn-info" role="button">Export Categories</a>
+{% if not current_user.get_task_in_progress('export_document') %}
+<a href="{{ url_for('staff.export') }}" class="btn btn-info" role="button">Export Documents</a>
 {% endif %}
 
 
@@ -41,32 +40,32 @@
 
 {% for book in books %}
 <h2>{{ book.name }}</h2>
-{{ view_document_button(path=root_category.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=root_category.path, doc_type='category') }}
-{{ delete_document_button(path=root_category.path, doc_type='category') }}
+{{ view_document_button(path=book.path, warning=False) }}
+{{ edit_document_button(path=book.path, document_type='category') }}
+{{ delete_document_button(path=book.path, document_type='category') }}
 
 
 {% for chapter in book.ordered_children() %}
 
 <h3>{{ chapter.name }}</h2>
-{{ view_document_button(path=chapter.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=chapter.path, doc_type='category') }}
-{{ delete_document_button(path=chapter.path, doc_type='category') }}
+{{ view_document_button(path=chapter.path, warning=False) }}
+{{ edit_document_button(path=chapter.path, document_type='category') }}
+{{ delete_document_button(path=chapter.path, document_type='category') }}
 
 
 {% for section in chapter.ordered_children() %}
 
 <h4>{{ section.name }}</h3>
-{{ view_document_button(path=section.path, doc_type='category', warning=False) }}
-{{ edit_document_button(path=section.path, doc_type='category') }}
-{{ delete_document_button(path=section.path, doc_type='category') }}
+{{ view_document_button(path=section.path, warning=False) }}
+{{ edit_document_button(path=section.path, document_type='category') }}
+{{ delete_document_button(path=section.path, document_type='category') }}
 
 
 {% for article in section.ordered_children() %}
 <h5>{{ article.name }}</h3>
-{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
-{{ edit_document_button(path=article.path, doc_type='article') }}
-{{ delete_document_button(path=article.path, doc_type='article') }}
+{{ view_document_button(path=article.path, warning=False) }}
+{{ edit_document_button(path=article.path, document_type='article') }}
+{{ delete_document_button(path=article.path, document_type='article') }}
 
 
 
@@ -77,18 +76,18 @@
 
 {% for article in special %}
 <h5>{{ article.name }}</h3>
-{{ view_document_button(path=article.path, doc_type='article', warning=False) }}
-{{ edit_document_button(path=article.path, doc_type='article') }}
-{{ delete_document_button(path=article.path, doc_type='article') }}
+{{ view_document_button(path=article.path, warning=False) }}
+{{ edit_document_button(path=article.path, document_type='article') }}
+{{ delete_document_button(path=article.path, document_type='article') }}
 {% endfor %}
 
 {% if lost_documents %}
 <h3>Lost Documents:</h3>
 {% for document in lost_documents %}
 <h5>{{ document.name }}</h3>
-{{ view_document_button(path=document.path, doc_type='article', warning=False) }}
-{{ edit_document_button(path=document.path, doc_type='article') }}
-{{ delete_document_button(path=document.path, doc_type='article') }}
+{{ view_document_button(path=document.path, warning=False) }}
+{{ edit_document_button(path=document.path, document_type='article') }}
+{{ delete_document_button(path=document.path, document_type='article') }}
 {% endfor %}
 {% endif %}
 

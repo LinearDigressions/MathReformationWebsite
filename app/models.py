@@ -54,33 +54,14 @@ db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
 db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 
-
-
 # RELATION TABLES
 
-# User saves articles
-saved_articles_table = db.Table('saved_articles',
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
-)
 
 # User has role(s)
 roles_table = db.Table('roles',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('role_id', db.Integer, db.ForeignKey('role.id'), primary_key=True)
 )
-
-# Article belongs to category (categories)
-article_categories_table = db.Table('article_categories',
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
-    db.Column('category_id', db.Integer, db.ForeignKey('category.id'), primary_key=True)
-)
-
-# Parent Category has Children Categories
-parent_child_table = db.Table('CategoryChild',
-    db.Column('ParentChildId', db.Integer, primary_key=True),
-    db.Column('ParentId', db.Integer, db.ForeignKey('category.id')),
-    db.Column('ChildId', db.Integer, db.ForeignKey('category.id')))
 
 bookmarked_documents_table = db.Table('bookmarked_documents',
     db.Column('document_id', db.Integer, db.ForeignKey('document.id'), primary_key=True),
@@ -95,12 +76,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
 
     # Relations
-    articles = db.relationship('Article', backref='author', lazy='dynamic')
     documents = db.relationship('Document', backref='author', lazy='dynamic')
 
-    saved_articles = db.relationship('Article', secondary = saved_articles_table,
-                                 backref=db.backref('saved_articles', lazy=True), lazy=True)
-    
     bookmarked_documents = db.relationship('Document', secondary = bookmarked_documents_table,
                                  backref=db.backref('bookmarked_users', lazy=True), lazy=True)
     
@@ -111,16 +88,6 @@ class User(UserMixin, db.Model):
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
 
     # Save Article Methods
-    def save_article(self, article):
-        if not self.has_saved_article(article):
-            self.saved_articles.append(article)
-    
-    def unsave_article(self, article):
-        if self.has_saved_article(article):
-            self.saved_articles.remove(article)
-    
-    def has_saved_article(self, article): 
-        return article in self.saved_articles
 
     def bookmark_document(self, document):
         if not self.has_bookmarked_document(document):
@@ -177,366 +144,6 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role {}>'.format(self.name)
-
-
-class Article(SearchableMixin, db.Model):
-
-    # Attributes that are indexed by search engine
-    __searchable__ = ["body_main", "name"]
-
-
-    # Attributes
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True, nullable=False)
-    path = db.Column(db.String(50), unique=True, nullable=False)
-    date_added = db.Column(db.DateTime, nullable=False,
-        default=datetime.utcnow)
-    body_main = db.Column(db.String(), index=True)
-    body_draft = db.Column(db.String(), index=True)
-    is_visible = db.Column(db.Boolean())
-    header = db.Column(db.String(), index=True)
-    order = db.Column(db.Integer())
-    next_page_url = db.Column(db.String(64))
-    prev_page_url = db.Column(db.String(50))
-    next_page_name = db.Column(db.String(50))
-    prev_page_name = db.Column(db.String(50))
-    prev_page_type = db.Column(db.String(10))
-    next_page_type = db.Column(db.String(10))
-
-
-    # Foreign key for user writing articles
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-
-    # Relations
-    categories = db.relationship('Category', secondary = article_categories_table,
-                                 backref=db.backref('articles', lazy=True), lazy=True)
-
-
-    # For generating next/prev links on article pages
-    def next_sibling(self):
-        if not self.categories:
-            return None
-
-        secondary_category = self.categories[0]
-        siblings = secondary_category.ordered_articles()
-        if len(siblings) == 0:
-            return None
-        num_siblings = len(siblings)
-        idx = np.where(siblings == self)[0][0]
-        if idx + 2 > num_siblings:
-            return None
-        else:
-            sibling = siblings[idx + 1]
-            if sibling.is_visible:
-                return sibling
-            else:
-                return sibling.next_sibling()
-
-    def prev_sibling(self):
-        if not self.categories:
-            return None
-        secondary_category = self.categories[0]
-        siblings = secondary_category.ordered_articles()
-        if len(siblings) == 0:
-            return None
-        idx = np.where(siblings == self)[0][0]
-        if idx == 0:
-            return None
-        else:
-            sibling = siblings[idx - 1]
-            if sibling.is_visible:
-                return sibling
-            else:
-                return sibling.prev_sibling()
-
-    def update_prev_page_info(self):
-        article_prev_sibling = self.prev_sibling()
-        # If prev article in same category exists, then return that article
-
-        if article_prev_sibling:
-            self.prev_page_url = url_for('main.article_page', path=article_prev_sibling.path)
-            self.prev_page_name = article_prev_sibling.name
-            self.prev_page_type = "article"
-        else:
-            
-            # If no next article, return the next secondary category.
-            category_prev_sibling = self.categories[0].prev_sibling()
-
-            if category_prev_sibling:
-
-                prev_sibling_articles = category_prev_sibling.articles
-
-                if prev_sibling_articles != []:
-                    self.prev_page_url = url_for('main.article_page', path=prev_sibling_articles[-1].path)    
-                    self.prev_page_name = prev_sibling_articles[-1].name
-                    self.prev_page_type = "article"
-                else:
-                    self.prev_page_url = url_for('main.article_page', path=category_prev_sibling.path)    
-                    self.prev_page_name = category_prev_sibling.name
-                    self.prev_page_type = "article"
-            else:
-
-                self.prev_page_url = url_for('main.category_page', path=self.categories[0].path)    
-                self.prev_page_name = self.categories[0].name
-                self.prev_page_type = "category"
-
-
-    def update_next_page_info(self):
-        article_next_sibling = self.next_sibling()
-
-        # If next article in same category exists, then return that article
-        if article_next_sibling:
-            self.next_page_url = url_for('main.article_page', path=article_next_sibling.path)
-            self.next_page_name = article_next_sibling.name
-            self.next_page_type = "article"
-        else:
-            # If no next article, return the next secondary category.
-            category_next_sibling = self.categories[0].next_sibling()
-
-            if category_next_sibling:
-                self.next_page_url = url_for('main.category_page', path=category_next_sibling.path)    
-                self.next_page_name = category_next_sibling.name
-                self.next_page_type = "category"
-            else:
-                self.next_page_url = None
-                self.next_page_name = None
-                self.next_page_type = None
-
-    def update_self_page_info(self):
-        if self.categories[0].category_type == "special":
-            return
-        self.update_prev_page_info()
-        self.update_next_page_info()
-
-    def update_neighbors_page_info(self):
-        if self.categories[0].category_type == "special":
-            return
-        if self.next_page_name != None and self.is_visible:
-            if self.next_page_type == "article":
-                Article.query.filter_by(name=self.next_page_name).first().update_prev_page_info()
-            elif self.next_page_type == "category":
-                Category.query.filter_by(name=self.next_page_name).first().update_prev_page_info()
-
-        if self.prev_page_name != None and self.is_visible:
-            if self.prev_page_type == "article":
-                Article.query.filter_by(name=self.prev_page_name).first().update_next_page_info()
-            elif self.prev_page_type == "category":
-                Category.query.filter_by(name=self.prev_page_name).first().update_next_page_info()
-                
-
-
-    def __repr__(self):
-        return '<Article {}>'.format(self.name)
-
-
-class Category(SearchableMixin, db.Model):
-
-    # Attributes that are indexed by search engine
-    __searchable__ = ["body_main", "name"]
-
-
-    # Attributes
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
-    path = db.Column(db.String(50), unique=True, nullable=False)
-    body_main = db.Column(db.String(), index=True)
-    body_draft = db.Column(db.String(), index=True)
-    header = db.Column(db.String(), index=True)
-    order = db.Column(db.Integer())
-    is_visible = db.Column(db.Boolean())
-    category_type = db.Column(db.String(10), index=True)
-    next_page_url = db.Column(db.String(50))
-    prev_page_url = db.Column(db.String(50))
-    prev_page_type = db.Column(db.String(10))
-    next_page_type = db.Column(db.String(10))
-    next_page_name = db.Column(db.String(50))
-    prev_page_name = db.Column(db.String(50))
-    
-
-
-    # Relations
-    parents = db.relationship('Category',secondary=parent_child_table,
-        primaryjoin=id == parent_child_table.c.ChildId,
-        secondaryjoin=id == parent_child_table.c.ParentId,
-        backref= db.backref('children'))
-
-
-    # For displaying articles/categories in specific order
-    def ordered_children(self):
-        if not self.children:
-            return []
-        children = np.array(self.children)
-        children_idx = np.array([child.order if child.order else 1 for child in children])
-        sorted_children_idx = np.argsort(children_idx)
-        return children[sorted_children_idx]
-
-    def ordered_articles(self):
-        if not self.articles:
-            return []
-        articles = np.array(self.articles)
-        articles_idx = np.array([article.order if article.order else 1 for article in articles])
-        sorted_articles_idx = np.argsort(articles_idx)
-        return articles[sorted_articles_idx]
-
-
-    # For getting next/prev category for articles at the beginning or end of a category
-    def next_sibling(self):
-        if self.category_type == "root":
-            return None
-
-        if not self.parents:
-            return None
-        parent = self.parents[0]
-        siblings = parent.ordered_children()
-        if len(siblings) == 0:
-            return None
-        num_siblings = len(siblings)
-        idx = np.where(siblings == self)[0][0]
-        if idx + 2 > num_siblings:
-            return None
-        else:
-            sibling = siblings[idx + 1]
-            if sibling.is_visible:
-                return sibling
-            else:
-                return sibling.next_sibling()
-
-    def prev_sibling(self):
-        if self.category_type == "root":
-            return None
-
-        if not self.parents:
-            return None
-            
-        parent = self.parents[0]
-        siblings = parent.ordered_children()
-        if len(siblings) == 0:
-            return None
-        idx = np.where(siblings == self)[0][0]
-        if idx == 0:
-            return None
-        else:
-            sibling = siblings[idx - 1]
-            if sibling.is_visible:
-                return sibling
-            else:
-                return sibling.next_sibling()
-
-
-    # To check if category has children (SHOULD CHANGE?)
-    def get_num_children(self):
-        return len(list(self.children))
-
-
-    def update_next_page_info(self):
-        if self.category_type == "special":
-            self.next_page_url = None
-            self.next_page_name = None
-            self.next_page_type = None
-        if self.category_type in ["root", "primary"]:
-            category_children = self.ordered_children()
-
-            # If category has sub categories, make the next page to the first sub categories
-            if category_children.any():
-
-                self.next_page_url = url_for('main.category_page', path=category_children[0].path)
-                self.next_page_name = category_children[0].name
-                self.next_page_type = 'category'
-
-            # If no sub categories, then look for sibling category
-            else:
-                category_next_sibling = self.next_sibling()
-
-                if category_next_sibling and self.category_type != "root":
-                    next_page_url = url_for('main.category_page', path=category_next_sibling.path)
-                    next_page_name = category_next_sibling[0].name
-                    self.next_page_type = 'category'
-                else:
-                    self.next_page_name = None
-                    self.next_page_url = None
-                    self.next_page_type = None
-
-
-        
-        # If the category can have articles, look for first available article
-        else:
-            category_ordered_articles = self.articles
-            if category_ordered_articles != []:
-                self.next_page_url = url_for('main.article_page', path=category_ordered_articles[0].path)
-                self.next_page_name = category_ordered_articles[0].name
-                self.next_page_type = 'article'
-
-            # If category has no articles, then choose sibling
-            else: 
-                category_next_sibling = self.next_sibling()
-
-                if category_next_sibling:
-                    self.next_page_url = url_for('main.category_page', path=category_next_sibling.path)
-                    self.next_page_name = category_next_sibling[0].name
-                    self.next_page_type = 'category'
-                else:
-                    self.next_page_name = None
-                    self.next_page_url = None
-                    self.next_page_type = None
-
-
-
-    def update_prev_page_info(self):
-        if self.category_type == "special":
-            self.prev_page_name = None
-            self.prev_page_url = None
-            self.prev_page_type = None
-
-        # Root category can't have previous page
-        if self.category_type == "root":
-            self.prev_page_url = None
-            self.prev_page_name = None
-            self.prev_page_type = None
-        else:
-            category_prev_sibling = self.prev_sibling()
-
-            if category_prev_sibling:
-
-                prev_sibling_articles = category_prev_sibling.ordered_articles()
-
-                if prev_sibling_articles != []:
-                    self.prev_page_url = url_for('main.article_page', path=prev_sibling_articles[-1].path)
-                    self.prev_page_name = prev_sibling_articles[-1].name
-                    self.prev_page_type = "article"
-                else:
-                    self.prev_page_url = url_for('main.category_page', path=category_prev_sibling.path)
-                    self.prev_page_name = category_prev_sibling.name
-                    self.prev_page_type = "category"
-            else:
-                self.prev_page_url = url_for('main.category_page', path=self.parents[0].path)
-                self.prev_page_name = self.parents[0].name
-                self.prev_page_type = "category"
-
-    def update_self_page_info(self):
-        if self.category_type == "special":
-            return
-        self.update_prev_page_info()
-        self.update_next_page_info()
-
-    def update_neighbors_page_info(self):
-        if self.category_type == "special":
-            return
-        if self.next_page_name != None and self.is_visible:
-            if self.next_page_type == "article":
-                Article.query.filter_by(name=self.next_page_name).first().update_prev_page_info()
-            elif self.next_page_type == "category":
-                Category.query.filter_by(name=self.next_page_name).first().update_prev_page_info()
-
-        if self.prev_page_name != None and self.is_visible:
-            if self.prev_page_type == "article":
-                Article.query.filter_by(name=self.prev_page_name).first().update_next_page_info()
-            elif self.prev_page_type == "category":
-                Category.query.filter_by(name=self.prev_page_name).first().update_next_page_info()
-                
-
-    def __repr__(self):
-        return '<Category ' + self.name +'>'
 
 
 class Document(SearchableMixin, db.Model):
@@ -617,6 +224,7 @@ class Document(SearchableMixin, db.Model):
 
     def find_next_page(self):
 
+
         if self.children != []:
             return self.ordered_children[0]
 
@@ -629,6 +237,8 @@ class Document(SearchableMixin, db.Model):
 
                 if next_sibling == None:
                     doc = doc.parent
+                    if doc==None:
+                        return None
                 else:
                     return next_sibling
 
@@ -639,11 +249,15 @@ class Document(SearchableMixin, db.Model):
 
         doc = self
 
+
         while True:
             prev_sibling = doc.find_prev_sibling()
 
             if prev_sibling == None:
                 doc = doc.parent 
+
+                if doc == None:
+                    return None
             else:
                 break
 
@@ -732,9 +346,7 @@ class AdminModelView(ModelView):
 
 # Adding admin views for all objects
 admin.add_view(AdminModelView(Feedback, db.session))
-admin.add_view(AdminModelView(Category, db.session))
 admin.add_view(AdminModelView(User, db.session))
-admin.add_view(AdminModelView(Article, db.session))
 admin.add_view(AdminModelView(Role, db.session))
 admin.add_view(AdminModelView(Task, db.session))
 admin.add_view(AdminModelView(Document, db.session))

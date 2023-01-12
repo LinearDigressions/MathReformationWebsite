@@ -98,7 +98,7 @@
 
 {% macro edit_document_button(path, document_type) -%}
 
-<a href="{{ url_for('staff.edit_document', document_type=doc_type, path=path, version='main') }}" class="btn btn-info btn-sm" role="button">Edit {{ doc_type.capitalize() }}</a>
+<a href="{{ url_for('staff.edit_document', document_type=document_type, path=path, version='main') }}" class="btn btn-info btn-sm" role="button">Edit {{ document_type.capitalize() }}</a>
 
 {%- endmacro %}
 
