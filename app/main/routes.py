@@ -22,7 +22,7 @@ def before_request():
    
     
 
-
+@bp.route("/home", methods=["GET"])
 @bp.route("/", methods=["GET"])
 @bp.route("/index", methods=["GET"])
 def index():
@@ -47,10 +47,6 @@ def profile():
     return render_template('main/profile.html', title="Profile", user=user)
 
 
-# @bp.route("/<book_path>/", methods=["POST", "GET"])
-# @bp.route("/<book_path>/<chapter_path>", methods=["POST", "GET"])
-# @bp.route("/<book_path>/<chapter_path>/<section_path>", methods=["POST", "GET"])
-# @bp.route("/<book_path>/<chapter_path>/<section_path>/<article_path>", methods=["POST", "GET"])
 @bp.route("/<path>", methods=["GET", "POST"])
 def document_page(path):
 
@@ -88,14 +84,18 @@ def document_page(path):
 
 
     breadcrumb_links = []
-    doc = document
 
-    while True:
-        breadcrumb_links.append({"name":doc.name, "path":doc.path})
-        doc = doc.parent
+    if document.document_type != "book":
+        doc = document
 
-        if doc == None:
-            break
+        while True:
+            breadcrumb_links.append({"name":doc.name, "path":doc.path})
+            doc = doc.parent
+
+            if doc == None:
+                break
+
+        breadcrumb_links = breadcrumb_links[::-1]
         
     content = {}
     content["breadcrumb_links"] = breadcrumb_links

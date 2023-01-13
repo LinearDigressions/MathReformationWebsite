@@ -180,13 +180,17 @@ class Document(SearchableMixin, db.Model):
 
     # For displaying articles/categories in specific order
     def ordered_children(self):
+        print(self.children)
 
         if self.children == []:
             return []
 
-        children_idx = np.array([child.order if child.order else 1 for child in self.children])
+        children_idx = np.array([child.order if child.order != None else 0 for child in self.children])
+        print(children_idx)
         sorted_children_idx = np.argsort(children_idx)
-        return self.children[sorted_children_idx]
+        print(sorted_children_idx)
+
+        return np.array(self.children)[sorted_children_idx]
 
 
     # For getting next/prev category for articles at the beginning or end of a category
@@ -203,7 +207,7 @@ class Document(SearchableMixin, db.Model):
                 return None
 
             else:
-                idx = siblings.index(self)
+                idx = np.where(siblings==self)[0][0]
                 return siblings[idx + 1]
 
     def find_prev_sibling(self):
@@ -219,57 +223,56 @@ class Document(SearchableMixin, db.Model):
 
             else:
 
-                idx = siblings.index(self)
+                idx = np.where(siblings==self)[0][0]
                 return siblings[idx - 1]
 
     def find_next_page(self):
 
+        return self.find_next_sibling()
+        # if self.children != []:
+        #     return self.ordered_children[0]
 
-        if self.children != []:
-            return self.ordered_children[0]
+        # else:
 
-        else:
+        #     doc = self
 
-            doc = self
+        #     while True:
+        #         next_sibling = doc.find_next_sibling()
 
-            while True:
-                next_sibling = doc.find_next_sibling()
+        #         if next_sibling == None:
+        #             doc = doc.parent
+        #             if doc==None:
+        #                 return None
+        #         else:
+        #             return next_sibling
 
-                if next_sibling == None:
-                    doc = doc.parent
-                    if doc==None:
-                        return None
-                else:
-                    return next_sibling
-
-                if doc.document_type == "book":
-                    return None
+        #         if doc.document_type == "book":
+        #             return None
     
     def find_prev_page(self):
+        return self.find_prev_sibling()
+        # doc = self
 
-        doc = self
+        # while True:
+        #     prev_sibling = doc.find_prev_sibling()
 
+        #     if prev_sibling == None:
+        #         doc = doc.parent 
 
-        while True:
-            prev_sibling = doc.find_prev_sibling()
+        #         if doc == None:
+        #             return None
+        #     else:
+        #         break
 
-            if prev_sibling == None:
-                doc = doc.parent 
+        #     if doc.document_type == "book":
+        #         return None
 
-                if doc == None:
-                    return None
-            else:
-                break
+        # while True:
 
-            if doc.document_type == "book":
-                return None
-
-        while True:
-
-            if doc.children == []:
-                return doc
-            else:
-                doc = doc.children[-1]
+        #     if doc.children == []:
+        #         return doc
+        #     else:
+        #         doc = doc.children[-1]
   
     def set_links(self):
         self.prev_page = self.find_prev_page()

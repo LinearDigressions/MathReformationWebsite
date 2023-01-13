@@ -9,17 +9,16 @@
 <h1 class="text-center">{{ document.name }}</h1>
 
 
-
+{% if breadcrumb_links != [] %}
 <ul class="breadcrumb">
     {% for link in breadcrumb_links %}
-    <li class="breadcrumb-item {% if loop.last %}active{% endif %}">
-        <a href="{{ url_for('main.document_page', path=link['path']) }}">
+    
+    <a class="breadcrumb-item {% if loop.last %}active{% endif %}" href="{{ url_for('main.document_page', path=link['path']) }}">
             {{ link['name'] }}
-        </a>
-    </li>
+    </a>
     {% endfor %}
 </ul>
-
+{% endif %}
 
 
 {% if not document.is_visible %}
@@ -33,14 +32,33 @@
 </form>
 {% endif %}
 
-{% if admin_permission.can() %} 
+{% if editor_permission.can() %} 
+{% if document.document_type != "article" %}
+<a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info" role="button">New Child</a>
+{% endif %}
 <a href="{{ url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main') }}" class="btn btn-info" role="button">Edit Document</a>
+{% endif %}
+
+{% if document.document_type != "article" %}
+<ul class="list-group mt-3">
+    {% for child in document.children %}
+    {% if child.is_visible %}
+    <li class="list-group-item">
+        <h4 class="text-center">
+            <a href = {{ url_for('main.document_page', path=child.path) }}>
+                {{ child.name }}
+            </a>
+        </h4>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
 {% endif %}
 
 
 {{ document.body_main | safe }}
 
-{{ page_navigation(next_page_name=document.next_page.name, next_page_url=document.next_page.path, prev_page_name=document.prev_page.name, prev_page_url=document.prev_page.path)}}
+{{ page_navigation(next_page=document.next_page, prev_page=document.prev_page)}}
 
 {% endblock %}
 

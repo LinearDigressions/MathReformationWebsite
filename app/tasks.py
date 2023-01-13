@@ -37,15 +37,18 @@ def export_document(user_id):
 
 
         total_documents = Document.query.count()
-        document 
 
         for document in Document.query.all():
-            parent = document.parent.name
+            if document.parent:
+                parent_path = document.parent.path
+            else:
+                parent_path = None
+            
             children = [child.name for child in document.children]
             document_type = document.document_type
             data.append({'name': document.name, 'path': document.path,'body': document.body_main,
                         'header': document.header, 'order': document.order,
-                        'parent':parent, 'children':children,
+                        'parent_path':parent_path, 'children':children,
                         'document_type': document_type})
             _set_task_progress(100 * i // total_documents)
 

@@ -84,19 +84,34 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.about')}}">About</a>
                         </li>
-                        
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Projects
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='exploring_math')}}">Exploring Math</a>                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='applying_math')}}">Applying Math</a>                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='teaching_math')}}">Teaching Math</a>                                
+                                </li>
+                            </ul>
+                        </li>
+
                         {% if editor_permission.can() %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('staff.editor_home') }}">Editor</a> 
+                            <a class="nav-link" href="{{ url_for('staff.editor_home') }}">Editor Home</a> 
                         </li>
                         {% elif author_permission.can() %} 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('staff.author_home') }}">Author</a> 
+                            <a class="nav-link" href="{{ url_for('staff.author_home') }}">Author Home</a> 
                         </li>
                         {% endif %}
                         {% if g.search_form %}
-                        <form class="d-flex input-group" method="get" action="{{ url_for('main.search') }}">
-                                {{ g.search_form.q(class='form-control border-info',aria_describedby="button-addon2", placeholder=g.search_form.q.label.text) }}
+                        <form class="d-flex" method="get" action="{{ url_for('main.search') }}">
+                                {{ g.search_form.q(class='form-control border-info me-2',aria_describedby="button-addon2", placeholder=g.search_form.q.label.text) }}
                                 <button type=submit class="btn btn-info" id="button-addon2">
                                     <i class="bi bi-search"></i>
                                 </button>

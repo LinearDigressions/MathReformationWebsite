@@ -90,7 +90,7 @@
         {% endfor %}
     </select>
     {% for error in field.errors %}
-        <span style="color: red;">[{{ error }}]</span>
+    <p class="text-danger">{{ error }}</p>
     {% endfor %}
 </div>
 

@@ -1,4 +1,4 @@
-2023-01-12 15:35:10,084 ERROR: Exception on /edit/book/9200832520150949333710/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 17:20:15,418 ERROR: Exception on /edit/article/intermediate_value_theorem/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,49 +10,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 266, in edit_document
-    return render_template('staff/edit_document.html', **content)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
-    return _render(app, template, context)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
-    rv = template.render(context)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/edit_document.html", line 3, in top-level template code
-    {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/base.html", line 150, in top-level template code
-    {% block content %}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/staff/edit_document.html", line 81, in block 'content'
-    {{ delete_document_button(path=doc.path, document_type=document_type) }}
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 485, in getattr
-    return getattr(obj, attribute)
-jinja2.exceptions.UndefinedError: 'doc' is undefined
-2023-01-12 15:37:44,595 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 15:39:22,477 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 15:45:07,026 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 15:45:53,016 ERROR: Exception on /edit/book/9200832520150949333710/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 202, in edit_document
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 208, in edit_document
     document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 268, in set_links
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 278, in set_links
     self.prev_page = self.find_prev_page()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 257, in find_prev_page
-    if doc.document_type == "book":
-AttributeError: 'NoneType' object has no attribute 'document_type'
-2023-01-12 15:47:42,655 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 15:47:43,257 ERROR: Exception on /edit/book/9200832520150949333710/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 218, in find_prev_sibling
+    siblings = self.parent.ordered_children()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 192, in ordered_children
+    return self.children[children_idx]
+TypeError: list indices must be integers or slices, not list
+2023-01-12 17:20:35,344 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 17:20:37,400 ERROR: Exception on /edit/article/intermediate_value_theorem/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -64,15 +34,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 202, in edit_document
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 208, in edit_document
     document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 272, in set_links
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 278, in set_links
     self.prev_page = self.find_prev_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 256, in find_prev_page
-    if doc.parent == None:
-AttributeError: 'NoneType' object has no attribute 'parent'
-2023-01-12 15:47:58,655 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 15:47:59,394 ERROR: Exception on /edit/book/9200832520150949333710/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 257, in find_prev_page
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 218, in find_prev_sibling
+    siblings = self.parent.ordered_children()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 192, in ordered_children
+    return self.children[children_idx]
+TypeError: list indices must be integers or slices, not list
+2023-01-12 17:28:11,544 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 17:28:12,168 ERROR: Exception on /edit/article/intermediate_value_theorem/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -84,11 +58,13 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 202, in edit_document
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 208, in edit_document
     document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 273, in set_links
-    self.next_page = self.find_next_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 242, in find_next_page
-    if doc.document_type == "book":
-AttributeError: 'NoneType' object has no attribute 'document_type'
-2023-01-12 15:48:35,130 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 279, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 258, in find_prev_page
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 226, in find_prev_sibling
+    idx = siblings.index(self)
+AttributeError: 'numpy.ndarray' object has no attribute 'index'
+2023-01-12 17:29:26,026 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]

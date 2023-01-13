@@ -41,24 +41,24 @@
 {% for book in books %}
 <h2>{{ book.name }}</h2>
 {{ view_document_button(path=book.path, warning=False) }}
-{{ edit_document_button(path=book.path, document_type='category') }}
-{{ delete_document_button(path=book.path, document_type='category') }}
+{{ edit_document_button(path=book.path, document_type='book') }}
+{{ delete_document_button(path=book.path, document_type='book') }}
 
 
 {% for chapter in book.ordered_children() %}
 
 <h3>{{ chapter.name }}</h2>
 {{ view_document_button(path=chapter.path, warning=False) }}
-{{ edit_document_button(path=chapter.path, document_type='category') }}
-{{ delete_document_button(path=chapter.path, document_type='category') }}
+{{ edit_document_button(path=chapter.path, document_type='chapter') }}
+{{ delete_document_button(path=chapter.path, document_type='chapter') }}
 
 
 {% for section in chapter.ordered_children() %}
 
 <h4>{{ section.name }}</h3>
 {{ view_document_button(path=section.path, warning=False) }}
-{{ edit_document_button(path=section.path, document_type='category') }}
-{{ delete_document_button(path=section.path, document_type='category') }}
+{{ edit_document_button(path=section.path, document_type='section') }}
+{{ delete_document_button(path=section.path, document_type='section') }}
 
 
 {% for article in section.ordered_children() %}

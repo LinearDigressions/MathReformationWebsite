@@ -10,7 +10,7 @@ def make_shell_context():
     return {'db': db,'User': User,'Feedback':Feedback, 'Role':Role, 'Task':Task, 'Document':Document}
 
 
-# Adding permissions so that they are available on every page
+# Adding permissions so that they are available on every page/template
 @app.context_processor
 def add_imports():
     return dict(admin_permission=admin_permission, author_permission=author_permission, editor_permission=editor_permission, g=g)

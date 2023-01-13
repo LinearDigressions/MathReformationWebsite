@@ -12,6 +12,8 @@ from markdown import markdown
 import random
 from flask_principal import identity_changed, Identity
 
+child2parent = {"book":None, "chapter":"book", "section":"chapter","article":"section", "special":None}
+parent2child = {"book":"chapter","chapter":"section","section":"article","article":None, "special":None}
 
 # I modified the flask_mde in two ways.
 # I commented out the sanitizeTag function in Markdown.Sanitizer.js to allow for all html rendering
@@ -26,6 +28,9 @@ from flask_principal import identity_changed, Identity
 @login_required
 @author_permission.require(http_exception=403)
 def author_home():
+
+    if editor_permission.can():
+        return redirect(url_for('staff.editor_home'))
 
 
     add_photo_form = AddPhotoForm()
@@ -77,35 +82,38 @@ def editor_home():
                             files=files, 
                             title="Editor Home")
 
-
 @bp.route("/create/<document_type>/<parent_path>", methods=["GET", "POST"])
-@bp.route("/create/<document_type>/", methods=["GET", "POST"])
+@bp.route("/create/<document_type>", methods=["GET", "POST"])
+@bp.route("/create/", methods=["GET", "POST"])
 @login_required
 @author_permission.require(http_exception=403)
-def new_document(document_type, parent_path=None):
+def new_document(document_type=None, parent_path=None):
 
-    if document_type not in ["book", "chapter","section","article"]:
-        abort(500)
 
-    new_doc_num = str(random.randint(0, 10000000000000000000000))
+    document_number = str(random.randint(0, 10000000000000000000000))
 
-    while Document.query.filter_by(name=new_doc_num).first() != None:
-        new_doc_num = str(random.randint(0, 10000000000000000000000))
+    while Document.query.filter_by(name=document_number).first() != None:
+        document_number = str(random.randint(0, 10000000000000000000000))
     
 
-    new_doc = Document(name=new_doc_num, path=new_doc_num)
+    document = Document(name=document_number, path=document_number)
+    parent = Document.query.filter_by(path=parent_path).first()
 
-    new_doc.author = current_user
-    new_doc.document_type = document_type
-    parent = Document.query.filter_by(name=parent_path).first()
-    new_doc.parent = parent
+    document.order = 1
+    document.author = current_user
+    document.parent = parent
 
-    new_doc.order = 1
+    if document_type != None:
+        document.document_type = document_type
+    elif document.parent != None:
+        document.document_type = parent2child[document.parent.document_type]
+    else:
+        document.document_type = "article"
     
-    db.session.add(new_doc)
+    db.session.add(document)
     db.session.commit()
 
-    return redirect(url_for('staff.edit_document', document_type=document_type, path=new_doc_num, version='main'))
+    return redirect(url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main'))
 
 @bp.route("/edit/<document_type>/<path>/<version>", methods=["GET", "POST"])
 @login_required
@@ -113,7 +121,7 @@ def edit_document(document_type, path, version):
 
 
     # Checking version and doc_type
-    if version not in ["main", "draft"] or document_type not in ["book","chapter","section", "article"]:
+    if version not in ["main", "draft"] or document_type not in ["book","chapter","section", "article", "special"]:
         abort(404)
         
     # Initializing Multiple Select attributes
@@ -131,33 +139,26 @@ def edit_document(document_type, path, version):
 
 
     # CHECKING PERMISSIONS
-    if document_type in ["book", "section", "chapter"] and not editor_permission.can():
+    if document_type in ["book", "section", "chapter", "special"] and not editor_permission.can():
             abort(403)
-    elif document_type == "article" and not (EditArticlePermission(document.id).can() or admin_permission.can()):
+    elif document_type == "article" and not (EditArticlePermission(document.id).can() or editor_permission.can() or admin_permission.can()):
             abort(403)
 
 
     # GETTING OPTIONS
 
-       
-    form.document_type.choices = [(doc_type, doc_type.capitalize()) for doc_type in ["special", "book","chapter","section","article"]]
+    if not editor_permission.can():
+        form.document_type.choices = [("article", "Article")]
+    else:
+        form.document_type.choices = [(doc_type, doc_type.capitalize()) for doc_type in ["special", "book","chapter","section","article"]]
 
     # Selecting only the allowable parents/children/articles for each category type
-    if document_type == "book":
-        form.parent.choices = [("none", "None")]
-        form.children.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="chapter")]
-    elif document_type == "chapter":
-        form.parent.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="book")]
-        form.children.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="section")]
-    elif document_type == "section":
-        form.parent.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="chapter")]
-        form.children.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="article")]
-    elif document_type == "article":
-        form.parent.choices =[(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="section")]
-        form.children.choices=[("none", "None")]
-    elif document_type == "special":
-        form.parent.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(category_type="special")]
-        form.children.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type="article")]
+
+    form.parent.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type=child2parent[document_type])]
+    form.children.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type=parent2child[document_type])]
+
+    form.parent.choices.append(("none", "None"))
+    form.children.choices.append(("none", "None"))
 
 
     if form.validate_on_submit():
@@ -211,14 +212,15 @@ def edit_document(document_type, path, version):
         # Switches view if needed
         if form.save_draft_to_main.data:
             flash("Switching to Main View")
-            return redirect(url_for('staff.edit_document', path=document.path, document_type=document_type, version="main"))
+            return redirect(url_for('staff.edit_document', path=document.path, document_type=document.document_type, version="main"))
         elif form.save_main_to_draft.data:
             flash("Switching to Draft View")
-            return redirect(url_for('staff.edit_document', path=document.path, document_type=document_type, version="draft"))
+            return redirect(url_for('staff.edit_document', path=document.path, document_type=document.document_type, version="draft"))
         elif form.save_and_exit.data:
+
             return redirect(url_for('staff.author_home'))
         elif form.submit_continue_editing.data:
-            return redirect(url_for('staff.edit_document', path=document.path, document_type=document_type, version=version))
+            return redirect(url_for('staff.edit_document', path=document.path, document_type=document.document_type, version=version))
 
 
 
@@ -233,8 +235,13 @@ def edit_document(document_type, path, version):
     if document.parent != None:
         selected_parent = json.dumps([str(document.parent.id)])
     else:
-        selected_parent = None
-    selected_children = json.dumps([str(child.id) for child in document.children])
+        selected_parent = json.dumps(["none"])
+
+    if document.children != None:
+        selected_children = json.dumps([str(child.id) for child in document.children])
+    else:
+        selected_parent = json.dumps(["none"])
+
     selected_document_type = json.dumps([document.document_type])
 
     form.header.data = document.header
@@ -263,7 +270,9 @@ def edit_document(document_type, path, version):
     content["setname"] = photos.name
     content["files"] = files
 
-    flash(form.errors)
+    content["title"] = "Document Editor"
+
+    #flash(form.errors)
     return render_template('staff/edit_document.html', **content)
 
 
@@ -301,13 +310,15 @@ def delete_file(item_type, item_name):
     if not admin_permission.can() and item_type != "article":
         abort(403)
 
+    
+
     if item_type == "photos":
         path = photos.path(item_name)
         os.remove(path)
         flash(item_name + " file deleted.")
         return redirect(url_for('staff.author_home'))
 
-    elif item_type == "document":
+    elif item_type in ["chapter", "section", "article", "book"]:
         document = db.first_or_404(Document.query.filter_by(path=item_name))
 
         document.remove_links()

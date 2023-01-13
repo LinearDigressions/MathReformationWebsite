@@ -38,9 +38,9 @@
 {% for article in authored_articles %}
 <li class="list-group-item">
     <h5>{{ article.name }}</h5>
-    {{ view_document_button(path=article.path, doc_type='article', warning=False) }}
-    {{ edit_document_button(path=article.path, doc_type='article') }}
-    {{ delete_document_button(path=article.path, doc_type='article') }}
+    {{ view_document_button(path=article.path, warning=False) }}
+    {{ edit_document_button(path=article.path, document_type='article') }}
+    {{ delete_document_button(path=article.path, document_type='article') }}
 </li>
 
 
