@@ -87,24 +87,33 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Projects
+                              Digital Books
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li>
-                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='exploring_math')}}">Exploring Math</a>                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='applying_math')}}">Applying Math</a>                                </li>
+                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='exploring_math')}}">Exploring Mathematics</a>                                
+                                </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ url_for('main.document_page', path='teaching_math')}}">Teaching Math</a>                                
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('main.document_page', path='applicability_of_math_problem')}}">Applicability of Mathematics Problem</a>                                
+                                </li>
+                                
                             </ul>
                         </li>
 
+                        {% if admin_permission.can() %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin_home">Admin Home</a> 
+                        </li>
+                        {% endif %}
                         {% if editor_permission.can() %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('staff.editor_home') }}">Editor Home</a> 
                         </li>
-                        {% elif author_permission.can() %} 
+                        {% endif %}
+                        {% if author_permission.can() %} 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('staff.author_home') }}">Author Home</a> 
                         </li>

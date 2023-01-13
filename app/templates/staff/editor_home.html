@@ -22,73 +22,132 @@
 {% endblock %}
 
 
+
 {% block content %}
-{{ add_photo_button(field=add_photo_form) }}
-{{ photo_viewer_button(files, can_delete=True, btn_name="View/Delete Photos") }}
+<h1 class="text-center">Editor Home:</h1>
 
-<a href="{{ url_for('staff.new_document', document_type='book', version='main') }}" class="btn btn-info" role="button">New Book</a>
-<a href="{{ url_for('staff.new_document', document_type='chapter', version='main') }}" class="btn btn-info" role="button">New Chapter</a>
-<a href="{{ url_for('staff.new_document', document_type='section', version='main') }}" class="btn btn-info" role="button">New Section</a>
-<a href="{{ url_for('staff.new_document', document_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
+<div class="text-center">
+    {{ add_photo_button(field=add_photo_form) }}
+    {{ photo_viewer_button(files, can_delete=True, btn_name="View/Delete Photos") }}
 
-{% if not current_user.get_task_in_progress('export_document') %}
-<a href="{{ url_for('staff.export') }}" class="btn btn-info" role="button">Export Documents</a>
-{% endif %}
+    {% if not current_user.get_task_in_progress('export_document') %}
+    <a href="{{ url_for('staff.export') }}" class="btn btn-info" role="button">Export Documents</a>
+    {% endif %}
+</div>
+
+<div class="mt-3 mb-3 text-center">
+    <a href="{{ url_for('staff.new_document', document_type='book', version='main') }}" class="btn btn-info" role="button">New Book</a>
+    <a href="{{ url_for('staff.new_document', document_type='chapter', version='main') }}" class="btn btn-info" role="button">New Chapter</a>
+    <a href="{{ url_for('staff.new_document', document_type='section', version='main') }}" class="btn btn-info" role="button">New Section</a>
+    <a href="{{ url_for('staff.new_document', document_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
+</div>
+
 
 
 
 
 {% for book in books %}
-<h2>{{ book.name }}</h2>
-{{ view_document_button(path=book.path, warning=False) }}
-{{ edit_document_button(path=book.path, document_type='book') }}
-{{ delete_document_button(path=book.path, document_type='book') }}
+<ul class="list-group mt-3 mb-3">
+    <li class="list-group-item list-group-item-primary">
+        <h2>{{ book.name }}</h2>
+        {{ view_document_button(path=book.path, warning=False) }}
+        {{ edit_document_button(path=book.path, document_type='book') }}
+        {{ delete_document_button(path=book.path, document_type='book') }}
+    </li>
 
+    {% for chapter in book.ordered_children() %}
 
-{% for chapter in book.ordered_children() %}
+    <li class="list-group-item list-group-item-dark">
+        <h3>{{ chapter.name }}</h3>
+        {{ view_document_button(path=chapter.path, warning=False) }}
+        {{ edit_document_button(path=chapter.path, document_type='chapter') }}
+        {{ delete_document_button(path=chapter.path, document_type='chapter') }}
+    </li>
 
-<h3>{{ chapter.name }}</h2>
-{{ view_document_button(path=chapter.path, warning=False) }}
-{{ edit_document_button(path=chapter.path, document_type='chapter') }}
-{{ delete_document_button(path=chapter.path, document_type='chapter') }}
+    {% for section in chapter.ordered_children() %}
 
+    <li class="list-group-item list-group-item-dark">
+        <h4>{{ section.name }}</h4>
+        {{ view_document_button(path=section.path, warning=False) }}
+        {{ edit_document_button(path=section.path, document_type='section') }}
+        {{ delete_document_button(path=section.path, document_type='section') }}
+    </li>
 
-{% for section in chapter.ordered_children() %}
+    {% for article in section.ordered_children() %}
+        
+    <li class="list-group-item list-group-item-light">
+        <h5>{{ article.name }}</h5>
+        {{ view_document_button(path=article.path, warning=False) }}
+        {{ edit_document_button(path=article.path, document_type='article') }}
+        {{ delete_document_button(path=article.path, document_type='article') }}
+    </li>
+        
+    {% endfor %}
+    {% endfor %}
+    {% endfor %}
 
-<h4>{{ section.name }}</h3>
-{{ view_document_button(path=section.path, warning=False) }}
-{{ edit_document_button(path=section.path, document_type='section') }}
-{{ delete_document_button(path=section.path, document_type='section') }}
-
-
-{% for article in section.ordered_children() %}
-<h5>{{ article.name }}</h3>
-{{ view_document_button(path=article.path, warning=False) }}
-{{ edit_document_button(path=article.path, document_type='article') }}
-{{ delete_document_button(path=article.path, document_type='article') }}
-
+</ul>
 
 
 {% endfor %}
-{% endfor %}
-{% endfor %}
-{% endfor %}
 
-{% for article in special %}
-<h5>{{ article.name }}</h3>
-{{ view_document_button(path=article.path, warning=False) }}
-{{ edit_document_button(path=article.path, document_type='article') }}
-{{ delete_document_button(path=article.path, document_type='article') }}
-{% endfor %}
+{% if special_documents %}
+
+
+<ul class="list-group mt-3 mb-3">
+    <li class="list-group-item list-group-item-primary">
+        <h3>Special Documents</h3>
+    </li>
+    {% for document in special_documents %}
+    <li class="list-group-item list-group-item-light">
+        <h5>{{ document.name }}</h5>
+        {{ view_document_button(path=document.path, warning=False) }}
+        {{ edit_document_button(path=document.path, document_type=document.document_type) }}
+        {{ delete_document_button(path=document.path, document_type=document.document_type) }}
+    </li>
+    
+    {% endfor %}
+</ul>
+
+{% endif %}
+
+{% if invisible_documents %}
+
+
+<ul class="list-group mt-3 mb-3">
+    <li class="list-group-item list-group-item-primary">
+        <h3>Invisible Documents</h3>
+    </li>
+    {% for document in invisible_documents %}
+    <li class="list-group-item list-group-item-light">
+        <h5>{{ document.name }}</h5>
+        {{ view_document_button(path=document.path, warning=False) }}
+        {{ edit_document_button(path=document.path, document_type=document.document_type) }}
+        {{ delete_document_button(path=document.path, document_type=document.document_type) }}
+    </li>
+    
+    {% endfor %}
+</ul>
+
+{% endif %}
 
 {% if lost_documents %}
-<h3>Lost Documents:</h3>
-{% for document in lost_documents %}
-<h5>{{ document.name }}</h3>
-{{ view_document_button(path=document.path, warning=False) }}
-{{ edit_document_button(path=document.path, document_type='article') }}
-{{ delete_document_button(path=document.path, document_type='article') }}
-{% endfor %}
+<ul class="list-group mt-3 mb-3">
+    <li class="list-group-item">
+        <h3>Lost Documents</h3>
+
+    </li>
+    {% for document in lost_documents %}
+    <li class="list-group-item list-group-item-light">
+
+        <h5>{{ document.name }}</h5>
+        {{ view_document_button(path=document.path, warning=False) }}
+        {{ edit_document_button(path=document.path, document_type='article') }}
+        {{ delete_document_button(path=document.path, document_type='article') }}
+    </li>
+    {% endfor %}
+</ul>
+
 {% endif %}
 
 

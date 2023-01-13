@@ -29,8 +29,8 @@ parent2child = {"book":"chapter","chapter":"section","section":"article","articl
 @author_permission.require(http_exception=403)
 def author_home():
 
-    if editor_permission.can():
-        return redirect(url_for('staff.editor_home'))
+    # if editor_permission.can():
+    #     return redirect(url_for('staff.editor_home'))
 
 
     add_photo_form = AddPhotoForm()
@@ -67,7 +67,9 @@ def editor_home():
 
 
     books = Document.query.filter_by(document_type="book")
-    special = Document.query.filter_by(document_type="special")
+    special_documents = Document.query.filter_by(document_type="special")
+
+    invisible_documents = Document.query.filter_by(is_visible=False)
 
 
     lost_documents = [doc for doc in Document.query.filter_by(parent=None) if doc.document_type not in ["book", "special"]]
@@ -75,7 +77,8 @@ def editor_home():
 
     return render_template('staff/editor_home.html', 
                             books=books,
-                            special=special,
+                            special_documents=special_documents,
+                            invisible_documents=invisible_documents,
                             lost_documents=lost_documents,
                             add_photo_form=add_photo_form, 
                             setname=photos.name, 
@@ -201,8 +204,10 @@ def edit_document(document_type, path, version):
 
         if document.is_visible:
             document.set_links()
+            document.make_visible_on_index()
         else:
             document.remove_links()
+            document.make_invisible_on_index()
 
 
 

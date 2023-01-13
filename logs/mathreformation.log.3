@@ -1,4 +1,19 @@
-2023-01-12 17:29:26,359 ERROR: Exception on /edit/article/intermediate_value_theorem/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 19:42:20,200 ERROR: Exception on /export/ [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 598, in connect
+    sock = self.retry.call_with_retry(
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/retry.py", line 46, in call_with_retry
+    return do()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 599, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 664, in _connect
+    raise err
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 652, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,50 +25,49 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 208, in edit_document
-    document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 280, in set_links
-    self.next_page = self.find_next_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 240, in find_next_page
-    next_sibling = doc.find_next_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 200, in find_next_sibling
-    if self.parent == None:
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/attributes.py", line 482, in __get__
-    return self.impl.get(state, dict_)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/attributes.py", line 942, in get
-    value = self._fire_loader_callables(state, key, passive)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/attributes.py", line 978, in _fire_loader_callables
-    return self.callable_(state, passive)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/strategies.py", line 912, in _load_for_state
-    return self._emit_lazyload(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/strategies.py", line 996, in _emit_lazyload
-    return loading.load_on_pk_identity(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/loading.py", line 530, in load_on_pk_identity
-    session.execute(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 1662, in execute
-    ) = compile_state_cls.orm_pre_session_exec(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/context.py", line 312, in orm_pre_session_exec
-    session._autoflush()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 2248, in _autoflush
-    self.flush()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 3444, in flush
-    self._flush(objects)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 3584, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
-    compat.raise_(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
-    raise exception
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 3544, in _flush
-    flush_context.execute()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 447, in execute
-    for subset in topological.sort_as_subsets(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/sqlalchemy/util/topological.py", line 32, in sort_as_subsets
-    raise CircularDependencyError(
-sqlalchemy.exc.CircularDependencyError: Circular dependency detected. (ProcessState(ManyToOneDP(Document.prev_page), <Document at 0x10c888c10>, delete=False), ProcessState(OneToManyDP(Document.next_page), <Document at 0x10c888c10>, delete=False), SaveUpdateState(<Document at 0x10c888c10>))
-2023-01-12 17:42:35,663 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 17:44:11,136 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 17:47:16,854 ERROR: Exception on /differential_calculus [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 343, in export
+    current_user.launch_task('export_document','Exporting Documents...')
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 127, in launch_task
+    rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, *args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 514, in enqueue
+    return self.enqueue_call(
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 410, in enqueue_call
+    return self.enqueue_job(job, pipeline=pipeline, at_front=at_front)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 572, in enqueue_job
+    job.save(pipeline=pipe)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 696, in save
+    if self.get_redis_server_version() >= (4, 0, 0):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 704, in get_redis_server_version
+    self.redis_server_version = get_version(self.connection)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/utils.py", line 281, in get_version
+    return tuple(int(i) for i in connection.info("server")["redis_version"].split('.')[:3])
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/commands/core.py", line 972, in info
+    return self.execute_command("INFO", section, *args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/client.py", line 1255, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 1389, in get_connection
+    connection.connect()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 604, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
+2023-01-12 19:43:41,592 ERROR: Exception on /export/ [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 598, in connect
+    sock = self.retry.call_with_retry(
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/retry.py", line 46, in call_with_retry
+    return do()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 599, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 664, in _connect
+    raise err
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 652, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -63,22 +77,41 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 106, in document_page
-    return render_template('main/document.html', **content, title=document.name)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/templating.py", line 146, in render_template
-    template = app.jinja_env.get_or_select_template(template_name_or_list)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
-    return self.get_template(template_name_or_list, parent, globals)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 1010, in get_template
-    return self._load_template(name, globals)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 969, in _load_template
-    template = self.loader.load(self, name, self.make_globals(globals))
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/loaders.py", line 138, in load
-    code = environment.compile(source, name, filename)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 768, in compile
-    self.handle_exception(source=source_hint)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/templates/main/document.html", line 55, in template
-    {% endif %}
-jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endif'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
+    rv = f(*args, **kw)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 343, in export
+    current_user.launch_task('export_document','Exporting Documents...')
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 127, in launch_task
+    rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, *args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 514, in enqueue
+    return self.enqueue_call(
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 410, in enqueue_call
+    return self.enqueue_job(job, pipeline=pipeline, at_front=at_front)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 572, in enqueue_job
+    job.save(pipeline=pipe)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 696, in save
+    if self.get_redis_server_version() >= (4, 0, 0):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 704, in get_redis_server_version
+    self.redis_server_version = get_version(self.connection)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/utils.py", line 281, in get_version
+    return tuple(int(i) for i in connection.info("server")["redis_version"].split('.')[:3])
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/commands/core.py", line 972, in info
+    return self.execute_command("INFO", section, *args, **kwargs)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/client.py", line 1255, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 1389, in get_connection
+    connection.connect()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 604, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
+2023-01-12 19:46:36,186 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 19:47:33,961 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-12 19:47:34,035 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-12 19:47:34,035 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
+2023-01-12 19:47:34,098 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:59]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 40, in export_document
+    document
+UnboundLocalError: local variable 'document' referenced before assignment

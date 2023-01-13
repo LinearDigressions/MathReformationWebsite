@@ -1,4 +1,4 @@
-2023-01-12 16:19:15,551 ERROR: Exception on /create/exploring_math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 16:26:52,325 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -10,11 +10,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
-    rv = f(*args, **kw)
-TypeError: new_document() missing 1 required positional argument: 'document_type'
-2023-01-12 16:19:39,364 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 16:19:41,849 ERROR: Exception on /create/exploring_math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 276, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 255, in find_prev_page
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 216, in find_prev_sibling
+    siblings = self.parent.ordered_children()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 190, in ordered_children
+    return self.children[sorted_children_idx]
+TypeError: only integer scalar arrays can be converted to a scalar index
+2023-01-12 16:27:55,333 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:27:57,818 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -26,13 +34,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
-    rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 110, in new_document
-    return redirect(url_for('staff.edit_document', document_type=document_type, path=new_doc_num, version='main'))
-NameError: name 'document_type' is not defined
-2023-01-12 16:20:58,576 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 16:21:00,512 ERROR: Exception on /create/exploring_math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 276, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 255, in find_prev_page
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 216, in find_prev_sibling
+    siblings = self.parent.ordered_children()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 190, in ordered_children
+    return self.children[sorted_children_idx]
+TypeError: only integer scalar arrays can be converted to a scalar index
+2023-01-12 16:28:16,950 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:28:17,635 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -44,21 +58,19 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
-    rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 110, in new_document
-    return redirect(url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main'))
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/helpers.py", line 256, in url_for
-    return current_app.url_for(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'staff.edit_document' with values ['path', 'version']. Did you forget to specify values ['document_type']?
-2023-01-12 16:22:11,884 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 16:22:16,199 ERROR: Exception on /create/exploring_math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 277, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 256, in find_prev_page
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 217, in find_prev_sibling
+    siblings = self.parent.ordered_children()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 191, in ordered_children
+    return self.children[sorted_children_idx]
+TypeError: only integer scalar arrays can be converted to a scalar index
+2023-01-12 16:28:32,934 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:28:33,612 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -70,17 +82,15 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
-    rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 110, in new_document
-    return redirect(url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main'))
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/helpers.py", line 256, in url_for
-    return current_app.url_for(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'staff.edit_document' with values ['path', 'version']. Did you forget to specify values ['document_type']?
-2023-01-12 16:23:42,531 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
+    document.set_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 277, in set_links
+    self.prev_page = self.find_prev_page()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 256, in find_prev_page
+    prev_sibling = doc.find_prev_sibling()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 217, in find_prev_sibling
+    siblings = self.parent.ordered_children()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 191, in ordered_children
+    return self.children[sorted_children_idx]
+TypeError: only integer scalar arrays can be converted to a scalar index
+2023-01-12 16:29:04,987 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]

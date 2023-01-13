@@ -17,6 +17,7 @@
             {{ link['name'] }}
     </a>
     {% endfor %}
+    
 </ul>
 {% endif %}
 
@@ -25,31 +26,40 @@
 <h5 class="badge bg-info">Article Invisible</h5>
 {% endif %}
 
+
 {% if user %} 
-<form action="" method="post" novalidate>
+<form action="" method="post" class="form-inline" novalidate>
     {{ form.hidden_tag() }}
-    {{ form.submit(class="btn btn-success") }}
+    <button name="submit" class="btn btn-success">
+        {% if is_bookmarked %} 
+        <i class="bi bi-bookmark-fill"></i>
+        {% else %} 
+        <i class="bi bi-bookmark"></i>
+        {% endif %}
+    </button>
 </form>
 {% endif %}
 
-{% if editor_permission.can() %} 
-{% if document.document_type != "article" %}
-<a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info" role="button">New Child</a>
-{% endif %}
-<a href="{{ url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main') }}" class="btn btn-info" role="button">Edit Document</a>
-{% endif %}
+<div class="text-center mt-1">
+    {% if editor_permission.can() %} 
+    {% if document.document_type != "article" %}
+    <a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info" role="button">New Child</a>
+    {% endif %}
+    <a href="{{ url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main') }}" class="btn btn-info" role="button">Edit Document</a>
+    {% endif %}
+</div>
+
 
 {% if document.document_type != "article" %}
 <ul class="list-group mt-3">
+
     {% for child in document.children %}
     {% if child.is_visible %}
-    <li class="list-group-item">
+    <a class="list-group-item" href = {{ url_for('main.document_page', path=child.path) }}>
         <h4 class="text-center">
-            <a href = {{ url_for('main.document_page', path=child.path) }}>
                 {{ child.name }}
-            </a>
         </h4>
-    </li>
+    </a>
     {% endif %}
     {% endfor %}
 </ul>

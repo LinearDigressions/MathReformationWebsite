@@ -32,6 +32,8 @@ class SearchableMixin(object):
                             'update': list(session.dirty), 
                             'delete': list(session.deleted)}
 
+  
+
     @classmethod
     def after_commit(cls, session):
         for obj in session._changes['add']:
@@ -177,15 +179,22 @@ class Document(SearchableMixin, db.Model):
     parent_id = db.Column(db.Integer(), db.ForeignKey("document.id"))
     children = db.relationship("Document", backref=backref("parent", remote_side=[id]), foreign_keys=[parent_id])
 
+    def make_visible_on_index(self):
+        add_to_index(self.__tablename__, self)
+
+    def make_invisible_on_index(self):
+        remove_from_index(self.__tablename__, self)
 
     # For displaying articles/categories in specific order
     def ordered_children(self):
         print(self.children)
 
+        children = [child for child in self.children if child.is_visible]
+
         if self.children == []:
             return []
 
-        children_idx = np.array([child.order if child.order != None else 0 for child in self.children])
+        children_idx = np.array([child.order if child.order != None else 0 for child in children])
         print(children_idx)
         sorted_children_idx = np.argsort(children_idx)
         print(sorted_children_idx)
@@ -228,7 +237,15 @@ class Document(SearchableMixin, db.Model):
 
     def find_next_page(self):
 
-        return self.find_next_sibling()
+        if self.children != []:
+            return self.children[0]
+
+        next_sibling = self.find_next_sibling()
+
+        if next_sibling == None and self.parent != None:
+            return self.parent.find_next_sibling()
+        else:
+            return next_sibling
         # if self.children != []:
         #     return self.ordered_children[0]
 
@@ -250,7 +267,14 @@ class Document(SearchableMixin, db.Model):
         #             return None
     
     def find_prev_page(self):
-        return self.find_prev_sibling()
+
+        prev_sibling = self.find_prev_sibling()
+
+        if prev_sibling == None and self.parent != None:
+            return self.parent
+        else:
+            return prev_sibling
+
         # doc = self
 
         # while True:
@@ -281,8 +305,13 @@ class Document(SearchableMixin, db.Model):
     def remove_links(self):
         if self.prev_page == None and self.next_page == None:
             return
-
-        self.prev_page.next_page = self.next_page.prev_page
+        elif self.prev_page == None:
+            self.next_page.prev_page = None
+        elif self.next_page == None:
+            self.prev_page.next_page = None
+        else:
+            self.prev_page.next_page = self.next_page.prev_page
+            
         self.prev_page = None
         self.next_page = None
 

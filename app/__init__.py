@@ -8,11 +8,19 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_principal import Principal
 from flask_admin import Admin
+from flask_admin.contrib import rediscli
+from flask_admin.contrib.fileadmin import FileAdmin
+import os.path as op
+
 from flask_mde import Mde
 from flask_uploads import IMAGES, UploadSet, configure_uploads
 from flaskext.markdown import Markdown
 from elasticsearch import Elasticsearch
 from flask_mail import Mail
+from flask_compress import Compress
+from flask_assets import Environment, Bundle
+
+
 
 # For background tasks
 from redis import Redis
@@ -33,9 +41,11 @@ db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 principals = Principal()
-admin = Admin()
+admin = Admin(url="/admin_home")
 mde = Mde()
 mail = Mail()
+compress = Compress()
+assets = Environment()
 
 # Creating Photo Manager
 photos = UploadSet("photos", IMAGES)
@@ -71,6 +81,8 @@ def create_app(config_class=Config):
     mde.init_app(app)
     Markdown(app)
     mail.init_app(app)
+    compress.init_app(app)
+    assets.init_app(app)
 
 
     # Registering Photo Manager
@@ -88,7 +100,12 @@ def create_app(config_class=Config):
     # Background tasks
     app.redis = Redis.from_url(app.config['REDIS_URL'])
     app.task_queue = rq.Queue('mathreformation-tasks', connection=app.redis)
+    path = op.join(op.dirname(__file__), 'static')
+    admin.add_view(FileAdmin(path, '/static/', name='Static Files'))
     
+
+    # Setting Up Admin Views
+    admin.add_view(rediscli.RedisCli(app.redis))
 
     # Setting up Logger
     if not app.debug:

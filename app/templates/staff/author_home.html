@@ -25,13 +25,16 @@
 {% block content %}
 <h1 class="text-center">Author Home:</h1>
 
-{{ add_photo_button(field=add_photo_form) }}
-{{ photo_viewer_button(files, can_delete=False, btn_name="View Photos") }}
+<div class="text-center">
 
-<a href="{{ url_for('staff.new_document', doc_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
+    {{ add_photo_button(field=add_photo_form) }}
+    {{ photo_viewer_button(files, can_delete=False, btn_name="View Photos") }}
+
+    <a href="{{ url_for('staff.new_document', doc_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
+</div>
 
 
-<ul class="list-group mt-5">
+<ul class="list-group mt-3">
 <li class="list-group-item">
     <h3>Articles:</h3>
 </li>

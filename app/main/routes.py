@@ -29,7 +29,7 @@ def index():
 
     #exploring_math_children = Document.query.filter_by(name="Exploring Math").first().children
     exploring_math_children = []
-    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(20)
+    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(4)
 
     return render_template('main/index.html', title="Home", exploring_math_children=exploring_math_children, recent_documents=recent_documents)
 
@@ -52,11 +52,6 @@ def document_page(path):
 
     form = BookmarkDocumentForm()
 
-    # for item in [article_path, section_path, chapter_path, book_path]:
-    #     if item != None:
-    #         path = item
-    #         break
-
     document = db.first_or_404(Document.query.filter_by(path=path))
 
     if document.document_type == "special":
@@ -65,13 +60,15 @@ def document_page(path):
     if current_user.is_authenticated:
 
         user = User.query.get(current_user.get_id())
+        is_bookmarked = user.has_bookmarked_document(document)
         
-        if user.has_bookmarked_document(document):
-            form.submit.label.text = "Unbookmark " + document.document_type.capitalize()
-        else:
-            form.submit.label.text = "Bookmark " + document.document_type.capitalize()
+        # if user.has_bookmarked_document(document):
+        #     form.submit.label.text = "Unbookmark " + document.document_type.capitalize()
+        # else:
+        #     form.submit.label.text = "Bookmark " + document.document_type.capitalize()
     else:
         user = None
+        is_bookmarked = None
 
     if form.validate_on_submit():
         if user.has_bookmarked_document(document):
@@ -102,6 +99,7 @@ def document_page(path):
     content["document"] = document
     content["form"] = form
     content["user"] = user
+    content["is_bookmarked"] = is_bookmarked
 
     return render_template('main/document.html', **content, title=document.name)
 

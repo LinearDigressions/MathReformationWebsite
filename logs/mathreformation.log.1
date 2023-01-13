@@ -1,19 +1,71 @@
-2023-01-12 19:42:20,200 ERROR: Exception on /export/ [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 22:28:37,831 ERROR: Exception on /rolles_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 598, in connect
-    sock = self.retry.call_with_retry(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/retry.py", line 46, in call_with_retry
-    return do()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 599, in <lambda>
-    lambda: self._connect(), lambda error: self.disconnect(error)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 664, in _connect
-    raise err
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 652, in _connect
-    sock.connect(socket_address)
-ConnectionRefusedError: [Errno 61] Connection refused
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 105, in document_page
+    content["is_bookmarked"] = user.has_bookmarked_document(document)
+AttributeError: 'NoneType' object has no attribute 'has_bookmarked_document'
+2023-01-12 22:28:38,013 ERROR: Exception on /rolles_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 105, in document_page
+    content["is_bookmarked"] = user.has_bookmarked_document(document)
+AttributeError: 'NoneType' object has no attribute 'has_bookmarked_document'
+2023-01-12 22:28:38,228 ERROR: Exception on /rolles_theorem [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 105, in document_page
+    content["is_bookmarked"] = user.has_bookmarked_document(document)
+AttributeError: 'NoneType' object has no attribute 'has_bookmarked_document'
+2023-01-12 22:28:39,693 ERROR: Exception on /integral_calculus [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 105, in document_page
+    content["is_bookmarked"] = user.has_bookmarked_document(document)
+AttributeError: 'NoneType' object has no attribute 'has_bookmarked_document'
+2023-01-12 22:28:48,254 ERROR: Exception on /exploring_math [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+Traceback (most recent call last):
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/main/routes.py", line 105, in document_page
+    content["is_bookmarked"] = user.has_bookmarked_document(document)
+AttributeError: 'NoneType' object has no attribute 'has_bookmarked_document'
+2023-01-12 22:29:48,494 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-13 10:54:00,988 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-13 10:54:41,221 ERROR: Exception on /edit/article/test_document/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -25,49 +77,12 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
-    rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 343, in export
-    current_user.launch_task('export_document','Exporting Documents...')
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 127, in launch_task
-    rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, *args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 514, in enqueue
-    return self.enqueue_call(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 410, in enqueue_call
-    return self.enqueue_job(job, pipeline=pipeline, at_front=at_front)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 572, in enqueue_job
-    job.save(pipeline=pipe)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 696, in save
-    if self.get_redis_server_version() >= (4, 0, 0):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 704, in get_redis_server_version
-    self.redis_server_version = get_version(self.connection)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/utils.py", line 281, in get_version
-    return tuple(int(i) for i in connection.info("server")["redis_version"].split('.')[:3])
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/commands/core.py", line 972, in info
-    return self.execute_command("INFO", section, *args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/client.py", line 1255, in execute_command
-    conn = self.connection or pool.get_connection(command_name, **options)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 1389, in get_connection
-    connection.connect()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 604, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
-2023-01-12 19:43:41,592 ERROR: Exception on /export/ [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 598, in connect
-    sock = self.retry.call_with_retry(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/retry.py", line 46, in call_with_retry
-    return do()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 599, in <lambda>
-    lambda: self._connect(), lambda error: self.disconnect(error)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 664, in _connect
-    raise err
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 652, in _connect
-    sock.connect(socket_address)
-ConnectionRefusedError: [Errno 61] Connection refused
-
-During handling of the above exception, another exception occurred:
-
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
+    document.remove_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 297, in remove_links
+    self.prev_page.next_page = self.next_page.prev_page
+AttributeError: 'NoneType' object has no attribute 'prev_page'
+2023-01-13 10:54:43,812 ERROR: Exception on /edit/article/test_document/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -79,39 +94,12 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_principal.py", line 199, in _decorated
-    rv = f(*args, **kw)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 343, in export
-    current_user.launch_task('export_document','Exporting Documents...')
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 127, in launch_task
-    rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, *args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 514, in enqueue
-    return self.enqueue_call(
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 410, in enqueue_call
-    return self.enqueue_job(job, pipeline=pipeline, at_front=at_front)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/queue.py", line 572, in enqueue_job
-    job.save(pipeline=pipe)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 696, in save
-    if self.get_redis_server_version() >= (4, 0, 0):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/job.py", line 704, in get_redis_server_version
-    self.redis_server_version = get_version(self.connection)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/rq/utils.py", line 281, in get_version
-    return tuple(int(i) for i in connection.info("server")["redis_version"].split('.')[:3])
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/commands/core.py", line 972, in info
-    return self.execute_command("INFO", section, *args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/client.py", line 1255, in execute_command
-    conn = self.connection or pool.get_connection(command_name, **options)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 1389, in get_connection
-    connection.connect()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/redis/connection.py", line 604, in connect
-    raise ConnectionError(self._error_message(e))
-redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
-2023-01-12 19:46:36,186 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 19:47:33,961 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
-2023-01-12 19:47:34,035 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
-2023-01-12 19:47:34,035 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/__init__.py:120]
-2023-01-12 19:47:34,098 ERROR: Unhandled exception [in /Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py:59]
-Traceback (most recent call last):
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/./app/tasks.py", line 40, in export_document
-    document
-UnboundLocalError: local variable 'document' referenced before assignment
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
+    document.remove_links()
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 297, in remove_links
+    self.prev_page.next_page = self.next_page.prev_page
+AttributeError: 'NoneType' object has no attribute 'prev_page'
+2023-01-13 10:56:22,927 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-13 10:59:49,163 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-13 11:03:21,984 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-13 11:06:39,792 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
