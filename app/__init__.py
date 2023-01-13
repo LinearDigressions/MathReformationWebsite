@@ -1,6 +1,6 @@
 # General Imports
 from flask import Flask
-from config import Config
+from config import Config, Config_Production
 
 # Flask Extensions
 from flask_sqlalchemy import SQLAlchemy
@@ -49,7 +49,7 @@ assets = Environment()
 photos = UploadSet("photos", IMAGES)
 
 
-def create_app(config_class=Config):
+def create_app(config_class=Config_Production):
 
     # Creating App
     app = Flask(__name__)
