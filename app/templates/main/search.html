@@ -11,20 +11,18 @@
 {% endfor %}
 </ul>
 
-<div class="mt-3">
-    <ul class="pagination">
-        <li class="page-item{% if not prev_url %} disabled{% endif %}"> 
-            <a class="page-link" href="{{ prev_url or '#' }}">
-                <span aria-hidden="true">&larr;</span> Previous results
-            </a> 
-        </li>
-        <li class="page-item{% if not next_url %} disabled{% endif %}"> 
-            <a class="page-link" href="{{ next_url or '#' }}">
-                Next results<span aria-hidden="true">&rarr;</span> 
-            </a>
-        </li> 
-    </ul>
-</div>
+<ul class="pagination mt-3 justify-content-center">
+    <li class="page-item{% if not prev_url %} disabled{% endif %}"> 
+        <a class="page-link" href="{{ prev_url or '#' }}">
+            <span aria-hidden="true">&larr;</span> Previous results
+        </a> 
+    </li>
+    <li class="page-item{% if not next_url %} disabled{% endif %}"> 
+        <a class="page-link" href="{{ next_url or '#' }}">
+            Next results<span aria-hidden="true">&rarr;</span> 
+        </a>
+    </li> 
+</ul>
 {% endblock %}
 
 

@@ -27,11 +27,11 @@ def before_request():
 @bp.route("/index", methods=["GET"])
 def index():
 
-    #exploring_math_children = Document.query.filter_by(name="Exploring Math").first().children
-    exploring_math_children = []
-    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(4)
+    home_article = Document.query.filter_by(path='home').first()
 
-    return render_template('main/index.html', title="Home", exploring_math_children=exploring_math_children, recent_documents=recent_documents)
+    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(5)
+
+    return render_template('main/index.html', title="Home", home_article=home_article, recent_documents=recent_documents)
 
 @bp.route("/about", methods=["GET"])
 def about():

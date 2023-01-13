@@ -1,4 +1,4 @@
-2023-01-12 16:26:52,325 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 16:29:05,485 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,17 +12,17 @@ Traceback (most recent call last):
     return current_app.ensure_sync(func)(*args, **kwargs)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
     document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 276, in set_links
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 279, in set_links
     self.prev_page = self.find_prev_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 255, in find_prev_page
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 258, in find_prev_page
     prev_sibling = doc.find_prev_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 216, in find_prev_sibling
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 219, in find_prev_sibling
     siblings = self.parent.ordered_children()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 190, in ordered_children
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 193, in ordered_children
     return self.children[sorted_children_idx]
 TypeError: only integer scalar arrays can be converted to a scalar index
-2023-01-12 16:27:55,333 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 16:27:57,818 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 16:29:34,561 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:29:34,908 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -36,17 +36,17 @@ Traceback (most recent call last):
     return current_app.ensure_sync(func)(*args, **kwargs)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
     document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 276, in set_links
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 279, in set_links
     self.prev_page = self.find_prev_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 255, in find_prev_page
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 258, in find_prev_page
     prev_sibling = doc.find_prev_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 216, in find_prev_sibling
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 219, in find_prev_sibling
     siblings = self.parent.ordered_children()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 190, in ordered_children
-    return self.children[sorted_children_idx]
-TypeError: only integer scalar arrays can be converted to a scalar index
-2023-01-12 16:28:16,950 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 16:28:17,635 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 193, in ordered_children
+    return self.children[[sorted_children_idx]]
+TypeError: list indices must be integers or slices, not list
+2023-01-12 16:29:45,075 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:29:45,873 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -60,17 +60,21 @@ Traceback (most recent call last):
     return current_app.ensure_sync(func)(*args, **kwargs)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
     document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 277, in set_links
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 279, in set_links
     self.prev_page = self.find_prev_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 256, in find_prev_page
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 258, in find_prev_page
     prev_sibling = doc.find_prev_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 217, in find_prev_sibling
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 219, in find_prev_sibling
     siblings = self.parent.ordered_children()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 191, in ordered_children
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 193, in ordered_children
     return self.children[sorted_children_idx]
 TypeError: only integer scalar arrays can be converted to a scalar index
-2023-01-12 16:28:32,934 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
-2023-01-12 16:28:33,612 ERROR: Exception on /edit/chapter/9248001313931384746751/main [POST] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
+2023-01-12 16:30:19,109 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:54:03,072 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:55:46,327 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:56:57,648 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:57:15,980 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:57:16,301 ERROR: Exception on /edit/section/9376881300713598159304/main [GET] [in /Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py:1741]
 Traceback (most recent call last):
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask/app.py", line 2525, in wsgi_app
     response = self.full_dispatch_request()
@@ -82,15 +86,8 @@ Traceback (most recent call last):
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
   File "/Users/jamesboyer/Documents/MathReformationWebsite/venv/lib/python3.9/site-packages/flask_login/utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 205, in edit_document
-    document.set_links()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 277, in set_links
-    self.prev_page = self.find_prev_page()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 256, in find_prev_page
-    prev_sibling = doc.find_prev_sibling()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 217, in find_prev_sibling
-    siblings = self.parent.ordered_children()
-  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/models.py", line 191, in ordered_children
-    return self.children[sorted_children_idx]
-TypeError: only integer scalar arrays can be converted to a scalar index
-2023-01-12 16:29:04,987 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+  File "/Users/jamesboyer/Documents/MathReformationWebsite/app/staff/routes.py", line 269, in edit_document
+    content["title"] = Editor
+NameError: name 'Editor' is not defined
+2023-01-12 16:57:26,587 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]
+2023-01-12 16:57:39,384 INFO: Mathreformation startup [in /Users/jamesboyer/Documents/MathReformationWebsite/app/__init__.py:120]

@@ -4,6 +4,9 @@ from flask_login import UserMixin
 from flask import redirect, url_for, request, current_app
 from app.roles import admin_permission
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.fileadmin import FileAdmin
+import os.path as op
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.search import add_to_index, remove_from_index, query_index
 import numpy as np
@@ -376,9 +379,19 @@ class AdminModelView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
 
+class AdminFileView(FileAdmin):
+
+    def is_accessible(self):
+        return admin_permission.can()
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('auth.login', next=request.url))
+
 # Adding admin views for all objects
 admin.add_view(AdminModelView(Feedback, db.session))
 admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Role, db.session))
 admin.add_view(AdminModelView(Task, db.session))
 admin.add_view(AdminModelView(Document, db.session))
+path = op.join(op.dirname(__file__), 'static')
+admin.add_view(AdminFileView(path, '/static/', name='Static Files'))

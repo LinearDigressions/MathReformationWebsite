@@ -18,6 +18,7 @@ class Config(object):
     UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/uploads')
     UPLOADS_AUTOSERVE = True
 
+    FLASK_ADMIN_SWATCH = "flatly"
 
     # Pagination Variable
     POSTS_PER_PAGE = 10

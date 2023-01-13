@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% from 'macros/general_macros.html' import page_navigation %}
 
+{% block head %}
+{{ document.header | safe }}
+{% endblock %}
+
 {% block content %} 
 
 
