@@ -21,32 +21,32 @@ import rq
 class SearchableMixin(object):
     @classmethod
     def search(cls, expression, page, per_page):
-        ids, scores, total = query_index(cls.__tablename__, expression, page, per_page) 
+        ids, scores, total = query_index(cls.__tablename__, expression, page, per_page)
         if total == 0:
-            return cls.query.filter_by(id=0), [], 0 
+            return cls.query.filter_by(id=0), [], 0
         when = []
-        for i in range(len(ids)): 
+        for i in range(len(ids)):
             when.append((ids[i], i))
         return cls.query.filter(cls.id.in_(ids)).order_by( db.case(when, value=cls.id)), scores, total
 
     @classmethod
-    def before_commit(cls, session): 
-        session._changes = {'add': list(session.new), 
-                            'update': list(session.dirty), 
+    def before_commit(cls, session):
+        session._changes = {'add': list(session.new),
+                            'update': list(session.dirty),
                             'delete': list(session.deleted)}
 
-  
+
 
     @classmethod
     def after_commit(cls, session):
         for obj in session._changes['add']:
-            if isinstance(obj, SearchableMixin): 
-                add_to_index(obj.__tablename__, obj)
-        for obj in session._changes['update']: 
             if isinstance(obj, SearchableMixin):
-                add_to_index(obj.__tablename__, obj) 
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes['update']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
         for obj in session._changes['delete']:
-            if isinstance(obj, SearchableMixin): 
+            if isinstance(obj, SearchableMixin):
                 remove_from_index(obj.__tablename__, obj)
         session._changes = None
 
@@ -55,7 +55,7 @@ class SearchableMixin(object):
         for obj in cls.query:
             add_to_index(obj.__tablename__, obj)
 
-db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit) 
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
 db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 
@@ -85,7 +85,7 @@ class User(UserMixin, db.Model):
 
     bookmarked_documents = db.relationship('Document', secondary = bookmarked_documents_table,
                                  backref=db.backref('bookmarked_users', lazy=True), lazy=True)
-    
+
 
     roles = db.relationship('Role', secondary = roles_table,
                             backref=db.backref('users', lazy=True), lazy=True)
@@ -97,28 +97,28 @@ class User(UserMixin, db.Model):
     def bookmark_document(self, document):
         if not self.has_bookmarked_document(document):
             self.bookmarked_documents.append(document)
-    
+
     def unbookmark_document(self, document):
         if self.has_bookmarked_document(document):
             self.bookmarked_documents.remove(document)
-    
-    def has_bookmarked_document(self, document): 
+
+    def has_bookmarked_document(self, document):
         return document in self.bookmarked_documents
 
 
     # Login Methods
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
-        
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def get_reset_password_token(self, expires_in=600): 
-        return jwt.encode({'reset_password': self.id, 'exp': time() + expires_in}, 
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode({'reset_password': self.id, 'exp': time() + expires_in},
                             current_app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
-    def verify_reset_password_token(token): 
+    def verify_reset_password_token(token):
         try:
             id = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
         except:
@@ -128,9 +128,9 @@ class User(UserMixin, db.Model):
 
 
     def launch_task(self, name, description, *args, **kwargs):
-        
+
         rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, *args, **kwargs)
-        task = Task(id=rq_job.get_id(), name=name, description=description, user=self) 
+        task = Task(id=rq_job.get_id(), name=name, description=description, user=self)
         db.session.add(task)
         return task
 
@@ -160,13 +160,13 @@ class Document(SearchableMixin, db.Model):
 
     # Attributes
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=False)
-    path = db.Column(db.String(250), unique=True, nullable=False)
-    body_main = db.Column(db.String(), index=True)
-    body_draft = db.Column(db.String(), index=True)
+    name = db.Column(db.String(50), nullable=False, unique=False, index=True)
+    path = db.Column(db.String(250), unique=True, nullable=False, index=True)
+    body_main = db.Column(db.String(64000))
+    body_draft = db.Column(db.String(64000))
     date_added = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
-    header = db.Column(db.String(), index=True)
+    header = db.Column(db.String(64000))
     order = db.Column(db.Integer())
     is_visible = db.Column(db.Boolean())
     document_type = db.Column(db.String(10), index=True)
@@ -174,7 +174,7 @@ class Document(SearchableMixin, db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    
+
 
     prev_page_id = db.Column(db.Integer(), db.ForeignKey("document.id"))
     next_page = db.relationship("Document", backref=backref("prev_page", remote_side=[id]), uselist=False, foreign_keys=[prev_page_id])
@@ -226,7 +226,7 @@ class Document(SearchableMixin, db.Model):
 
         if self.parent == None:
             return None
-            
+
         else:
             siblings = self.parent.ordered_children()
 
@@ -268,7 +268,7 @@ class Document(SearchableMixin, db.Model):
 
         #         if doc.document_type == "book":
         #             return None
-    
+
     def find_prev_page(self):
 
         prev_sibling = self.find_prev_sibling()
@@ -284,7 +284,7 @@ class Document(SearchableMixin, db.Model):
         #     prev_sibling = doc.find_prev_sibling()
 
         #     if prev_sibling == None:
-        #         doc = doc.parent 
+        #         doc = doc.parent
 
         #         if doc == None:
         #             return None
@@ -300,7 +300,7 @@ class Document(SearchableMixin, db.Model):
         #         return doc
         #     else:
         #         doc = doc.children[-1]
-  
+
     def set_links(self):
         self.prev_page = self.find_prev_page()
         self.next_page = self.find_next_page()
@@ -314,7 +314,7 @@ class Document(SearchableMixin, db.Model):
             self.prev_page.next_page = None
         else:
             self.prev_page.next_page = self.next_page.prev_page
-            
+
         self.prev_page = None
         self.next_page = None
 
@@ -356,18 +356,18 @@ class Task(db.Model):
     id = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.String(128), index=True)
     description = db.Column(db.String(128))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     complete = db.Column(db.Boolean, default=False)
 
-    def get_rq_job(self): 
+    def get_rq_job(self):
         try:
-            rq_job = rq.job.Job.fetch(self.id, connection=current_app.redis) 
+            rq_job = rq.job.Job.fetch(self.id, connection=current_app.redis)
         except (redis.exceptions.RedisError, rq.exceptions.NoSuchJobError):
-            return None 
+            return None
         return rq_job
 
     def get_progress(self):
-        job = self.get_rq_job() 
+        job = self.get_rq_job()
         return job.meta.get('progress', 0) if job is not None else 100
 
 
