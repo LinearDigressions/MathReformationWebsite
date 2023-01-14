@@ -11,6 +11,7 @@ import numpy as np
 from app.email import send_feedback_email
 import datetime
 import calendar
+import git
 
 # Used for search form
 @bp.before_app_request
@@ -20,7 +21,17 @@ def before_request():
     if g.search_form.validate():
         print("here")
    
-    
+
+@bp.route('/update_server', methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('./MathReformationWebsite')
+        origin = repo.remotes.origin
+        repo.create_head('main',origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+        origin.pull()
+        return 'Updated PythonAnywhere successfully', 200
+    else:
+        return 'Wrong event type', 400
 
 @bp.route("/home", methods=["GET"])
 @bp.route("/", methods=["GET"])
