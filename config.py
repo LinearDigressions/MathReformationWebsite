@@ -76,7 +76,7 @@ class Config_Production(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
-    GITHUB_HOOK_SECRET = os.environ.get('GITHUB_HOOK_SECRET')
+    GH_WEBHOOK_SECRET = os.environ.get('GH_WEBHOOK_SECRET')
 
     # Admins will recieve email notifications on errors and feedback
     ADMINS = ['skylerboyer@gmail.com']

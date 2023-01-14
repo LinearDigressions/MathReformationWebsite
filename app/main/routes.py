@@ -16,6 +16,8 @@ import calendar
 import git
 import hmac
 import hashlib
+from flask_github_signature import verify_signature
+
 
 # Used for search form
 @bp.before_app_request
@@ -35,16 +37,13 @@ def is_valid_signature(x_hub_signature, data, private_key):
     return hmac.compare_digest(mac.hexdigest(), github_signature)
 
 @bp.route('/update_server', methods=['POST'])
+@verify_signature
 def webhook():
-    x_hub_signature = request.headers.get('x-hub-signature-256')
-
-    if is_valid_signature(x_hub_signature, request.data, current_app.config["GITHUB_HOOK_SECRET"]):
-        repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
-        origin = repo.remotes.origin
-        origin.pull()
-        return 'Updated PythonAnywhere successfully', 200
-    else:
-        abort(418)
+    repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
+    origin = repo.remotes.origin
+    origin.pull()
+    return 'Updated PythonAnywhere successfully', 200
+   
 
    
 
