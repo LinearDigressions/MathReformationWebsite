@@ -36,7 +36,7 @@ def is_valid_signature(x_hub_signature, data, private_key):
 
 @bp.route('/update_server', methods=['POST'])
 def webhook():
-    x_hub_signature = request.headers.get('X-Hub-Signature')
+    x_hub_signature = request.headers.get('x-hub-signature-256')
 
     if is_valid_signature(x_hub_signature, request.data, current_app.config["GITHUB_HOOK_SECRET"]):
         repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
