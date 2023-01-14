@@ -24,11 +24,11 @@ def before_request():
 
 @bp.route('/update_server', methods=['POST'])
 def webhook():
-    # repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
-    # origin = repo.remotes.origin
-    # repo.create_head('main',
-    # origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
-    # origin.pull()
+    repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
+    origin = repo.remotes.origin
+    repo.create_head('main',
+    origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+    origin.pull()
     return 'Updated PythonAnywhere successfully', 200
    
 
