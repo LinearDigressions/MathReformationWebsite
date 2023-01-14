@@ -26,8 +26,6 @@ def before_request():
 def webhook():
     repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
     origin = repo.remotes.origin
-    repo.create_head('main',
-    origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
     origin.pull()
     return 'Updated PythonAnywhere successfully', 200
    
