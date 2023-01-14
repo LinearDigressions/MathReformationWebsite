@@ -24,7 +24,7 @@ def before_request():
 
 @bp.route('/update_server', methods=['POST'])
 def webhook():
-    repo = git.Repo('./MathReformationWebsite')
+    repo = git.Repo('/home/LinearDigressions/MathReformationWebsite')
     origin = repo.remotes.origin
     repo.create_head('main',
     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
