@@ -49,10 +49,11 @@ assets = Environment()
 photos = UploadSet("photos", IMAGES)
 
 
-if os.environ.get("IS_DEVELOPMENT") == True:
+if os.environ.get("IS_DEVELOPMENT") in ['True','true','TRUE']:
     Config = Config_Development
 else:
     Config = Config_Production
+
 
 def create_app(config_class=Config):
 
