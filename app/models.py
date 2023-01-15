@@ -162,7 +162,7 @@ class Document(SearchableMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=False, index=True)
     path = db.Column(db.String(250), unique=True, nullable=False, index=True)
-    body_main = db.Column(db.String(50000))
+    body_main = db.Column(db.Text())
     body_draft = db.Column(db.String(50000))
     date_added = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
