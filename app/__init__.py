@@ -49,13 +49,12 @@ assets = Environment()
 photos = UploadSet("photos", IMAGES)
 
 
-# if os.environ.get("IS_PRODUCTION") == True:
-#     Config = Config_Production
-# else:
-#     Config = Config_Development
+if os.environ.get("IS_DEVELOPMENT") == True:
+    Config = Config_Development
+else:
+    Config = Config_Production
 
-#Config=Config_Development
-def create_app(config_class=Config_Production):
+def create_app(config_class=Config):
 
     # Creating App
     app = Flask(__name__)
