@@ -44,16 +44,11 @@ class Config(object):
 class Config_Production(object):
 
     # General Variables
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     TEMPLATES_AUTO_RELOAD = True
 
     # Database Variables
-    SQLALCHEMY_DATABASE_URI = "mysql://{username}:{password}@{hostname}/{databasename}".format(
-        username="LinearDigression",
-        password="TcQ5Fa_42vjEGa5",
-        hostname="LinearDigressions.mysql.pythonanywhere-services.com",
-        databasename="LinearDigression$mathreformation",
-    )
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_POOL_RECYCLE = 299
 
@@ -81,6 +76,6 @@ class Config_Production(object):
     # Admins will recieve email notifications on errors and feedback
     ADMINS = ['skylerboyer@gmail.com']
 
-    MAIN_URL = "http://mathreformation.com"
+    MAIN_URL = "https://mathreformation.com"
 
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
