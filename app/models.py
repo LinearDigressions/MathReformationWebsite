@@ -163,10 +163,10 @@ class Document(SearchableMixin, db.Model):
     name = db.Column(db.String(50), nullable=False, unique=False, index=True)
     path = db.Column(db.String(250), unique=True, nullable=False, index=True)
     body_main = db.Column(db.Text())
-    body_draft = db.Column(db.String(50000))
+    body_draft = db.Column(db.Text())
     date_added = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
-    header = db.Column(db.String(50000))
+    header = db.Column(db.Text())
     order = db.Column(db.Integer())
     is_visible = db.Column(db.Boolean())
     document_type = db.Column(db.String(10), index=True)
