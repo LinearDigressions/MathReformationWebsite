@@ -40,6 +40,7 @@ MarkupSafe==2.1.1
 numpy==1.24.1
 opensearch-py==2.0.1
 PyJWT==2.6.0
+PyMySQL==1.0.2
 python-dotenv==0.21.0
 python-git==2018.2.1
 redis==4.4.0
