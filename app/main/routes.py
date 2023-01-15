@@ -22,7 +22,9 @@ from flask_github_signature import verify_signature
 # Used for search form
 @bp.before_app_request
 def before_request():
-    g.search_form = SearchForm(meta={'csrf': False})
+
+    if current_app.elasticsearch != None:
+        g.search_form = SearchForm(meta={'csrf': False})
 
 
 @bp.route('/update_server', methods=['POST'])

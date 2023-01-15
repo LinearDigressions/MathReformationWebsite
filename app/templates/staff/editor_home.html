@@ -91,8 +91,7 @@
 
 {% endfor %}
 
-{% if special_documents %}
-
+{% if special_documents.count() > 0 %}
 
 <ul class="list-group mt-3 mb-3">
     <li class="list-group-item list-group-item-primary">
@@ -111,7 +110,7 @@
 
 {% endif %}
 
-{% if invisible_documents %}
+{% if invisible_documents.count() > 0 %}
 
 
 <ul class="list-group mt-3 mb-3">
