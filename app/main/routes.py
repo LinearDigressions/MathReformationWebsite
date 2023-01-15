@@ -25,7 +25,6 @@ def before_request():
     g.search_form = SearchForm(meta={'csrf': False})
 
 
-
 @bp.route('/update_server', methods=['POST'])
 @verify_signature
 def webhook():
