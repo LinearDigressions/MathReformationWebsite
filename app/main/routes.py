@@ -24,17 +24,7 @@ from flask_github_signature import verify_signature
 def before_request():
     g.search_form = SearchForm(meta={'csrf': False})
 
-    if g.search_form.validate():
-        print("here")
-   
-def is_valid_signature(x_hub_signature, data, private_key):
-    # x_hub_signature and data are from the webhook payload
-    # private key is your webhook secret
-    hash_algorithm, github_signature = x_hub_signature.split('=', 1)
-    algorithm = hashlib.__dict__.get(hash_algorithm)
-    encoded_key = bytes(private_key, 'latin-1')
-    mac = hmac.new(encoded_key, msg=data, digestmod=algorithm)
-    return hmac.compare_digest(mac.hexdigest(), github_signature)
+
 
 @bp.route('/update_server', methods=['POST'])
 @verify_signature
@@ -43,7 +33,6 @@ def webhook():
     origin = repo.remotes.origin
     origin.pull()
     return 'Updated PythonAnywhere successfully', 200
-   
 
    
 
