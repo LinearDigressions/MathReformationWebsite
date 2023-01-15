@@ -55,7 +55,7 @@ photos = UploadSet("photos", IMAGES)
 #     Config = Config_Development
 
 #Config=Config_Development
-def create_app(config_class=Config_Development):
+def create_app(config_class=Config_Production):
 
     # Creating App
     app = Flask(__name__)
