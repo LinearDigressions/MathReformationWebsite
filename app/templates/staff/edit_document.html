@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field, delete_document_button, form_text, form_button, form_switch %}
+{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field, delete_document_button_normal, form_text, form_button, form_switch %}
 {% from 'macros/photo_macros.html' import photo_viewer_script, photo_viewer_button, add_photo_button %}
 
 {% block head %}
@@ -78,7 +78,7 @@
 
                 {{ form.submit_continue_editing(class="btn btn-primary mt-2") }}
                 {{ form.save_and_exit(class="btn btn-primary mt-2 mb-2") }}
-                {{ delete_document_button(path=document.path, document_type=document_type) }}
+                {{ delete_document_button_normal(path=document.path, document_type=document_type) }}
             </div>
 
 

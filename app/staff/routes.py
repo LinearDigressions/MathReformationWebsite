@@ -29,8 +29,6 @@ parent2child = {"book":"chapter","chapter":"section","section":"article","articl
 @author_permission.require(http_exception=403)
 def author_home():
 
-    # if editor_permission.can():
-    #     return redirect(url_for('staff.editor_home'))
 
 
     add_photo_form = AddPhotoForm()
