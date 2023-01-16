@@ -51,6 +51,7 @@ class Config_Production(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_POOL_RECYCLE = 280
     SQLALCHEMY_POOL_TIMEOUT = 20
+    SQLALCHEMY_PRE_PING = True
 
     # Photo Manager Variables
     UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/uploads')
