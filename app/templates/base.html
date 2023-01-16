@@ -11,18 +11,18 @@
 
         <script>
 
-            if (window.localStorage && window.localStorage.getItem('light')) {
-                document.write(`
-                <link id='style' rel='stylesheet' href='/static/styles/flatly.css' title='main'>
-                <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' title='alt'>
-                `);
-                document.getElementById('theme_button').innerHTML = 'Dark Mode';
-            } else {
+            if (window.localStorage && window.localStorage.getItem('dark')) {
                 document.write(`
                 <link id='style' rel='stylesheet' href='/static/styles/darkly.css' title='main'>
                 <link id='style-alt' rel='alternate stylesheet' href='/static/styles/flatly.css' title='alt'>
                 `);
                 document.getElementById('theme_button').innerHTML = 'Light Mode';
+            } else {
+                document.write(`
+                <link id='style' rel='stylesheet' href='/static/styles/flatly.css' title='main'>
+                <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' title='alt'>
+                `);
+                document.getElementById('theme_button').innerHTML = 'Dark Mode';
             }
         </script>
 
