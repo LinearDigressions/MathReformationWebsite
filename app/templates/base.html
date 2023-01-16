@@ -184,13 +184,13 @@
                 <section class="mb-2">
                     <p>Website by James Boyer</p>
                     <button id="theme_button" class="btn btn-primary mb-1" onclick="toggleTheme()">
-                        Dark Mode
+                        Light Mode
                     </button>
                     <script>
-                        if (window.localStorage && window.localStorage.getItem('light')) {
-                            document.getElementById('theme_button').innerHTML = 'Dark Mode';
-                        } else {
+                        if (window.localStorage && window.localStorage.getItem('dark')) {
                             document.getElementById('theme_button').innerHTML = 'Light Mode';
+                        } else {
+                            document.getElementById('theme_button').innerHTML = 'Dark Mode';
                         }
                     </script>
                     <a class="btn btn-primary mb-1" href="{% block citation %}{% endblock %}">Cite This Page</a>
