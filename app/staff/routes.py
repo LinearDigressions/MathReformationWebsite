@@ -334,7 +334,10 @@ def delete_file(item_type, item_name):
 
         db.session.commit()
         flash(item_name + " document deleted.")
-        return redirect(url_for('staff.author_home'))
+        if editor_permission.can():
+            return redirect(url_for('staff.editor_home'))    
+        else:
+            return redirect(url_for('staff.author_home'))
 
     else:
         abort(404)
