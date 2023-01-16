@@ -54,8 +54,11 @@ class Config_Production(object):
     # SQLALCHEMY_PRE_PING = True
 
     SQLALCHEMY_ENGINE_OPTIONS = {
-                                 'pool_recycle':280,
-                                }
+            'pool_size': 10,
+            'pool_recycle': 270,
+            'pool_pre_ping': True
+    }
+
 
     # Photo Manager Variables
     UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/uploads')
