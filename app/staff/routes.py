@@ -220,8 +220,11 @@ def edit_document(document_type, path, version):
             flash("Switching to Draft View")
             return redirect(url_for('staff.edit_document', path=document.path, document_type=document.document_type, version="draft"))
         elif form.save_and_exit.data:
+            if editor_permission.can():
+                return redirect(url_for('staff.editor_home'))
+            else:
+                return redirect(url_for('staff.author_home'))
 
-            return redirect(url_for('staff.author_home'))
         elif form.submit_continue_editing.data:
             return redirect(url_for('staff.edit_document', path=document.path, document_type=document.document_type, version=version))
 
