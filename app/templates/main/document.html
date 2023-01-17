@@ -53,6 +53,8 @@
     {% endif %}
 </div>
 
+{{ document.body_main | safe }}
+
 
 {% if document.document_type != "article" %}
 <ul class="list-group mt-3">
@@ -70,7 +72,6 @@
 {% endif %}
 
 
-{{ document.body_main | safe }}
 
 {{ page_navigation(next_page=document.next_page, prev_page=document.prev_page)}}
 
