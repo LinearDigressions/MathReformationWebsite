@@ -160,7 +160,7 @@ class Document(SearchableMixin, db.Model):
 
     # Attributes
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=False, index=True)
+    name = db.Column(db.String(250), nullable=False, unique=False, index=True)
     path = db.Column(db.String(250), unique=True, nullable=False, index=True)
     body_main = db.Column(db.Text())
     body_draft = db.Column(db.Text())
