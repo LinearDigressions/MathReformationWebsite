@@ -44,7 +44,7 @@
 </form>
 {% endif %}
 
-<div class="text-center mt-1">
+<div class="text-center mt-1 mb-1">
     {% if editor_permission.can() %} 
     {% if document.document_type != "article" %}
     <a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info" role="button">New Child</a>
