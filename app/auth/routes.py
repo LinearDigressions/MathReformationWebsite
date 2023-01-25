@@ -30,6 +30,7 @@ def login():
             return redirect(url_for('auth.login'))
 
         login_user(user, remember=form.remember_me.data) 
+        identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
 
         next_page = request.args.get('next')
 
