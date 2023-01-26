@@ -21,25 +21,21 @@
       <div class="col d-flex flex-column">
           {% if prev_page %}
           <a href="{{ prev_page.path }}" class="btn btn-info" role="button">
-              <i class="bi bi-arrow-left"></i> Previous {{prev_page.document_type.capitalize()}}<br>
-              {{prev_page.name}}
+              <i class="bi bi-arrow-left"></i>  Previous
           </a>
           {% else %}
           <a href="#" class="btn btn-info disabled" role="button">
-              <i class="bi bi-arrow-left"></i> Previous {{next_page.document_type.capitalize()}}<br>
-              None
+              <i class="bi bi-arrow-left"></i>  Previous
           </a>
           {% endif %}    </div>
       <div class="col d-flex flex-column">
           {% if next_page %}
           <a href="{{ next_page.path }}" class="btn btn-info" role="button">
-              Next {{next_page.document_type.capitalize()}} <i class="bi bi-arrow-right"></i><br>
-              {{next_page.name}}
+              Next  <i class="bi bi-arrow-right"></i>
           </a>
           {% else %}
           <a href="#" class="btn btn-info disabled" role="button">
-              Next {{prev_page.document_type.capitalize()}} <i class="bi bi-arrow-right"></i><br>
-              None
+              Next  {{prev_page.document_type.capitalize()}} <i class="bi bi-arrow-right"></i>
           </a>
           {% endif %}    
         </div>
