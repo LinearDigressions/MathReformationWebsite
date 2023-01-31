@@ -12,8 +12,14 @@ from markdown import markdown
 import random
 from flask_principal import identity_changed, Identity
 
+
+# Old Structure
 child2parent = {"book":None, "chapter":"book", "section":"chapter","article":"section", "special":None}
 parent2child = {"book":"chapter","chapter":"section","section":"article","article":None, "special":None}
+
+# Removing Section
+# child2parent = {"book":None, "chapter":"book", "article":"chapter", "special":None}
+# parent2child = {"book":"chapter","chapter":"article", "article":None, "special":None}
 
 # I modified the flask_mde in two ways.
 # I commented out the sanitizeTag function in Markdown.Sanitizer.js to allow for all html rendering
