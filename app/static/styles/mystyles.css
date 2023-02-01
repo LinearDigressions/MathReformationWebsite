@@ -42,7 +42,7 @@
 .sticky-menu {
     position: relative;
     /* width: calc(100% - 3rem); */
-    
+    height: 0;
     margin-right: 0;
     top: 0;
     padding-top: .5rem;
