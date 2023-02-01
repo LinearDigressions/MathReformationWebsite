@@ -274,7 +274,7 @@
         footer = document.getElementsByTagName("footer")[0];
 
         // This function updates the bottom of the left-sidebar-container element to respond to the footer
-        body.onscroll = function() {
+        update_left_sidebar = function() {
             footer = $("footer");
             var footer_height = footer.outerHeight(),
             H   = $(window).height(),
@@ -283,6 +283,8 @@
             px_visible = px_visible.toString();
             $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
         };
+        update_left_sidebar();
+        body.addEventListener("scroll", update_left_sidebar);
 
     </script>
 

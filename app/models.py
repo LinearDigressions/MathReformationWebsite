@@ -190,7 +190,7 @@ class Document(SearchableMixin, db.Model):
 
     # For displaying articles/categories in specific order
     def ordered_children(self):
-        print(self.children)
+        #print(self.children)
 
         children = [child for child in self.children if child.is_visible]
 
@@ -198,9 +198,9 @@ class Document(SearchableMixin, db.Model):
             return []
 
         children_idx = np.array([child.order if child.order != None else 0 for child in children])
-        print(children_idx)
+        #print(children_idx)
         sorted_children_idx = np.argsort(children_idx)
-        print(sorted_children_idx)
+        #print(sorted_children_idx)
 
         return np.array(self.children)[sorted_children_idx]
 

@@ -11,6 +11,7 @@ import numpy as np
 from app.email import send_feedback_email
 import datetime
 import calendar
+import json
 
 
 import git
@@ -61,6 +62,14 @@ def profile():
 
     return render_template('main/profile.html', title="Profile", user=user)
 
+def generate_table_of_contents(root):
+    children = []
+    for child in root.ordered_children():
+        children.append(generate_table_of_contents(child))
+    table_of_contents = {'name':root.name,'path':root.path, 'children':children}
+    return table_of_contents
+
+
 
 @bp.route("/<path>", methods=["GET", "POST"])
 def document_page(path):
@@ -108,8 +117,18 @@ def document_page(path):
                 break
 
         breadcrumb_links = breadcrumb_links[::-1]
+
+    if document.document_type == "book":
+        root = document
+    else:
+        root = Document.query.filter_by(name = breadcrumb_links[0]['name'])[0]
+    
+    table_of_contents = generate_table_of_contents(root)
+    
            
     content = {}
+    content["table_of_contents"] = table_of_contents
+    print(table_of_contents)
     content["breadcrumb_links"] = breadcrumb_links
     content["document"] = document
     content["form"] = form
