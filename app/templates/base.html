@@ -173,7 +173,7 @@
         </nav>
         <div class="container-fluid flex-grow-1 px-0" style="position:relative;">
             <div class="row h-100 m-auto">
-                <div class="col-sm-12 col-md-3 col-lg-3 left-sidebar-container <open?>" style="position:fixed;">
+                <div class="col-sm-8 col-md-6 col-lg-3 left-sidebar-container <open?>" style="position:fixed;">
                     {% block left_sidebar %} 
                     {% endblock %}
                 </div>
@@ -246,6 +246,8 @@
             
         </footer>
     </body>
+    {% block footer %}
+    {% endblock %}
     <script src="{{url_for('static', filename='myjavascript.js')}}"></script>
 
     <script>
@@ -274,7 +276,7 @@
         footer = document.getElementsByTagName("footer")[0];
 
         // This function updates the bottom of the left-sidebar-container element to respond to the footer
-        update_left_sidebar = function() {
+        body.onscroll = function() {
             footer = $("footer");
             var footer_height = footer.outerHeight(),
             H   = $(window).height(),
@@ -283,9 +285,7 @@
             px_visible = px_visible.toString();
             $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
         };
-        update_left_sidebar();
-        body.addEventListener("scroll", update_left_sidebar);
-
+        body.onscroll;
     </script>
 
 </html>

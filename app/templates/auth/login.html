@@ -1,25 +1,29 @@
-{% extends "base.html" %}
+{% extends "auth/auth_base.html" %}
 {% from 'macros/form_macros.html' import input, form_text, form_button, form_checkbox %}
 
 
 
-{% block content %}
-    
-    <h1>Login:</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        {{ form_text(form.username) }}
-        {{ form_text(form.password) }}
-        {{ form_checkbox(form.remember_me)}}
-        
-        <p>{{ form_button(form.submit) }}</p>
-        <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
-    </form>
-    <p>
-        Forgot Your Password?
-        <a href="{{ url_for('auth.reset_password_request') }}">Click to Reset It</a> 
-    </p>
+{% block auth_form %}
 
+<h1>Login:</h1>
+<form action="" method="post" novalidate>
+{{ form.hidden_tag() }}
+{{ form_text(form.username) }}
+{{ form_text(form.password) }}
+{{ form_checkbox(form.remember_me)}}
+
+<div class="d-flex flex-row">
+    {{ form.submit(class="btn btn-primary my-3 flex-fill", onclick=onclick) }}
+</div>
+<div class="d-flex flex-row">
+    <a class="btn btn-info flex-fill ms-1 me-2" href="{{ url_for('auth.register') }}">Create Account</a>
+    <a class="btn btn-warning flex-fill ms-2 me-1" href="{{ url_for('auth.reset_password_request') }}">Reset Password</a>
+</div>
+</form>
+
+
+
+    
 {% endblock %}
 
 

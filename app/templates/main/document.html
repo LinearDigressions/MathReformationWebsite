@@ -17,19 +17,24 @@
 
     <!-- Table of Contents! -->
     <div class="offcanvas-body">
-        <h5><a href="{{ table_of_contents['path'] }}">{{ table_of_contents['name'] }}</a></h5>
+        <h5>
+            <a href="{{ table_of_contents['path'] }}" style="text-decoration:none;" id="{{ table_of_contents['path'] }}">
+            {{ table_of_contents['name'] }}
+            </a>
+        </h5>
         <ol>
             {% for chapter in table_of_contents['children'] %} 
             <li>
-                <a href="{{ chapter['path'] }}">{{ chapter['name'] }}</a>
+                <a href="{{ chapter['path'] }}" id="{{ chapter['path'] }}">
+                    {{ chapter['name'] }}</a>
                 <ol>
                     {% for section in chapter['children'] %}
                     <li>
-                        <a href="{{ section['path'] }}">{{ section['name'] }}</a>
+                        <a href="{{ section['path'] }}" id="{{ section['path'] }}">{{ section['name'] }}</a>
                         <ol>
                             {% for article in section['children'] %}
                             <li>
-                                <a href="{{ article['path'] }}">{{ article['name'] }}</a>
+                                <a href="{{ article['path'] }}" id="{{ article['path'] }}">{{ article['name'] }}</a>
                             </li>
                             {% endfor %}
                         </ol>
@@ -48,7 +53,7 @@
 
 {% block left_button %}
 <button id="table_of_contents_button" class="btn toggle-btn" type="button">
-    <i class="bi bi-list-ol" style="font-size: 2rem;"></i>
+    <i class="bi bi-list-ol"></i>
 </button>
 {% endblock %}
 
@@ -62,9 +67,9 @@
     {{ form.hidden_tag() }}
     <button id="bookmark_button" name="submit" class="btn">
         {% if is_bookmarked %} 
-        <i class="bi bi-bookmark-fill" style="font-size: 2rem;"></i>
+        <i class="bi bi-bookmark-fill"></i>
         {% else %} 
-        <i class="bi bi-bookmark" style="font-size: 2rem;"></i>
+        <i class="bi bi-bookmark"></i>
         {% endif %}
     </button>
 </form>
@@ -117,6 +122,12 @@
 
 {% endblock %}
 
+{% block footer %}
+<script>
+    $("#{{document.path}}").toggleClass("link-info");
+</script>
+
+{% endblock %}
 
 {% block citation %}
 {{ citation_info(page_type="Document", page_name=document.name) }}

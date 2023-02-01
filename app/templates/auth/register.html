@@ -1,16 +1,20 @@
-{% extends "base.html" %}
+{% extends "auth/auth_base.html" %}
 {% from 'macros/form_macros.html' import input, form_button, form_text %}
 
-{% block content %}
-    <h1>Register:</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        {{ form_text(form.username, size=32) }}
-        {{ form_text(form.email, size=64) }}
-        {{ form_text(form.password, size=32) }}
-        {{ form_text(form.password2, size=32) }}
-        <p>{{ form_button(form.submit) }}</p>
-    </form>
+{% block auth_form %}
+
+<h1>Register:</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form_text(form.username, size=32) }}
+    {{ form_text(form.email, size=64) }}
+    {{ form_text(form.password, size=32) }}
+    {{ form_text(form.password2, size=32) }}
+    <div class="d-flex flex-row">
+        {{ form.submit(class="btn btn-primary my-3 flex-fill", onclick=onclick) }}
+    </div>
+</form>
+   
 {% endblock %}
 
 {% block citation %}
