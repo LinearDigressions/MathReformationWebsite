@@ -18,26 +18,27 @@
 {% if next_page != None or prev_page != None %}
 <div class="container text-center mt-3 mb-5">
     <div class="row align-items-start">
-      <div class="col d-flex flex-column">
-          {% if prev_page %}
-          <a href="{{ prev_page.path }}" class="btn btn-info" role="button">
-              <i class="bi bi-arrow-left"></i>  Previous
-          </a>
-          {% else %}
-          <a href="#" class="btn btn-info disabled" role="button">
-              <i class="bi bi-arrow-left"></i>  Previous
-          </a>
-          {% endif %}    </div>
-      <div class="col d-flex flex-column">
-          {% if next_page %}
-          <a href="{{ next_page.path }}" class="btn btn-info" role="button">
-              Next  <i class="bi bi-arrow-right"></i>
-          </a>
-          {% else %}
-          <a href="#" class="btn btn-info disabled" role="button">
-              Next  <i class="bi bi-arrow-right"></i>
-          </a>
-          {% endif %}    
+        <div class="col d-flex flex-column">
+            {% if prev_page %}
+            <a href="{{ prev_page.path }}" class="btn btn-info" role="button">
+                <i class="bi bi-arrow-left"></i> {{prev_page.name}}
+            </a>
+            {% else %}
+            <a href="#" class="btn btn-info disabled" role="button">
+                <i class="bi bi-arrow-left"></i> None
+            </a>
+            {% endif %}    
+        </div>
+        <div class="col d-flex flex-column">
+            {% if next_page %}
+            <a href="{{ next_page.path }}" class="btn btn-info" role="button">
+                {{next_page.name}} <i class="bi bi-arrow-right"></i>
+            </a>
+            {% else %}
+            <a href="#" class="btn btn-info disabled" role="button">
+                None <i class="bi bi-arrow-right"></i>
+            </a>
+            {% endif %}    
         </div>
   </div>
 </div>

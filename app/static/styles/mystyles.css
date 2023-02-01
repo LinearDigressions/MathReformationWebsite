@@ -8,12 +8,15 @@
 
   .left-sidebar-container {
     position: fixed;
+    
     top: 0;
     bottom: 0;
     left: 0;
-    padding: 70px 0 0;
-    height:100%; /* Height of navbar */
-    z-index: 100; /* Behind the navbar , above the main content */
+    padding: 0 0 0;
+    overflow: auto;
+    
+    height: 100%; /* Height of navbar */
+    z-index: -1; /* Behind the navbar , above the main content */
     opacity: 0;
     transition: z-index 0.3s , opacity 0.3s linear;
   }
