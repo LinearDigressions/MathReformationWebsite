@@ -42,6 +42,12 @@
                     document.getElementById('theme_button').innerHTML = 'Light Mode';
                     $('#offcanvas-parent').removeClass('bg-light');
                     $('#offcanvas-parent').addClass('bg-dark');
+                    $('#bookmark_button').removeClass('btn-light');
+                    $('#bookmark_button').addClass('btn-dark');
+                    $('#table_of_contents_button').removeClass('btn-light');
+                    $('#table_of_contents_button').addClass('btn-dark');
+            
+            
                   } else {
                     window.localStorage.setItem('light', true);
                     document.getElementById('style').setAttribute('href', '/static/styles/flatly.css');
@@ -49,6 +55,12 @@
                     document.getElementById('theme_button').innerHTML = 'Dark Mode';
                     $('#offcanvas-parent').removeClass('bg-dark');
                     $('#offcanvas-parent').addClass('bg-light');
+                    $('#offcanvas-parent').removeClass('bg-dark');
+                    $('#offcanvas-parent').addClass('bg-light');
+                    $('#bookmark_button').removeClass('btn-dark');
+                    $('#bookmark_button').addClass('btn-light');
+                    $('#table_of_contents_button').removeClass('btn-dark');
+                    $('#table_of_contents_button').addClass('btn-light');
                   }
                 }
               }

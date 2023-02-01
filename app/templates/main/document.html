@@ -54,7 +54,7 @@ Id consectetur purus ut faucibus pulvinar elementum integer enim neque. Et leo d
 
 
 {% block left_button %}
-<button id="table_of_contents_button" class="btn toggle-btn btn-light" type="button">
+<button id="table_of_contents_button" class="btn toggle-btn" type="button">
     <i class="bi bi-list-ol" style="font-size: 2rem;"></i>
 </button>
 {% endblock %}
@@ -67,7 +67,7 @@ Id consectetur purus ut faucibus pulvinar elementum integer enim neque. Et leo d
 {% if user %} 
 <form method="post" novalidate>
     {{ form.hidden_tag() }}
-    <button id="bookmark_button" name="submit" class="btn btn-light">
+    <button id="bookmark_button" name="submit" class="btn">
         {% if is_bookmarked %} 
         <i class="bi bi-bookmark-fill" style="font-size: 2rem;"></i>
         {% else %} 
