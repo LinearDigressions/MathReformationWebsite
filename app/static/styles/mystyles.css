@@ -7,7 +7,7 @@
 
 
   .left-sidebar-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -42,7 +42,7 @@
 .sticky-menu {
     position: relative;
     /* width: calc(100% - 3rem); */
-    height: 100%;
+    
     margin-right: 0;
     top: 0;
     padding-top: .5rem;
