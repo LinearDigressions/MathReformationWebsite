@@ -7,12 +7,12 @@
 
 
   .left-sidebar-container {
-    position: fixed;
+    position: absolute;
     
     top: 0;
     bottom: 0;
     left: 0;
-    padding: 0 0 0;
+    padding: 70px 0 160px;
     overflow: auto;
     
     height: 100%; /* Height of navbar */

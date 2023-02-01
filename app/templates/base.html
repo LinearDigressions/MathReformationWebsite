@@ -85,7 +85,7 @@
         {% block head %}{% endblock %}
     </head>
     <body class="d-flex flex-column min-vh-100">
-        <nav class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top" >
+        <nav id="navbar" class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand">Math Reformation</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -173,7 +173,7 @@
         </nav>
         <div class="container-fluid flex-grow-1 px-0" style="position:relative;">
             <div class="row h-100 m-auto">
-                <div class="col-sm-12 col-md-3 col-lg-3 left-sidebar-container <open?>" style="position:absolute;">
+                <div class="col-sm-12 col-md-3 col-lg-3 left-sidebar-container <open?>" style="position:fixed;">
                     {% block left_sidebar %} 
                     {% endblock %}
                 </div>
@@ -220,7 +220,7 @@
             </div>
         </div>
 
-        <footer class="bg-secondary text-center text-white" style="z-index:0;">
+        <footer id="footer" class="bg-secondary text-center text-white" style="z-index:200;">
             <div class="container p-3 pb-0">
                 <section class="mb-2">
                     <p>Website by James Boyer</p>
@@ -266,6 +266,24 @@
             $('#table_of_contents_button').removeClass('btn-dark');
             $('#table_of_contents_button').addClass('btn-light');
         }
+
+        
+
+        body = document.getElementsByTagName("body")[0];
+        sidebar = document.getElementsByClassName("left-sidebar-container");
+        footer = document.getElementsByTagName("footer")[0];
+
+        // This function updates the bottom of the left-sidebar-container element to respond to the footer
+        body.onscroll = function() {
+            footer = $("footer");
+            var footer_height = footer.outerHeight(),
+            H   = $(window).height(),
+            r   = footer[0].getBoundingClientRect(), t=r.top, b=r.bottom;
+            px_visible = Math.max(0, t>0? Math.min(footer_height, H-t) : Math.min(b, H));
+            px_visible = px_visible.toString();
+            $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
+        };
+
     </script>
 
 </html>
