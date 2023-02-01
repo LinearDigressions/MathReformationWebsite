@@ -108,7 +108,7 @@ def document_page(path):
                 break
 
         breadcrumb_links = breadcrumb_links[::-1]
-        
+           
     content = {}
     content["breadcrumb_links"] = breadcrumb_links
     content["document"] = document

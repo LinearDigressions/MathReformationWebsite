@@ -8,26 +8,38 @@
 
 {% block left_sidebar %}
 
-<div class="bg-light sticky-menu left-menu px-3 pt-3">
-    <div class="d-flex">
-        <h4 class="flex-fill">
-            Table of Contents:
-        </h4> 
-        <button class="btn toggle-btn pt-1" type="button">
-            <i class="bi bi-x-lg"></i>
-        </button>
+<div class="bg-light sticky-menu left-menu offcanvas px-3 pt-3">
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title" id="offcanvasLabel">Table of Contents</h4>
+        <button type="button" class="btn toggle-btn"><i class="bi bi-x-lg"></i></button>
+        
     </div>
-
-    <div>
+    <div class="offcanvas-body">
+        {% if document.children != [] %}
         <h5>{{ document.name }}</h5>
-        {% if document.category_type != "article" %}
         <ol>
 
-            {% for child in document.children %}
+            {% for child in document.ordered_children() %}
+            {% if child.is_visible %}
             <li>
                 <a class="link-primary" href="{{ url_for('main.document_page', path=child.path) }}">
                     {{ child.name }}
                 </a>
+            </li>
+            {% endif %}
+            {% endfor %} 
+        </ol>
+        {% else %} 
+        <h5>{{ document.parent.name }}</h5>
+        <ol>
+            {% for child in document.parent.ordered_children() %}
+            {% if child.is_visible %}
+            <li>
+                <a class="link-primary"href="{{ url_for('main.document_page', path=child.path) }}">
+                    {{ child.name }}
+                </a>
+            </li>
+            {% endif %}
             {% endfor %} 
         </ol>
         {% endif %}
@@ -101,20 +113,7 @@
 {{ document.body_main | safe }}
 
 
-{% if document.document_type != "article" %}
-<ul class="list-group mt-3">
 
-    {% for child in document.children %}
-    {% if child.is_visible %}
-    <a class="list-group-item" href = {{ url_for('main.document_page', path=child.path) }}>
-        <h4 class="text-center">
-                {{ child.name }}
-        </h4>
-    </a>
-    {% endif %}
-    {% endfor %}
-</ul>
-{% endif %}
 
 
 
