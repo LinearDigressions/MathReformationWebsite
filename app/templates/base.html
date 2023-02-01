@@ -159,48 +159,45 @@
                 </div>
             </div>
         </nav>
-        <div class="wrapper flex-grow-1">
-            <div class="container-fluid px-0">
-                <div class="row h-100">
-                    <div class="col-sm-12 col-md-3 col-lg-3 left-sidebar-container">
-                        {% block left_sidebar %} 
+        <div class="container-fluid flex-grow-1 px-0">
+            <div class="row h-100 m-auto">
+                <div class="col-sm-12 col-md-3 col-lg-3 left-sidebar-container <open?>">
+                    {% block left_sidebar %} 
+                    {% endblock %}
+                </div>
+                <div class="col-12 col-lg-12 main-content d-flex flex-row px-0 justify-content-between">
+                    <div>
+                        {% block left_button %}
                         {% endblock %}
                     </div>
-                    
-                    <div role="main" class="col-12 col-lg-12 mt-2 main-content d-flex flex-row justify-content-between">
-                        <div>
-                            {% block left_button %}
-                            {% endblock %}
-                        </div>
-                        <div class="mt-3">
-                            {% block document_name %}
-                            {% endblock %}
-                        </div>
-                        <div>
-                            {% block right_button %}
-                            {% endblock %}
-                        </div>
+                    <div class="mt-3">
+                        {% block document_name %}
+                        {% endblock %}
                     </div>
-                    <div class="row px-0 mx-2">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6 justify-content-center">
-                            {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                            {% for message in messages %}
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            {% endfor %}
-                            {% endif %}
-                            {% endwith %}
-                            {% block content %}
-                            {% endblock %}
-                        </div>
-                        <div class="col-md-3"></div>
+                    <div>
+                        {% block right_button %}
+                        {% endblock %}
                     </div>
-                    <div class="col-sm-12 col-md-5 col-lg-4"></div>
                 </div>
+                <div class="row px-0 mx-auto">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 justify-content-center">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="col-sm-12 col-md-5 col-lg-4"></div> 
             </div>
         </div>
 
