@@ -31,6 +31,9 @@
             <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' title='alt'>
         </noscript>
 
+        <link id='style' rel='stylesheet' href='/static/styles/mystyles.css'>
+
+
         <script>
 
             function toggleTheme() {
@@ -157,29 +160,48 @@
             </div>
         </nav>
         <div class="wrapper flex-grow-1">
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                        {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                        {% endwith %}
-                        {% block content %}
+            <div class="container-fluid px-0">
+                <div class="row h-100">
+                    <div class="col-sm-12 col-md-3 col-lg-3 left-sidebar-container">
+                        {% block left_sidebar %} 
                         {% endblock %}
+                    </div>\
+                    
+                    <div role="main" class="ml-sm-auto col-12 col-lg-12 mt-5 main-content">
+                        <div class="row">
+                            {% block button_row %}
+                            {% endblock %}
+                        </div>
+                        <div class="row {% if not document %}mt-4{% endif %}">
+                            <div class="col-md-3 order-md-1 order-sm-1">
+                               
+                            </div>
+                            <div class="col-md-6 order-md-2 order-sm-2">
+                                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+                                {% block content %}
+                                {% endblock %}
+                            </div>
+                            <div class="col-md-3 order-md-3 order-sm-0">
+                              
+                            </div>
+                        </div>
+                        
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-sm-12 col-md-5 col-lg-4"></div>
                 </div>
             </div>
         </div>
 
-        <footer class="bg-secondary text-center text-white">
+        <footer class="bg-secondary text-center text-white" style="z-index:200;">
             <div class="container p-3 pb-0">
                 <section class="mb-2">
                     <p>Website by James Boyer</p>
@@ -199,10 +221,11 @@
                 </section>
             </div>
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                © 2023 Copyright:
+                © 2022-2023 Copyright:
                 <a class="text-white" href="mathreformation.com">mathreformation.com</a>
             </div>
         </footer>
     </body>
-    
+    <script src="{{url_for('static', filename='myjavascript.js')}}"></script>
+
 </html>

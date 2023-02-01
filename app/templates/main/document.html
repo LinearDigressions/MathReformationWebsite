@@ -5,27 +5,60 @@
 {{ document.header | safe }}
 {% endblock %}
 
+
+{% block left_sidebar %}
+
+<div class="bg-light sticky-menu left-menu px-3 pt-3">
+    <div class="d-flex">
+        <h4 class="flex-fill">
+            Table of Contents:
+            
+        </h4> 
+        <button class="btn toggle-btn pt-1" type="button">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    
+    
+    <p>
+        Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+    </p>
+
+</div>
+{% endblock %}
+
+
+{% block button_row %}
+<div>
+    <button class="btn toggle-btn me-auto" type="button">
+        <i class="bi bi-list" style="font-size: 2rem;"></i>
+    </button>
+    {% if user %} 
+    <form action="" class="float-end" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <button name="submit" class="btn">
+            {% if is_bookmarked %} 
+            <i class="bi bi-bookmark-fill" style="font-size: 2rem;"></i>
+            {% else %} 
+            <i class="bi bi-bookmark" style="font-size: 2rem;"></i>
+            {% endif %}
+        </button>
+    </form>
+    {% endif %}
+</div>
+
+{% endblock %} 
+
 {% block content %} 
 
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-    Contents
-</button>
 
-<div class="offcanvas offcanvas-start" data-bs-backdrop="false" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasTopLabel">Offcanvas top</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    ...
-  </div>
-</div>
+
 
 <h1 class="text-center">{{ document.name }}</h1>
 
 
 {% if breadcrumb_links != [] %}
-<ul class="breadcrumb">
+<ul class="breadcrumb justify-content-center">
     {% for link in breadcrumb_links %}
     
     <a class="breadcrumb-item {% if loop.last %}active{% endif %}" href="{{ url_for('main.document_page', path=link['path']) }}">
@@ -42,18 +75,6 @@
 {% endif %}
 
 
-{% if user %} 
-<form action="" method="post" class="form-inline" novalidate>
-    {{ form.hidden_tag() }}
-    <button name="submit" class="btn btn-success">
-        {% if is_bookmarked %} 
-        <i class="bi bi-bookmark-fill"></i>
-        {% else %} 
-        <i class="bi bi-bookmark"></i>
-        {% endif %}
-    </button>
-</form>
-{% endif %}
 
 <div class="text-center mt-1 mb-1">
     {% if editor_permission.can() %} 

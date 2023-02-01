@@ -1,0 +1,51 @@
+.main-content {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+  }
+
+
+  .left-sidebar-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 70px 0 160px; /* Height of navbar */
+    z-index: 100; /* Behind the navbar , above the main content */
+    opacity: 0;
+    transition: z-index 0.3s , opacity 0.3s linear;
+  }
+
+  .left-sidebar-container.open {
+    z-index: 102; /* Behind the navbar , on top of the main content */
+    opacity: 1;
+    transition: z-index 0.3s step-start, opacity 0.3s linear;
+  }
+
+.left-menu {
+    
+    left: -100%; /* Push the content full width from its relative position */
+    visibility: hidden; 
+    transition-timing-function: ease-in-out;
+    transition-duration: .3s;
+    transition-property: left, visibility;
+    
+  }
+  
+  .left-menu.open {
+    left: 0; /* move the content to it's initial state */
+    visibility: visible;
+  }
+
+.sticky-menu {
+    position: relative;
+    /* width: calc(100% - 3rem); */
+    height: 100%;
+    margin-right: 0;
+    top: 0;
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
