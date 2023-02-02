@@ -2,11 +2,13 @@
 
 
 {% block content %}
-<h1 class="text-center">Categories  
-    {% if editor_permission.can() %} 
-    <a href="{{ url_for('staff.new_category') }}" class="text-primary" role="button"><i class="bi bi-plus-square-fill"></i></a>
-    {% endif %}
-</h1>
+<h1 class="text-center">Categories</h1>
+{% if editor_permission.can() %} 
+<div class="text-center">
+    <a href="{{ url_for('staff.new_category') }}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-plus"></i> New Category</a>
+</div>
+{% endif %}
+
 <div class="d-flex flex-wrap justify-content-center">
     {% for category in categories %} 
         <a class="m-2 btn btn-sm btn-info" href="{{ url_for('main.category_page', path=category.path) }}">{{ category.name }}</a>
@@ -15,6 +17,6 @@
 {% endblock %}
 
 {% block citation %}
-{{ citation_info(page_type="Category", page_name=category.name) }}
+{{ citation_info(page_type="Math Reformation", page_name="Categories") }}
 {% endblock %}
 
