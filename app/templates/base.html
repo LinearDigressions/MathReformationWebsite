@@ -291,9 +291,22 @@
             r   = footer[0].getBoundingClientRect(), t=r.top, b=r.bottom;
             px_visible = Math.max(0, t>0? Math.min(footer_height, H-t) : Math.min(b, H));
             px_visible = px_visible.toString();
+            console.log(px_visible)
             $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
         };
-        body.onscroll;
+
+        function setSidebarHeight(){
+            footer = $("footer");
+            var footer_height = footer.outerHeight(),
+            H   = $(window).height(),
+            r   = footer[0].getBoundingClientRect(), t=r.top, b=r.bottom;
+            px_visible = Math.max(0, t>0? Math.min(footer_height, H-t) : Math.min(b, H));
+            px_visible = px_visible.toString();
+            console.log(px_visible)
+            $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
+        };
+        setSidebarHeight();
+        
     </script>
 
 </html>
