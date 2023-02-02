@@ -54,7 +54,7 @@ class EditDocumentForm(FlaskForm):
 
     def validate_name(self, name):
         doc = Document.query.filter_by(name=name.data).first() 
-        if doc is not None and name.data != self.previous_name:
+        if doc is not None and name.data.lower() != self.previous_name.lower():
             raise ValidationError('Please use a different document name.')
 
    

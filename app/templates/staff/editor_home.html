@@ -93,15 +93,15 @@
 
 {% if special_documents.count() > 0 %}
 <div class="card my-3">
-    <h3 class="card-header">Special Documents</h3>
+    <h3 class="card-header">Special Documents:</h3>
 
     <ul class="list-group list-group-flush px-3">
         {% for document in special_documents %}
         <li class="list-group-item">
-            <h5>{{ document.name }}
+            {{ document.name }}
             {{ view_document_button(path=document.path, warning=False) }}
             {{ edit_document_button(path=document.path, document_type=document.document_type) }}
-            {{ delete_document_button(path=document.path, document_type=document.document_type) }}</h5>
+            {{ delete_document_button(path=document.path, document_type=document.document_type) }}
         </li>
         {% endfor %}
     </ul>
