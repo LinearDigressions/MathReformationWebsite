@@ -139,12 +139,15 @@ def document_page(path):
 
     return render_template('main/document.html', **content, title=document.name)
 
-
+@bp.route("/categories/", methods=["GET", "POST"])
 @bp.route("/category/<path>", methods=["GET", "POST"])
-def category_page(path):
-    category = db.first_or_404(Category.query.filter_by(path=path))
-    return render_template('main/category.html', category=category, title=category.name)
-
+@bp.route("/category/", methods=["GET", "POST"])
+def category_page(path=None):
+    if path != None:
+        category = db.first_or_404(Category.query.filter_by(path=path))
+        return render_template('main/category.html', category=category, title=category.name)
+    else:
+        return render_template('main/all_categories.html', categories=Category.query.all(), title="Categories")
 
 
 @bp.route("/feedback", methods=["GET","POST"])

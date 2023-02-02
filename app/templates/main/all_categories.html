@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+
+
+{% block content %}
+<h1>Categories:</h1>
+<ul>
+    {% for category in categories %} 
+    <li>
+        <a href="{{ url_for('main.category_page', path=category.path) }}">{{ category.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
