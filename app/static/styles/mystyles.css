@@ -18,7 +18,7 @@ a {text-decoration:none;}
     top: 0;
     bottom: 0;
     left: 0;
-    padding: 70px 0 160px;
+    padding: 70px 0 0;
     overflow: auto;
     
     height: 100%; /* Height of navbar */
