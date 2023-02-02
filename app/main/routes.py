@@ -2,7 +2,7 @@ from flask import render_template, abort, g, redirect, url_for, request, current
 from flask_login import current_user
 from app.main import bp
 from flask_login import login_required
-from app.models import Feedback, User, Document, Category
+from app.models import Feedback, User, Document, Category, Update
 from app import db
 import markdown
 from app.roles import admin_permission, author_permission
@@ -45,9 +45,11 @@ def index():
 
     home_article = Document.query.filter_by(path='home').first()
 
-    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(5)
-
-    return render_template('main/index.html', title="Home", home_article=home_article, recent_documents=recent_documents)
+    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(10)
+    
+    updates = Update.query.order_by(Update.date_added.desc()).all()
+    print(updates)
+    return render_template('main/index.html', title="Home", home_article=home_article, updates=updates,recent_documents=recent_documents)
 
 @bp.route("/about", methods=["GET"])
 def about():
@@ -219,12 +221,15 @@ def citation(page_type, page_name, page_url):
     if page_type == "Math Reformation":
         page_name = "Math Reformation - " + page_name
 
+    if page_type == "Category":
+        page_name = "Category - " + page_name
+
     if page_type == "Document":
         doc = Document.query.filter_by(name=page_name).first()
         if doc != None:
-            year = doc.date_added.year
-            month = calendar.month_name[doc.date_added.month]
-            day = doc.date_added.day
+            year = doc.last_updated.year
+            month = calendar.month_name[doc.last_updated.month]
+            day = doc.last_updated.day
 
     
 

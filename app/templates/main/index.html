@@ -5,16 +5,42 @@
 {{ home_article.body_main | safe }}
 
 
+{% if updates != [] %}
+<div class="card my-3">
+    <div class="card-header">
+        Updates:
+    </div>
+    <div class="card-body overflow-scroll" style="max-height:200px;">
+        {% for update in updates %} 
+        <p><b>{{ moment(update.date_added).format('LLL') }}</b></p>
+        <p>{{ update.body}}</p>
+        {% if not loop.last %}
+            <hr>
+        {% endif %}
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% endif %}
+
+
+
+
 <ul class="list-group mb-3">
-    <li class="list-group-item active">Recent Additions:</li>
+    <li class="list-group-item active">New Pages:</li>
 
     {% for document in recent_documents %}
 
-        <a class="list-group-item" href = {{ url_for('main.document_page', path=document.path)}}>
+        <a class="list-group-item" href ="{{ url_for('main.document_page', path=document.path)}}">
             {{ document.name }}
         </a>
     {% endfor %}
 </ul>
+
+{% endblock %}
+
+{% block footer %} 
 
 {% endblock %}
 

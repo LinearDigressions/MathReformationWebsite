@@ -20,3 +20,7 @@
     {% endfor %}
 </ul>
 {% endblock %}
+
+{% block citation %}
+{{ citation_info(page_type="Category", page_name=category.name) }}
+{% endblock %}

@@ -10,6 +10,10 @@ class EditCategoryForm(FlaskForm):
     path = StringField("Path",validators=[DataRequired()])
     documents = SelectMultipleField('Documents', choices=[])
     submit = SubmitField('Save')
+
+class EditUpdateForm(FlaskForm):
+    body = TextAreaField("Update",validators=[DataRequired()])
+    submit = SubmitField('Save')
    
 class EditDocumentForm(FlaskForm):
     previous_name = None

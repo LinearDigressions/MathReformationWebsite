@@ -318,7 +318,15 @@ class Document(SearchableMixin, db.Model):
     def __repr__(self):
         return '<Document ' + self.name + '>'
 
+class Update(db.Model):
 
+    # Attributes
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text())
+    date_added = db.Column(db.DateTime, nullable=False, index=True,
+        default=datetime.utcnow)
+
+  
 
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -374,6 +382,7 @@ class AdminFileView(FileAdmin):
 
 # Adding admin views for all objects
 admin.add_view(AdminModelView(Feedback, db.session))
+admin.add_view(AdminModelView(Update, db.session))
 admin.add_view(AdminModelView(Category, db.session))
 admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Role, db.session))

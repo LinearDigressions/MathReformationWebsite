@@ -3,10 +3,10 @@ from datetime import datetime
 from flask_login import current_user
 from app import photos, db
 from app.staff import bp
-from app.models import Document, Category
+from app.models import Document, Category, Update
 from flask_login import login_required
 from app.roles import admin_permission, EditArticlePermission, author_permission, editor_permission
-from app.staff.forms import AddPhotoForm, DeletePhotoForm, EditDocumentForm, EditCategoryForm
+from app.staff.forms import AddPhotoForm, DeletePhotoForm, EditDocumentForm, EditCategoryForm, EditUpdateForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
@@ -54,6 +54,7 @@ def author_home():
     return render_template('staff/author_home.html', authored_articles=authored_articles, add_photo_form=add_photo_form, setname=photos.name, files=files, title="Author Home")
 
 
+
 @bp.route("/editor_home", methods=["GET", "POST"])
 @login_required
 @editor_permission.require(http_exception=403)
@@ -90,6 +91,27 @@ def editor_home():
                             setname=photos.name, 
                             files=files, 
                             title="Editor Home")
+
+
+@bp.route("/update", methods=["GET","POST"])
+@login_required
+@editor_permission.require(http_exception=403)
+def new_update():
+    form = EditUpdateForm()
+
+    if form.validate_on_submit():
+
+        new_update = Update(body=form.body.data)
+
+        db.session.add(new_update)
+        db.session.commit()
+
+        flash("Update Added!")
+        return redirect(url_for('main.index'))
+
+    return render_template('staff/new_update.html', form=form, title="New Update")
+
+
 
 @bp.route("/create/document/<document_type>/<parent_path>", methods=["GET", "POST"])
 @bp.route("/create/document/<document_type>", methods=["GET", "POST"])
