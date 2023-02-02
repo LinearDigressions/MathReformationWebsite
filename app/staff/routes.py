@@ -70,7 +70,7 @@ def editor_home():
 
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
 
-
+    categories = Category.query.order_by(Category.name).all()
     books = Document.query.filter_by(document_type="book")
     special_documents = Document.query.filter_by(document_type="special")
 
@@ -81,6 +81,7 @@ def editor_home():
 
 
     return render_template('staff/editor_home.html', 
+                            categories=categories,
                             books=books,
                             special_documents=special_documents,
                             invisible_documents=invisible_documents,
@@ -430,6 +431,12 @@ def delete_file(item_type, item_name):
         flash(item_name + " file deleted.")
         return redirect(url_for('staff.author_home'))
 
+    elif item_type == "category":
+        category = db.first_or_404(Category.query.filter_by(path=item_name))
+        db.session.delete(category)
+        db.session.commit()
+        flash(item_name + " category deleted.")
+
     elif item_type in ["chapter", "section", "article", "book"]:
         document = db.first_or_404(Document.query.filter_by(path=item_name))
 
@@ -440,14 +447,14 @@ def delete_file(item_type, item_name):
 
         db.session.commit()
         flash(item_name + " document deleted.")
-        if editor_permission.can():
-            return redirect(url_for('staff.editor_home'))    
-        else:
-            return redirect(url_for('staff.author_home'))
-
+        
     else:
         abort(404)
 
+    if editor_permission.can():
+            return redirect(url_for('staff.editor_home'))    
+    else:
+        return redirect(url_for('staff.author_home'))
 
 
 @bp.route('/export/')

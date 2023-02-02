@@ -98,14 +98,24 @@
 
 {% macro edit_document_button(path, document_type) -%}
 
-<a href="{{ url_for('staff.edit_document', document_type=document_type, path=path, version='main') }}" class="btn btn-info btn-sm" role="button">Edit {{ document_type.capitalize() }}</a>
+<a href="{{ url_for('staff.edit_document', document_type=document_type, path=path, version='main') }}" class="btn btn-info btn-sm" role="button"><i class="bi bi-pencil"></i></a>
 
+{%- endmacro %}
+
+{% macro edit_category_button(path) -%}
+<a href="{{ url_for('staff.edit_category',path=path) }}" class="btn btn-info btn-sm" role="button"><i class="bi bi-pencil"></i></a>
 {%- endmacro %}
 
 
 {% macro delete_document_button(path, document_type) -%}
 
-<a href="{{ url_for('staff.delete_file', item_type=document_type, item_name=path) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this {{ document_type }}?');" role="button">Delete {{ document_type.capitalize() }}</a>
+<a href="{{ url_for('staff.delete_file', item_type=document_type, item_name=path) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this {{ document_type }}?');" role="button"><i class="bi bi-trash"></i></a>
+
+{%- endmacro %}
+
+{% macro delete_category_button(path) -%}
+
+<a href="{{ url_for('staff.delete_file', item_type='category', item_name=path) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?');" role="button"><i class="bi bi-trash"></i></a>
 
 {%- endmacro %}
 
@@ -116,9 +126,18 @@
 {%- endmacro %}
 
 
+
+
 {% macro view_document_button(path, warning) -%}
 
 
-<a href="{{ url_for('main.document_page', path=path) }}" class="btn btn-sm btn-info" role="button"  {% if warning %}onclick="return confirm('Make sure to save document first! Please click on OK to continue.');" {% endif %}>View Page</a>
+<a href="{{ url_for('main.document_page', path=path) }}" class="btn btn-sm btn-primary" role="button"  {% if warning %}onclick="return confirm('Make sure to save document first! Please click on OK to continue.');" {% endif %}><i class="bi bi-eye"></i></a>
+
+{%- endmacro %}
+
+
+{% macro view_category_button(path, warning) -%}
+
+<a href="{{ url_for('main.category_page', path=path) }}" class="btn btn-sm btn-primary" role="button"  {% if warning %}onclick="return confirm('Make sure to save category first! Please click on OK to continue.');" {% endif %}><i class="bi bi-eye"></i></a>
 
 {%- endmacro %}

@@ -40,12 +40,13 @@
                     document.getElementById('style').setAttribute('href', '/static/styles/darkly.css');
                     document.getElementById('style-alt').setAttribute('href', '/static/styles/flatly.css');
                     document.getElementById('theme_button').innerHTML = 'Light Mode';
-                    $('#offcanvas-parent').removeClass('bg-light');
-                    $('#offcanvas-parent').addClass('bg-dark');
-                    $('#bookmark_button').removeClass('btn-light');
-                    $('#bookmark_button').addClass('btn-dark');
-                    $('#table_of_contents_button').removeClass('btn-light');
-                    $('#table_of_contents_button').addClass('btn-dark');
+                    $('.btn-darkmode').removeClass('btn-light');
+                    $('.btn-darkmode').addClass('btn-dark');
+                    $('.bg-darkmode').removeClass('bg-light');
+                    $('.bg-darkmode').addClass('bg-dark');
+                    $('.text-darkmode').addClass('text-light')
+                    $('.text-darkmode').removeClass('text-dark')
+
             
             
                   } else {
@@ -53,14 +54,12 @@
                     document.getElementById('style').setAttribute('href', '/static/styles/flatly.css');
                     document.getElementById('style-alt').setAttribute('href', '/static/styles/darkly.css');
                     document.getElementById('theme_button').innerHTML = 'Dark Mode';
-                    $('#offcanvas-parent').removeClass('bg-dark');
-                    $('#offcanvas-parent').addClass('bg-light');
-                    $('#offcanvas-parent').removeClass('bg-dark');
-                    $('#offcanvas-parent').addClass('bg-light');
-                    $('#bookmark_button').removeClass('btn-dark');
-                    $('#bookmark_button').addClass('btn-light');
-                    $('#table_of_contents_button').removeClass('btn-dark');
-                    $('#table_of_contents_button').addClass('btn-light');
+                    $('.btn-darkmode').removeClass('btn-dark');
+                    $('.btn-darkmode').addClass('btn-light');
+                    $('.bg-darkmode').removeClass('bg-dark');
+                    $('.bg-darkmode').addClass('bg-light');
+                    $('.text-darkmode').removeClass('text-light')
+                    $('.text-darkmode').addClass('text-dark')
                   }
                 }
               }
@@ -262,20 +261,20 @@
     <script>
         if (window.localStorage && window.localStorage.getItem('light') == 'false') {
             document.getElementById('theme_button').innerHTML = 'Light Mode';
-            $('#offcanvas-parent').removeClass('bg-light');
-            $('#offcanvas-parent').addClass('bg-dark');
-            $('#bookmark_button').removeClass('btn-light');
-            $('#bookmark_button').addClass('btn-dark');
-            $('#table_of_contents_button').removeClass('btn-light');
-            $('#table_of_contents_button').addClass('btn-dark');
+            $('.btn-darkmode').removeClass('btn-light');
+            $('.btn-darkmode').addClass('btn-dark');
+            $('.bg-darkmode').removeClass('bg-light');
+            $('.bg-darkmode').addClass('bg-dark');
+            $('.text-darkmode').removeClass('text-dark')
+            $('.text-darkmode').addClass('text-light')
         } else {
             document.getElementById('theme_button').innerHTML = 'Dark Mode';
-            $('#offcanvas-parent').removeClass('bg-dark');
-            $('#offcanvas-parent').addClass('bg-light');
-            $('#bookmark_button').removeClass('btn-dark');
-            $('#bookmark_button').addClass('btn-light');
-            $('#table_of_contents_button').removeClass('btn-dark');
-            $('#table_of_contents_button').addClass('btn-light');
+            $('.btn-darkmode').removeClass('btn-dark');
+            $('.btn-darkmode').addClass('btn-light');
+            $('.bg-darkmode').removeClass('bg-dark');
+            $('.bg-darkmode').addClass('bg-light');
+            $('.text-darkmode').removeClass('text-light');
+            $('.text-darkmode').addClass('text-dark');
         }
 
         

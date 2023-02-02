@@ -147,7 +147,8 @@ def category_page(path=None):
         category = db.first_or_404(Category.query.filter_by(path=path))
         return render_template('main/category.html', category=category, title=category.name)
     else:
-        return render_template('main/all_categories.html', categories=Category.query.all(), title="Categories")
+        categories = Category.query.order_by(Category.name).all()
+        return render_template('main/all_categories.html', categories=categories, title="Categories")
 
 
 @bp.route("/feedback", methods=["GET","POST"])

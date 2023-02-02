@@ -8,7 +8,7 @@
 
 {% block left_sidebar %}
 
-<div id="offcanvas-parent" class="bg-light sticky-menu left-menu offcanvas pt-3">
+<div class="bg-darkmode sticky-menu left-menu offcanvas pt-3">
     <div class="offcanvas-header">
         <h4 class="offcanvas-title" id="offcanvasLabel">Table of Contents</h4>
         <button type="button" class="btn toggle-btn"><i class="bi bi-x-lg"></i></button>
@@ -52,7 +52,7 @@
 
 
 {% block left_button %}
-<button id="table_of_contents_button" class="btn toggle-btn" type="button">
+<button  class="btn btn-darkmode toggle-btn" type="button">
     <i class="bi bi-list-ol"></i>
 </button>
 {% endblock %}
@@ -65,7 +65,7 @@
 {% if user %} 
 <form method="post" novalidate>
     {{ form.hidden_tag() }}
-    <button id="bookmark_button" name="submit" class="btn">
+    <button name="submit" class="btn btn-darkmode">
         {% if is_bookmarked %} 
         <i class="bi bi-bookmark-fill"></i>
         {% else %} 
@@ -82,9 +82,11 @@
 
 
 
-
+<p class="text-center text-darkmode my-2">
+    <b>Last Updated:</b> {{ moment(document.last_updated).format('LLL') }}
+</p>
 {% if breadcrumb_links != [] %}
-<ul class="breadcrumb justify-content-center">
+<ul class="breadcrumb justify-content-center mb-2 bg-darkmode">
     {% for link in breadcrumb_links %}
     
     <a class="breadcrumb-item {% if loop.last %}active{% endif %}" href="{{ url_for('main.document_page', path=link['path']) }}">
@@ -95,34 +97,29 @@
 </ul>
 {% endif %}
 
-<p>
-    Author: {{ document.author.name }}
-</p>
-<p>
-    Last Updated: {{ moment(document.last_updated).format('LLL') }}
-</p>
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mt-3">
     {% for category in document.categories %}
-    <a class="btn btn-sml btn-info" href="{{ url_for('main.category_page', path=category.path) }}">
+    <a class="badge rounded-pill text-bg-info mx-1" href="{{ url_for('main.category_page', path=category.path) }}">
         {{ category.name }}
     </a>
     {% endfor %}
+    {% if not document.is_visible %}
+    <a href="#" class="badge rounded-pill text-bg-warning mx-1">Invisible</h5>
+    {% endif %}
 </div>
 
 
-{% if not document.is_visible %}
-<h5 class="badge bg-info">Article Invisible</h5>
-{% endif %}
 
 
 
-<div class="text-center mt-1 mb-1">
+
+<div class="text-center mt-2 mb-1">
     {% if editor_permission.can() %} 
     {% if document.document_type != "article" %}
-    <a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info" role="button">New Child</a>
+    <a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info me-1" role="button">Add Child</a>
     {% endif %}
-    <a href="{{ url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main') }}" class="btn btn-info" role="button">Edit Document</a>
+    <a href="{{ url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main') }}" class="btn btn-info ms-1" role="button"><i class="bi bi-pencil"></i></a>
     {% endif %}
 </div>
 

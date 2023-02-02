@@ -18,24 +18,44 @@
 {% if next_page != None or prev_page != None %}
 <div class="row align-items-center mb-3">
     {% if prev_page %}
-    <a href="{{ prev_page.path }}" class="col link btn btn-link text-center" role="button">
-        <i class="bi bi-arrow-left"></i> {{prev_page.name}}
+    <a href="{{ prev_page.path }}" class="col link btn btn-link text-center d-flex flex-row" role="button">
+        <div class="d-flex flex-column align-self-center pe-1">
+            <i class="bi bi-arrow-left"></i>
+        </div>
+        <div>
+            {{prev_page.name}}
+        </div>
     </a>
     {% else %}
-    <a href="#" class="disabled col btn btn-link text-center" role="button">
-        <i class="bi bi-arrow-left"></i> None
+    <a href="#" class="disabled col btn btn-link text-center d-flex flex-row" role="button">
+        <div class="d-flex flex-column align-self-center pe-1">
+            <i class="bi bi-arrow-left"></i>
+        </div>
+        <div>
+            None
+        </div>
     </a>
     {% endif %}    
     <a href="#top" class="col link btn btn-link text-center" role="button">
         Back to Top <i class="bi bi-arrow-up"></i>
     </a>
     {% if next_page %}
-    <a href="{{ next_page.path }}" class="col btn btn-link text-center" role="button">
-        {{next_page.name}} <i class="bi bi-arrow-right"></i>
+    <a href="{{ next_page.path }}" class="col btn btn-link text-center d-flex flex-row justify-content-end" role="button">
+        <div>
+            {{next_page.name}} 
+        </div>
+        <div class="d-flex flex-column align-self-center ps-1">
+            <i class="bi bi-arrow-right"></i>
+        </div>
     </a>
     {% else %}
-    <a href="#" class="disabled col btn btn-link text-center" role="button">
-        None <i class="bi bi-arrow-right"></i>
+    <a href="#" class="disabled col btn btn-link text-center d-flex flex-row justify-content-end" role="button">
+        <div>
+            None 
+        </div>
+        <div class="d-flex flex-column align-self-center ps-1">
+            <i class="bi bi-arrow-right"></i>
+        </div>
     </a>
     {% endif %}    
 

@@ -12,24 +12,25 @@
             height:100%;
           }
 
-        #left {
-            position: absolute;
+        @media (min-width: 720px) {
+            #left {
+                position: absolute;
+                top: 10px;
+                bottom: 10px;
+                left: 10px;
+                width: 48%;
+                overflow-y: scroll; 
+            }
             
-            top: 10px;
-            bottom: 10px;
-            left: 10px;
-            width: 48%;
-            overflow-y: scroll; 
-          }
-          
-          #right {
-            position: absolute;
-            top: 10px;
-            bottom: 0px;
-            right: 10px;
-            overflow-y: scroll;
-            width: 48%;
-          }
+            #right {
+                position: absolute;
+                top: 10px;
+                bottom: 0px;
+                right: 10px;
+                overflow-y: scroll;
+                width: 48%;
+            } 
+        }
     </style>
 
     {{mde.css}}
@@ -49,7 +50,7 @@
 
 {% block wide_content %}
 <div class="row m-2" id="editor">
-    <div class="card col-6 p-2" id="left">
+    <div class="card col-12 p-2" id="left">
         <div class="card-header">
             <h4 class="text-center card-title">{{ document_type.capitalize() }} Editor</h4>
             <h5 class="text-center card-subtitle">Name: {{ form.name.data }}</h5>
@@ -114,8 +115,8 @@
             </form>
         </div>
     </div>
-    <div class="col-6 p-2" id="right">
-        <h1>Body Preview</h1>
+    <div class="col-12 p-2" id="right">
+        <h1 class="text-center">Body Preview</h1>
         {{mde.preview}}
         {{mde.js}}
     </div>
