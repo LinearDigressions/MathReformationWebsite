@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_principal import Principal
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib import rediscli
 
 from flask_mde import Mde
@@ -40,7 +40,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 principals = Principal()
-admin = Admin(url="/admin_home", name="mathreformation")
+admin = Admin(url="/admin_home", name="")
 mde = Mde()
 mail = Mail()
 compress = Compress()
@@ -97,11 +97,12 @@ def create_app(config_class=Config):
 
 
     # Registering Elastic Search If Available
-    if app.config['ELASTICSEARCH_URL']:
-        app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+    # if app.config['ELASTICSEARCH_URL']:
+    #     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
         
-    else:
-        app.elasticsearch = None
+    # else:
+    #     app.elasticsearch = None
+    app.elasticsearch = None
 
 
     # Background tasks

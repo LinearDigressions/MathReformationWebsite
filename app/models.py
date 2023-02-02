@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from flask import redirect, url_for, request, current_app
 from app.roles import admin_permission
+from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
 import os.path as op
@@ -15,6 +16,7 @@ import jwt
 from sqlalchemy.orm import backref, Mapper
 import redis
 import rq
+import json
 
 
 # SEARCH MIXIN
@@ -207,6 +209,17 @@ class Document(SearchableMixin, db.Model):
     def make_invisible_on_index(self):
         remove_from_index(self.__tablename__, self)
 
+    def find_root(self, doc):
+        if doc.parent == None:
+            return doc
+        else:
+            return self.find_root(doc.parent)
+
+    def get_root(self):
+        return self.find_root(self)
+
+    
+
     # For displaying articles/categories in specific order
     def ordered_children(self):
         #print(self.children)
@@ -318,6 +331,42 @@ class Document(SearchableMixin, db.Model):
     def __repr__(self):
         return '<Document ' + self.name + '>'
 
+class TableOfContents(db.Model):
+
+    # Attributes
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text())
+    path = db.Column(db.String(250), unique=True, nullable=False, index=True)
+
+    def generate_table(self, doc):
+        children = []
+        if doc == None:
+            return
+
+        for child in doc.ordered_children():
+            children.append(self.generate_table(child))
+
+        table_of_contents = {'name':doc.name,'path':doc.path, 'children':children}
+
+        return table_of_contents
+
+    def update_table(self):
+        doc = Document.query.filter_by(path=self.path).first()
+        updated_table = self.generate_table(doc)
+        self.body = json.dumps(updated_table)
+
+
+    def get_table(self):
+        if self.body == '':
+            self.update_table()
+        
+        return json.loads(self.body)
+
+    def __repr__(self):
+        return '<TableOfContents ' + self.path + '>'
+
+    
+
 class Update(db.Model):
 
     # Attributes
@@ -381,6 +430,7 @@ class AdminFileView(FileAdmin):
     
 
 # Adding admin views for all objects
+admin.add_link(MenuLink(name='Back to Website', category='', url='/index'))
 admin.add_view(AdminModelView(Feedback, db.session))
 admin.add_view(AdminModelView(Update, db.session))
 admin.add_view(AdminModelView(Category, db.session))
@@ -388,5 +438,6 @@ admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Role, db.session))
 admin.add_view(AdminModelView(Task, db.session))
 admin.add_view(AdminModelView(Document, db.session))
+admin.add_view(AdminModelView(TableOfContents, db.session))
 path = op.join(op.dirname(__file__), 'static')
 admin.add_view(AdminFileView(path, '/static/', name='Static Files'))

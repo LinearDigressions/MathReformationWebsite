@@ -3,7 +3,7 @@ from datetime import datetime
 from flask_login import current_user
 from app import photos, db
 from app.staff import bp
-from app.models import Document, Category, Update
+from app.models import Document, Category, Update, TableOfContents
 from flask_login import login_required
 from app.roles import admin_permission, EditArticlePermission, author_permission, editor_permission
 from app.staff.forms import AddPhotoForm, DeletePhotoForm, EditDocumentForm, EditCategoryForm, EditUpdateForm
@@ -324,7 +324,9 @@ def edit_document(document_type, path, version):
             document.remove_links()
             document.make_invisible_on_index()
 
-
+        root = document.get_root()
+        if root.path in ["exploring_math", "teaching_math", "applying_math"]:
+            TableOfContents.query.filter_by(path=root.path).first().update_table()
 
         db.session.commit()
         flash("Changes Saved")

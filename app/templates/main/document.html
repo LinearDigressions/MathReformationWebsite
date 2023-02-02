@@ -6,8 +6,8 @@
 {% endblock %}
 
 
-{% block left_sidebar %}
 
+{% block left_sidebar %}
 <div class="bg-darkmode sticky-menu left-menu offcanvas pt-3">
     <div class="offcanvas-header">
         <h4 class="offcanvas-title" id="offcanvasLabel">Table of Contents</h4>
@@ -48,13 +48,15 @@
     </div>
 
 </div>
+
 {% endblock %}
 
-
 {% block left_button %}
+{% if table_of_contents != None %}
 <button  class="btn btn-darkmode toggle-btn" type="button">
     <i class="bi bi-list-ol"></i>
 </button>
+{% endif %}
 {% endblock %}
 
 {% block document_name %}
@@ -105,7 +107,7 @@
     </a>
     {% endfor %}
     {% if not document.is_visible %}
-    <a href="#" class="badge rounded-pill text-bg-warning mx-1">Invisible</h5>
+    <a href="#" class="badge rounded-pill text-bg-warning mx-1">Invisible</a>
     {% endif %}
 </div>
 
@@ -116,7 +118,7 @@
 
 <div class="text-center mt-2 mb-1">
     {% if editor_permission.can() %} 
-    {% if document.document_type != "article" %}
+    {% if document.document_type != "article" and document.is_visible %}
     <a href="{{ url_for('staff.new_document', parent_path=document.path) }}" class="btn btn-info me-1" role="button">Add Child</a>
     {% endif %}
     <a href="{{ url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main') }}" class="btn btn-info ms-1" role="button"><i class="bi bi-pencil"></i></a>

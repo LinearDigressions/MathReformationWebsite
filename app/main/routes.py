@@ -2,7 +2,7 @@ from flask import render_template, abort, g, redirect, url_for, request, current
 from flask_login import current_user
 from app.main import bp
 from flask_login import login_required
-from app.models import Feedback, User, Document, Category, Update
+from app.models import Feedback, User, Document, Category, Update, TableOfContents
 from app import db
 import markdown
 from app.roles import admin_permission, author_permission
@@ -48,7 +48,6 @@ def index():
     recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(5)
     
     updates = Update.query.order_by(Update.date_added.desc()).all()
-    print(updates)
     return render_template('main/index.html', title="Home", home_article=home_article, updates=updates,recent_documents=recent_documents)
 
 @bp.route("/about", methods=["GET"])
@@ -63,14 +62,6 @@ def profile():
     user = User.query.get(current_user.get_id())
 
     return render_template('main/profile.html', title="Profile", user=user)
-
-def generate_table_of_contents(root):
-    children = []
-    for child in root.ordered_children():
-        children.append(generate_table_of_contents(child))
-    table_of_contents = {'name':root.name,'path':root.path, 'children':children}
-    return table_of_contents
-
 
 
 @bp.route("/document/<path>", methods=["GET", "POST"])
@@ -124,8 +115,12 @@ def document_page(path):
         root = document
     else:
         root = Document.query.filter_by(name = breadcrumb_links[0]['name'])[0]
+
+    if root.path in ["exploring_math", "teaching_math", "applying_math"]:
+        table_of_contents = TableOfContents.query.filter_by(path=root.path).first().get_table()
+    else:
+        table_of_contents = None
     
-    table_of_contents = generate_table_of_contents(root)
     
     if document.last_updated == None:
         document.last_updated = document.date_added
