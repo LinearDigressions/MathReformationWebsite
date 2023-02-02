@@ -237,11 +237,7 @@ def edit_document(document_type, path, version):
 
 
 
-    # Prepares form.body data
-    if version == "main":
-        form.body.data = document.body_main
-    elif version == "draft":
-        form.body.data = document.body_draft
+    
 
     # Prepares form
     if document.parent != None:
@@ -256,11 +252,21 @@ def edit_document(document_type, path, version):
 
     selected_document_type = json.dumps([document.document_type])
 
-    form.header.data = document.header
-    form.is_visible.data = document.is_visible
-    form.name.data = document.name
-    form.path.data = document.path
-    form.order.data = document.order
+    # Saves form fields if form fails to prevent changes from being lost
+    if form.errors == {}:
+
+        # Prepares form.body data
+        if version == "main":
+            form.body.data = document.body_main
+        elif version == "draft":
+            form.body.data = document.body_draft
+
+        form.header.data = document.header
+        form.is_visible.data = document.is_visible
+        form.name.data = document.name
+        form.path.data = document.path
+        form.order.data = document.order
+  
 
 
     files = os.listdir(current_app.config['UPLOADED_PHOTOS_DEST'])
