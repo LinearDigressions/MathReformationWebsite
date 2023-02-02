@@ -231,10 +231,8 @@ class Document(SearchableMixin, db.Model):
             siblings = self.parent.ordered_children()
 
             if self == siblings[0]:
-                return self.parent.find_prev_sibling()
-
+                return None
             else:
-
                 idx = np.where(siblings==self)[0][0]
                 return siblings[idx - 1]
 
@@ -245,61 +243,23 @@ class Document(SearchableMixin, db.Model):
 
         next_sibling = self.find_next_sibling()
 
-        if next_sibling == None and self.parent != None:
-            return self.parent.find_next_sibling()
-        else:
+        if next_sibling != None:
             return next_sibling
-        # if self.children != []:
-        #     return self.ordered_children[0]
-
-        # else:
-
-        #     doc = self
-
-        #     while True:
-        #         next_sibling = doc.find_next_sibling()
-
-        #         if next_sibling == None:
-        #             doc = doc.parent
-        #             if doc==None:
-        #                 return None
-        #         else:
-        #             return next_sibling
-
-        #         if doc.document_type == "book":
-        #             return None
+        
+        return self.parent.find_next_sibling()
 
     def find_prev_page(self):
 
         prev_sibling = self.find_prev_sibling()
 
-        if prev_sibling == None and self.parent != None:
-            return self.parent
+        if prev_sibling != None:
+            if prev_sibling.children != []:
+                return prev_sibling.children[-1]
+            else:
+                return prev_sibling
         else:
-            return prev_sibling
+            return self.parent
 
-        # doc = self
-
-        # while True:
-        #     prev_sibling = doc.find_prev_sibling()
-
-        #     if prev_sibling == None:
-        #         doc = doc.parent
-
-        #         if doc == None:
-        #             return None
-        #     else:
-        #         break
-
-        #     if doc.document_type == "book":
-        #         return None
-
-        # while True:
-
-        #     if doc.children == []:
-        #         return doc
-        #     else:
-        #         doc = doc.children[-1]
 
     def set_links(self):
         self.prev_page = self.find_prev_page()

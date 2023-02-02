@@ -47,48 +47,48 @@
 
 
 {% for book in books %}
-<ul class="list-group mt-3 mb-3">
-    <li class="list-group-item list-group-item-primary">
-        <h2>{{ book.name }}</h2>
-        {{ view_document_button(path=book.path, warning=False) }}
+<ol class="mt-3 mb-3">
+    <li >
+        {{ book.name }}
+        <p>{{ view_document_button(path=book.path, warning=False) }}
         {{ edit_document_button(path=book.path, document_type='book') }}
-        {{ delete_document_button(path=book.path, document_type='book') }}
+        {{ delete_document_button(path=book.path, document_type='book') }}</p>
+
+        <ol>
+            {% for chapter in book.ordered_children() %}
+            <li>
+                {{ chapter.name }}
+                <p>{{ view_document_button(path=chapter.path, warning=False) }}
+                {{ edit_document_button(path=chapter.path, document_type='chapter') }}
+                {{ delete_document_button(path=chapter.path, document_type='chapter') }}</p>
+
+                <ol>
+                    {% for section in chapter.ordered_children() %}
+                    <li>
+                        {{ section.name }}
+                        <p>{{ view_document_button(path=section.path, warning=False) }}
+                        {{ edit_document_button(path=section.path, document_type='section') }}
+                        {{ delete_document_button(path=section.path, document_type='section') }}</p>
+
+                        <ol>
+                            {% for article in section.ordered_children() %}
+                            <li>
+                                {{ article.name }}
+                                <p>{{ view_document_button(path=article.path, warning=False) }}
+                                {{ edit_document_button(path=article.path, document_type='article') }}
+                                {{ delete_document_button(path=article.path, document_type='article') }}</p>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </li>
+            {% endfor %}
+
+        </ol>
     </li>
-
-    {% for chapter in book.ordered_children() %}
-
-    <li class="list-group-item list-group-item-dark">
-        <h3>{{ chapter.name }}</h3>
-        {{ view_document_button(path=chapter.path, warning=False) }}
-        {{ edit_document_button(path=chapter.path, document_type='chapter') }}
-        {{ delete_document_button(path=chapter.path, document_type='chapter') }}
-    </li>
-
-    {% for section in chapter.ordered_children() %}
-
-    <li class="list-group-item list-group-item-dark">
-        <h4>{{ section.name }}</h4>
-        {{ view_document_button(path=section.path, warning=False) }}
-        {{ edit_document_button(path=section.path, document_type='section') }}
-        {{ delete_document_button(path=section.path, document_type='section') }}
-    </li>
-
-    {% for article in section.ordered_children() %}
-        
-    <li class="list-group-item list-group-item-light">
-        <h5>{{ article.name }}</h5>
-        {{ view_document_button(path=article.path, warning=False) }}
-        {{ edit_document_button(path=article.path, document_type='article') }}
-        {{ delete_document_button(path=article.path, document_type='article') }}
-    </li>
-        
-    {% endfor %}
-    {% endfor %}
-    {% endfor %}
-
-</ul>
-
-
+</ol>
 {% endfor %}
 
 {% if special_documents.count() > 0 %}

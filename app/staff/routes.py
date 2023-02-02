@@ -365,4 +365,4 @@ def export():
     else:
         current_user.launch_task('export_document','Exporting Documents...')
         db.session.commit()
-    return redirect(url_for('staff.author_home'))
+    return redirect(url_for('staff.editor_home'))

@@ -221,10 +221,10 @@
         </div>
 
         <footer id="footer" class="bg-secondary text-center text-white" style="z-index:200;">
-            <div class="container p-3 pb-0">
-                <section class="mb-2">
-                    <p>Website by James Boyer</p>
-                    <button id="theme_button" class="btn btn-primary mb-1" onclick="toggleTheme()">
+            <div class="container p-1 pb-0">
+                <section class="mb-1">
+                    <p class="mb-1">Website by James Boyer</p>
+                    <button id="theme_button" class="btn btn-sm btn-primary mb-1" onclick="toggleTheme()">
                         Light Mode
                     </button>
                     <script>
@@ -234,12 +234,12 @@
                             document.getElementById('theme_button').innerHTML = 'Dark Mode';
                         }
                     </script>
-                    <a class="btn btn-primary mb-1" href="{% block citation %}{% endblock %}">Cite This Page</a>
-                    <a  class="btn btn-primary mb-1" href="{{ url_for('main.feedback')}}">Submit Feedback</a>
+                    <a class="btn btn-sm btn-primary mb-1" href="{% block citation %}{% endblock %}">Cite This Page</a>
+                    <a  class="btn btn-sm btn-primary mb-1" href="{{ url_for('main.feedback')}}">Submit Feedback</a>
                     
                 </section>
             </div>
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <div class="text-center p-1" style="background-color: rgba(0, 0, 0, 0.2);">
                 © 2022-2023 Copyright:
                 <a class="text-white" href="mathreformation.com">mathreformation.com</a>
             </div>

@@ -33,19 +33,15 @@
     <a href="{{ url_for('staff.new_document', doc_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
 </div>
 
-
-<ul class="list-group mt-3 mb-3">
-<li class="list-group-item">
-    <h3>Articles:</h3>
-</li>
-{% for article in authored_articles %}
-<li class="list-group-item">
-    <h5>{{ article.name }}</h5>
-    {{ view_document_button(path=article.path, warning=False) }}
-    {{ edit_document_button(path=article.path, document_type='article') }}
-    {{ delete_document_button(path=article.path, document_type='article') }}
-</li>
-
+<ul class="mt-3 mb-3">
+    
+    {% for article in authored_articles %}
+    <li>
+        {{ article.name }}
+        <p>{{ view_document_button(path=article.path, warning=False) }}
+        {{ edit_document_button(path=article.path, document_type='article') }}
+        {{ delete_document_button(path=article.path, document_type='article') }}</p>
+    </li>
 
 {% endfor %}
 </ul>
