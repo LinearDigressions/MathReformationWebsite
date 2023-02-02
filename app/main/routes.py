@@ -45,7 +45,7 @@ def index():
 
     home_article = Document.query.filter_by(path='home').first()
 
-    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(10)
+    recent_documents = Document.query.order_by(Document.date_added.desc()).filter_by(is_visible=True, ).limit(5)
     
     updates = Update.query.order_by(Update.date_added.desc()).all()
     print(updates)
