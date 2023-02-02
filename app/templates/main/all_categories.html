@@ -2,12 +2,14 @@
 
 
 {% block content %}
-<h1>Categories:</h1>
-<ul>
+<h1 class="text-center">Categories  
+    {% if editor_permission.can() %} 
+    <a href="{{ url_for('staff.new_category') }}" class="text-primary" role="button"><i class="bi bi-plus-square-fill"></i></a>
+    {% endif %}
+</h1>
+<div class="d-flex flex-wrap justify-content-center">
     {% for category in categories %} 
-    <li>
-        <a href="{{ url_for('main.category_page', path=category.path) }}">{{ category.name }}</a>
-    </li>
+        <a class="m-2 btn btn-sm btn-info" href="{{ url_for('main.category_page', path=category.path) }}">{{ category.name }}</a>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
