@@ -264,9 +264,12 @@ class Document(SearchableMixin, db.Model):
 
         if next_sibling != None:
             return next_sibling
-        
-        return self.parent.find_next_sibling()
 
+        if self.parent != None:
+            return self.parent.find_next_sibling()
+
+        return None
+        
     def find_prev_page(self):
 
         prev_sibling = self.find_prev_sibling()
