@@ -17,6 +17,7 @@ from elasticsearch import Elasticsearch
 from flask_mail import Mail
 from flask_compress import Compress
 from flask_assets import Environment, Bundle
+from flask_moment import Moment
 
 
 
@@ -44,6 +45,7 @@ mde = Mde()
 mail = Mail()
 compress = Compress()
 assets = Environment()
+moment = Moment()
 
 # Creating Photo Manager
 photos = UploadSet("photos", IMAGES)
@@ -87,6 +89,7 @@ def create_app(config_class=Config):
     mail.init_app(app)
     compress.init_app(app)
     assets.init_app(app)
+    moment.init_app(app)
 
 
     # Registering Photo Manager

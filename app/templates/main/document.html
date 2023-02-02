@@ -95,6 +95,12 @@
 </ul>
 {% endif %}
 
+<p>
+    Author: {{ document.author.name }}
+</p>
+<p>
+    Last Updated: {{ moment(document.last_updated).format('LLL') }}
+</p>
 
 {% if not document.is_visible %}
 <h5 class="badge bg-info">Article Invisible</h5>

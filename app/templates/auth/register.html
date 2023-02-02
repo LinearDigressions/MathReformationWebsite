@@ -6,6 +6,7 @@
 <h1>Register:</h1>
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
+    {{ form_text(form.name, size=32) }}    
     {{ form_text(form.username, size=32) }}
     {{ form_text(form.email, size=64) }}
     {{ form_text(form.password, size=32) }}

@@ -77,6 +77,7 @@ class User(UserMixin, db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(120), unique=False)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
@@ -166,6 +167,8 @@ class Document(SearchableMixin, db.Model):
     body_draft = db.Column(db.Text())
     date_added = db.Column(db.DateTime, nullable=False,
         default=datetime.utcnow)
+    last_updated = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
     header = db.Column(db.Text())
     order = db.Column(db.Integer())
     is_visible = db.Column(db.Boolean())
@@ -346,6 +349,9 @@ class AdminFileView(FileAdmin):
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('auth.login', next=request.url))
+
+
+    
 
 # Adding admin views for all objects
 admin.add_view(AdminModelView(Feedback, db.session))

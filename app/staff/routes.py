@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for, current_app, abort, flash, send_from_directory, json
+from datetime import datetime
 from flask_login import current_user
 from app import photos, db
 from app.staff import bp
@@ -169,6 +170,7 @@ def edit_document(document_type, path, version):
 
 
     if form.validate_on_submit():
+        document.last_updated = datetime.utcnow()
 
         # Switches versions (Does not save current changes so there is a JS alert)
         if form.load_draft.data:

@@ -125,11 +125,12 @@ def document_page(path):
     
     table_of_contents = generate_table_of_contents(root)
     
+    if document.last_updated == None:
+        document.last_updated = document.date_added
            
     content = {}
     content["root"] = root.name
     content["table_of_contents"] = table_of_contents
-    print(table_of_contents)
     content["breadcrumb_links"] = breadcrumb_links
     content["document"] = document
     content["form"] = form
