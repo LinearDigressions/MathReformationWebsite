@@ -5,3 +5,4 @@ app.db
 migrations
 logs
 .DS_Store
+app/static/uploads
