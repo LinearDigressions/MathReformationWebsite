@@ -1,0 +1,13 @@
+{% extends 'base.html' %} 
+
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+<ul>
+    {% for doc in category.documents %} 
+    <li>
+        <a href="{{ url_for('main.document_page', path=doc.path) }}">{{ doc.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

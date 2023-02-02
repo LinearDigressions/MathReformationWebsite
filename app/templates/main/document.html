@@ -101,6 +101,13 @@
 <p>
     Last Updated: {{ moment(document.last_updated).format('LLL') }}
 </p>
+<ul>
+    {% for category in document.categories %}
+    <li>
+        <a href="{{ url_for('main.category_page', path=category.path) }}">{{ category.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
 
 {% if not document.is_visible %}
 <h5 class="badge bg-info">Article Invisible</h5>

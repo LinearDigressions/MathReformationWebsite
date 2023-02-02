@@ -161,9 +161,12 @@ class Role(db.Model):
 class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False, unique=True, index=True)
-    documents = db.relationship('Category', secondary = categories_documents_table,
+    name = db.Column(db.String(250), nullable=False, unique=True, index=True)
+    path = db.Column(db.String(250), nullable=False, unique=True, index=True)
+    documents = db.relationship('Document', secondary = categories_documents_table,
                                  backref=db.backref('categories', lazy=True), lazy=True)
+    def __repr__(self):
+        return '<Category {}>'.format(self.name)
 
 class Document(SearchableMixin, db.Model):
 

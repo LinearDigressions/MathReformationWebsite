@@ -5,7 +5,11 @@ from wtforms.validators import DataRequired, ValidationError
 from app.models import Document
 
 
-
+class EditCategoryForm(FlaskForm):
+    name = StringField("Name",validators=[DataRequired()])
+    path = StringField("Path",validators=[DataRequired()])
+    documents = SelectMultipleField('Documents', choices=[])
+    submit = SubmitField('Save')
    
 class EditDocumentForm(FlaskForm):
     previous_name = None
@@ -20,6 +24,7 @@ class EditDocumentForm(FlaskForm):
 
     parent = SelectField('Parent', choices=[])
     children = SelectMultipleField('Children', choices=[])
+    categories = SelectMultipleField('Categories', choices=[])
     document_type = SelectField('Document Type', choices=[])
     
     is_visible = BooleanField("Is Visible")

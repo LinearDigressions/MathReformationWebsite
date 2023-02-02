@@ -2,7 +2,7 @@ from flask import render_template, abort, g, redirect, url_for, request, current
 from flask_login import current_user
 from app.main import bp
 from flask_login import login_required
-from app.models import Feedback, User, Document
+from app.models import Feedback, User, Document, Category
 from app import db
 import markdown
 from app.roles import admin_permission, author_permission
@@ -71,7 +71,7 @@ def generate_table_of_contents(root):
 
 
 
-@bp.route("/<path>", methods=["GET", "POST"])
+@bp.route("/document/<path>", methods=["GET", "POST"])
 def document_page(path):
 
     form = BookmarkDocumentForm()
@@ -138,6 +138,12 @@ def document_page(path):
     content["is_bookmarked"] = is_bookmarked
 
     return render_template('main/document.html', **content, title=document.name)
+
+
+@bp.route("/category/<path>", methods=["GET", "POST"])
+def category_page(path):
+    category = db.first_or_404(Category.query.filter_by(path=path))
+    return render_template('main/category.html', category=category, title=category.name)
 
 
 

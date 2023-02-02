@@ -3,10 +3,10 @@ from datetime import datetime
 from flask_login import current_user
 from app import photos, db
 from app.staff import bp
-from app.models import Document
+from app.models import Document, Category
 from flask_login import login_required
 from app.roles import admin_permission, EditArticlePermission, author_permission, editor_permission
-from app.staff.forms import AddPhotoForm, DeletePhotoForm, EditDocumentForm
+from app.staff.forms import AddPhotoForm, DeletePhotoForm, EditDocumentForm, EditCategoryForm
 import os
 from werkzeug.utils import secure_filename
 from markdown import markdown
@@ -90,9 +90,9 @@ def editor_home():
                             files=files, 
                             title="Editor Home")
 
-@bp.route("/create/<document_type>/<parent_path>", methods=["GET", "POST"])
-@bp.route("/create/<document_type>", methods=["GET", "POST"])
-@bp.route("/create/", methods=["GET", "POST"])
+@bp.route("/create/document/<document_type>/<parent_path>", methods=["GET", "POST"])
+@bp.route("/create/document/<document_type>", methods=["GET", "POST"])
+@bp.route("/create/document/", methods=["GET", "POST"])
 @login_required
 @author_permission.require(http_exception=403)
 def new_document(document_type=None, parent_path=None):
@@ -123,7 +123,88 @@ def new_document(document_type=None, parent_path=None):
 
     return redirect(url_for('staff.edit_document', document_type=document.document_type, path=document.path, version='main'))
 
-@bp.route("/edit/<document_type>/<path>/<version>", methods=["GET", "POST"])
+@bp.route("/create/category/", methods=["GET", "POST"])
+@login_required
+@author_permission.require(http_exception=403)
+def new_category():
+
+    category_number = str(random.randint(0, 10000000000000000000000))
+
+    while Category.query.filter_by(path=category_number).first() != None:
+        category_number = str(random.randint(0, 10000000000000000000000))
+    
+
+    category = Category(name=category_number, path=category_number)
+   
+    db.session.add(category)
+    db.session.commit()
+
+    return redirect(url_for('staff.edit_category', path=category.path))
+
+@bp.route("/edit/category/<path>/", methods=["GET", "POST"])
+@login_required
+def edit_category(path):
+
+        
+    # Initializing Multiple Select attributes
+    selected_documents = []
+  
+
+    # INITIALIZING FORMS
+    form = EditCategoryForm()
+    category = db.first_or_404(Category.query.filter_by(path=path))
+   
+    form.previous_name = category.name
+    form.previous_path = category.path
+
+
+    # CHECKING PERMISSIONS
+    if not (editor_permission.can() or admin_permission.can()):
+        abort(403)
+
+
+    # GETTING OPTIONS
+    # Selecting only the allowable parents/children/articles for each category type
+
+    form.documents.choices = [(str(doc.id), doc.name) for doc in Document.query.all()]
+    form.documents.choices.append(("none", "None"))
+
+
+    if form.validate_on_submit():
+
+        # Gets data from form 
+        category.documents = [Document.query.get(document_id) for document_id in form.documents.data if document_id != "none"]
+    
+        category.name = form.name.data
+        category.path = form.path.data
+
+        db.session.commit()
+        flash("Changes Saved")
+        return redirect(url_for('staff.editor_home'))
+
+    # Prepares Form
+    if category.documents != None:
+        selected_documents = json.dumps([str(doc.id) for doc in category.documents])
+    else:
+        selected_parent = json.dumps(["none"])
+
+
+    form.name.data = category.name
+    form.path.data = category.path
+
+
+    # Lots of parameters so dictionary!
+    content = {}
+    content["form"] = form
+    content["category"] = category
+    content["selected_documents"] = selected_documents
+    content["title"] = "Category Editor"
+    return render_template('staff/edit_category.html', **content)
+
+
+
+
+@bp.route("/edit/document/<document_type>/<path>/<version>", methods=["GET", "POST"])
 @login_required
 def edit_document(document_type, path, version):
 
@@ -136,6 +217,7 @@ def edit_document(document_type, path, version):
     selected_children = []
     selected_parent = []
     selected_document_type = []
+    selected_categories = []
 
 
     # INITIALIZING FORMS
@@ -164,7 +246,9 @@ def edit_document(document_type, path, version):
 
     form.parent.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type=child2parent[document_type])]
     form.children.choices = [(str(doc.id), doc.name) for doc in Document.query.filter_by(document_type=parent2child[document_type])]
+    form.categories.choices = [(str(cat.id), cat.name) for cat in Category.query.all()]
 
+    form.categories.choices.append(("none","None"))
     form.parent.choices.append(("none", "None"))
     form.children.choices.append(("none", "None"))
 
@@ -197,6 +281,8 @@ def edit_document(document_type, path, version):
 
         # Gets data from form 
         document.children = [Document.query.get(document_id) for document_id in form.children.data if document_id != "none"]
+        document.categories = [Category.query.get(category_id) for category_id in form.categories.data if category_id != "none"]
+
         if form.parent.data != "none":
             document.parent = Document.query.get(form.parent.data)
         
@@ -242,6 +328,11 @@ def edit_document(document_type, path, version):
     
 
     # Prepares form
+    if document.categories != None:
+        selected_categories = json.dumps([str(cat.id) for cat in document.categories])
+    else:
+        selected_categories = json.dumps(["none"])
+
     if document.parent != None:
         selected_parent = json.dumps([str(document.parent.id)])
     else:
@@ -286,6 +377,7 @@ def edit_document(document_type, path, version):
     content["selected_parent"] = selected_parent
     content["selected_children"] = selected_children
     content["selected_document_type"] = selected_document_type
+    content["selected_categories"] = selected_categories
     
     content["setname"] = photos.name
     content["files"] = files

@@ -1,0 +1,51 @@
+{% extends "base.html" %} 
+{% from 'macros/form_macros.html' import input, select2_cdn, select2_header, select2_field, delete_document_button_normal, form_text, form_button, form_switch %}
+
+{% block head %}
+    {{mde.css}}
+
+    {{ select2_cdn() }}
+    {{ select2_header(already_selected=selected_documents, field_class = 'select2_documents') }}
+   
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="text-center card-title">Category Editor</h1>
+        <h5 class="text-center card-subtitle">Name: {{ form.name.data }}</h3>        </div>
+    <div class="card-body">
+                    
+        
+        <div class="d-grid gap-2">
+
+            <a href="{{ url_for('main.category_page', path=category.path) }}" class="btn btn-info" role="button" onclick="return confirm('Make sure to save first! Please click on OK to continue.');">View Page</a>
+        </div>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p></p>
+            
+
+            {{ select2_field(field=form.documents, field_name="documents", field_placeholder="Documents", field_class='select2_documents', is_multiple=True) }}
+
+          
+            <p></p>
+            {{ form_text(form.name, size=32) }}
+            {{ form_text(form.path, size=32) }}
+         
+
+            <div class="d-grid gap-2 mt-4">
+                {{ form.submit(class="btn btn-primary mt-2") }}
+            </div>
+        </form>
+    </div>
+</div>
+   
+{% endblock %}
+
+{% block citation %}
+{{ citation_info(page_type="Math Reformation", page_name="Edit Category") }}
+{% endblock %}
