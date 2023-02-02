@@ -26,22 +26,19 @@
 {% block content %}
 <h1 class="text-center">Editor Home:</h1>
 
-<div class="text-center">
+<div class="text-center d-flex flex-row flex-wrap justify-content-center gap-2">
     {{ add_photo_button(field=add_photo_form) }}
     {{ photo_viewer_button(files, can_delete=True, btn_name="View/Delete Photos") }}
 
     {% if not current_user.get_task_in_progress('export_document') %}
     <a href="{{ url_for('staff.export') }}" class="btn btn-info" role="button">Export Documents</a>
     {% endif %}
-</div>
 
-<div class="mt-3 mb-3 text-center">
     <a href="{{ url_for('staff.new_document', document_type='book', version='main') }}" class="btn btn-info" role="button">New Book</a>
     <a href="{{ url_for('staff.new_document', document_type='chapter', version='main') }}" class="btn btn-info" role="button">New Chapter</a>
     <a href="{{ url_for('staff.new_document', document_type='section', version='main') }}" class="btn btn-info" role="button">New Section</a>
     <a href="{{ url_for('staff.new_document', document_type='article', version='main') }}" class="btn btn-info" role="button">New Article</a>
-</div>
-<div class="text-center">
+
     <a href="{{ url_for('staff.new_category') }}" class="btn btn-info" role="button">New Category</a>
 </div>
 
@@ -52,6 +49,7 @@
 {% for book in books %}
 <div class="mt-3 card">
     <h3 class="card-header">{{ book.name }}
+    
     {{ view_document_button(path=book.path, warning=False) }}
     {{ edit_document_button(path=book.path, document_type='book') }}
     {{ delete_document_button(path=book.path, document_type='book') }}</h3>
