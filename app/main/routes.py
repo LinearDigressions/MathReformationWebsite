@@ -127,6 +127,7 @@ def document_page(path):
     
            
     content = {}
+    content["root"] = root.name
     content["table_of_contents"] = table_of_contents
     print(table_of_contents)
     content["breadcrumb_links"] = breadcrumb_links
