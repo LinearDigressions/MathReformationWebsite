@@ -73,6 +73,13 @@ bookmarked_documents_table = db.Table('bookmarked_documents',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
 )
 
+categories_documents_table = db.Table('categories',
+    db.Column('document_id', db.Integer, db.ForeignKey('document.id'), primary_key=True),
+    db.Column('category', db.Integer, db.ForeignKey('category.id'), primary_key=True)
+)
+
+
+
 class User(UserMixin, db.Model):
     # Attributes
     id = db.Column(db.Integer, primary_key=True)
@@ -151,6 +158,12 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role {}>'.format(self.name)
 
+class Category(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=True, index=True)
+    documents = db.relationship('Category', secondary = categories_documents_table,
+                                 backref=db.backref('categories', lazy=True), lazy=True)
 
 class Document(SearchableMixin, db.Model):
 
@@ -355,6 +368,7 @@ class AdminFileView(FileAdmin):
 
 # Adding admin views for all objects
 admin.add_view(AdminModelView(Feedback, db.session))
+admin.add_view(AdminModelView(Category, db.session))
 admin.add_view(AdminModelView(User, db.session))
 admin.add_view(AdminModelView(Role, db.session))
 admin.add_view(AdminModelView(Task, db.session))
