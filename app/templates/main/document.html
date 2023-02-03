@@ -140,6 +140,10 @@
 <script>
     $("#{{document.path}}").toggleClass("link-info");
     document.getElementById("{{document.path}}").scrollIntoView();
+
+    window.onbeforeunload = function(e) {
+    return 'Did you save your changes?';
+    };
 </script>
 
 {% endblock %}
