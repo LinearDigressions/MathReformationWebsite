@@ -393,7 +393,8 @@ def edit_document(document_type, path, version):
     # Lots of parameters so dictionary!
     content = {}
 
-
+    content["writing_tips"] = Document.query.filter_by(path="writing_tips").first()
+    
     content["document_type"] = document_type
     content["form"] = form
     content["document"] = document

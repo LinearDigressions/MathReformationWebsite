@@ -88,6 +88,26 @@
                     {{ photo_viewer_button(files=files, can_delete=False, btn_name="View Photos") }}
                 </div>
                 <p></p>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Open {{ writing_tips.name }}
+                    </button>
+              </div>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">{{ writing_tips.name }}</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ writing_tips.body_main | safe }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 {{ form.body.label }}
                 {{ form.body() }}
 
