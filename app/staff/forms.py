@@ -52,10 +52,11 @@ class EditDocumentForm(FlaskForm):
         if doc is not None and path.data != self.previous_path:
             raise ValidationError('Please use a different document path.')
 
-    def validate_name(self, name):
-        doc = Document.query.filter_by(name=name.data).first() 
-        if doc is not None and name.data.lower() != self.previous_name.lower():
-            raise ValidationError('Please use a different document name.')
+    # Not enforcing uniqueness of names
+    # def validate_name(self, name):
+    #     doc = Document.query.filter_by(name=name.data).first() 
+    #     if doc is not None and name.data.lower() != self.previous_name.lower():
+    #         raise ValidationError('Please use a different document name.')
 
    
 class AddPhotoForm(FlaskForm):
