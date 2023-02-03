@@ -69,6 +69,12 @@ def document_page(path):
 
     form = BookmarkDocumentForm()
 
+    if path == "about":
+        return redirect(url_for('main.about'))
+    
+    if path == "home":
+        return redirect(url_for('main.index'))
+
     document = db.first_or_404(Document.query.filter_by(path=path))
 
     if document.document_type == "special":
