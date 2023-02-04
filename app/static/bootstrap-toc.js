@@ -167,9 +167,8 @@
       var $topContext = this.helpers.createChildNavList(opts.$nav);
       var topLevel = this.helpers.getTopLevel(opts.$scope);
       var $headings = this.helpers.getHeadings(opts.$scope, topLevel);
-      if ($headings.length != 1) {
-        this.helpers.populateNav($topContext, topLevel, $headings);
-      };
+      this.helpers.populateNav($topContext, topLevel, $headings);
+      
     }
   };
 
