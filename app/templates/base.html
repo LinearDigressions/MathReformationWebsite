@@ -21,6 +21,7 @@
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 
+
         {{ moment.include_moment() }}
 
         <script>
@@ -43,6 +44,11 @@
         </noscript>
 
         <link id='style' rel='stylesheet' href='/static/styles/mystyles.css'>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+        <link rel="manifest" href="/static/favicon_io/site.webmanifest">
 
 
         <script>
@@ -90,7 +96,7 @@
     <body class="d-flex flex-column min-vh-100" data-bs-spy="scroll" data-bs-target="#toc" data-bs-offset="90">
         <nav id="navbar" class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand">Math Reformation</a>
+                <a class="navbar-brand" href="{{ url_for('main.index')}}">Math Reformation</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
