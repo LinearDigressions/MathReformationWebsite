@@ -40,7 +40,7 @@ class EditDocumentForm(FlaskForm):
     load_main = SubmitField("Load Main")
 
     save_and_exit = SubmitField("Save and Exit")
-    submit_continue_editing = SubmitField("Save and Continue Editing")
+    submit_continue_editing = SubmitField("Save")
 
     def validate_parent(self, parent):
         if self.document_type in ["chapter", "section", "article"] and len(parent.data) == 0:

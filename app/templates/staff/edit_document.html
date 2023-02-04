@@ -112,6 +112,7 @@
                 {{ form.body() }}
 
                 <div class="d-grid gap-2 mt-4">
+                    {{ form.submit_continue_editing(class="btn btn-primary mt-2") }}
 
                 {% if version == "main" %}
                     {{ form.load_draft(onclick="return confirm('Unsaved main changes will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
@@ -126,8 +127,6 @@
 
                 {% endif %}
 
-                    {{ form.submit_continue_editing(class="btn btn-primary mt-2") }}
-                    {{ form.save_and_exit(class="btn btn-primary mt-2 mb-2") }}
                     {{ delete_document_button_normal(path=document.path, document_type=document_type) }}
                 </div>
 
