@@ -164,8 +164,22 @@
         $(window).scrollTop(0);
     });
 
-</script>
 
+
+    $( document ).ready(function() {
+        // Wraps iframes so that they are centered and have loading background
+        $iframe = $(".iframe-wrapper").wrap("<div class='ratio ratio-4x3'></div>");
+        $iframe = $("<div class='spinner-border' style='position:absolute;''></div>").insertBefore($iframe);
+        $iframe = $($iframe).wrap("<div class='justify-content-center d-flex align-items-center'></div>");
+    
+
+        $('iframe').on('load',function(){
+              $(this).parent().siblings('.spinner-border').css('display','none');
+        }); 
+    });
+    
+
+</script>
 
 {% endblock %}
 
