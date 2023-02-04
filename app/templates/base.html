@@ -20,9 +20,6 @@
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-        <!-- CindyJS -->
-        <script type="text/javascript" src="https://cindyjs.org/dist/latest/Cindy.js"></script>
-
 
         {{ moment.include_moment() }}
 
@@ -30,19 +27,19 @@
             if (window.localStorage && window.localStorage.getItem('light') == 'false') {
                 document.write(`
                 <link id='style' rel='stylesheet' href='/static/styles/darkly.css' title='main'>
-                <link id='style-alt' rel='alternate stylesheet' href='/static/styles/flatly.css' title='alt'>
+                <link id='style-alt' rel='alternate stylesheet' href='/static/styles/flatly.css' media="none" title='alt'>
                 `);
             } else {
                 document.write(`
                 <link id='style' rel='stylesheet' href='/static/styles/flatly.css' title='main'>
-                <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' title='alt'>
+                <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' media="none" title='alt'>
                 `);
             }
         </script>
 
         <noscript>
             <link id='style' rel='stylesheet' href='/static/styles/flatly.css' title='main'>
-            <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' title='alt'>
+            <link id='style-alt' rel='alternate stylesheet' href='/static/styles/darkly.css' media="none" title='alt'>
         </noscript>
 
         <link id='style' rel='stylesheet' href='/static/styles/mystyles.css'>
@@ -89,7 +86,8 @@
 
         {% block head %}{% endblock %}
     </head>
-    <body class="d-flex flex-column min-vh-100">
+    
+    <body class="d-flex flex-column min-vh-100" data-bs-spy="scroll" data-bs-target="#toc" data-bs-offset="90">
         <nav id="navbar" class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand">Math Reformation</a>
@@ -226,7 +224,10 @@
                         {% block content %}
                         {% endblock %}
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        {% block right_content %} 
+                        {% endblock %}
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-5 col-lg-4"></div> 
             </div>
@@ -299,17 +300,7 @@
             $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
         };
 
-        function setSidebarHeight(){
-            footer = $("footer");
-            var footer_height = footer.outerHeight(),
-            H   = $(window).height(),
-            r   = footer[0].getBoundingClientRect(), t=r.top, b=r.bottom;
-            px_visible = Math.max(0, t>0? Math.min(footer_height, H-t) : Math.min(b, H));
-            px_visible = px_visible.toString();
-            console.log(px_visible)
-            $(".left-sidebar-container").css("padding-bottom", px_visible + "px");
-        };
-        setSidebarHeight();
+        
         
     </script>
 

@@ -3,6 +3,8 @@
 
 {% block head %}
 {{ document.header | safe }}
+<link href="/static/styles/bootstrap-toc.css" rel="stylesheet">
+
 {% endblock %}
 
 
@@ -102,7 +104,7 @@
 
 <div class="d-flex justify-content-center mt-3">
     {% for category in document.categories %}
-    <a class="badge rounded-pill text-bg-info mx-1" href="{{ url_for('main.category_page', path=category.path) }}">
+    <a class="badge rounded-pill text-bg-primary mx-1" href="{{ url_for('main.category_page', path=category.path) }}">
         {{ category.name }}
     </a>
     {% endfor %}
@@ -136,12 +138,34 @@
 
 {% endblock %}
 
+
+{% block right_content %} 
+<div style="position:fixed;" class="ps-4 text-darkmode">
+    <nav id="toc" data-spy="affix" data-toggle="toc"></nav>
+</div>
+
+{% endblock %}
+
+
+
 {% block footer %}
+
+<script src="/static/bootstrap-toc.js"></script>
+
 <script>
+    // Changes color of element of TOC and positions sidebar appropriately
     $("#{{document.path}}").toggleClass("link-info");
     document.getElementById("{{document.path}}").scrollIntoView();
- 
+
+    // Used to avoid scrollspy bug with incorrect offset after refresh
+    history.scrollRestoration = "manual";
+
+    $(window).on('beforeunload', function(){
+        $(window).scrollTop(0);
+    });
+
 </script>
+
 
 {% endblock %}
 

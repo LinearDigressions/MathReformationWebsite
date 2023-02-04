@@ -3,6 +3,10 @@ ol li{ display: block }
 ol li:before { content: counters(item, ".") " "; counter-increment: item }
 a {text-decoration:none !important;}
 
+/* Used to help with anchor links not hiding content behind the header */
+html {
+  scroll-padding-top: 88px; /* height of sticky header */
+} 
 
 .main-content {
     top: 40px;
