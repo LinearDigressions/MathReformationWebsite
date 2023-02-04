@@ -112,18 +112,18 @@
                 {{ form.body() }}
 
                 <div class="d-grid gap-2 mt-4">
-                    {{ form.submit_continue_editing(class="btn btn-primary mt-2") }}
+                    {{ form.submit_continue_editing(class="btn btn-info") }}
 
                 {% if version == "main" %}
                     {{ form.load_draft(onclick="return confirm('Unsaved main changes will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
                     
-                    {{ form.save_main_to_draft(onclick="return confirm('Current draft will be lost. Please click on OK to continue.');", class="btn btn-primary mt-2") }}
+                    {{ form.save_main_to_draft(onclick="return confirm('Current draft will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
 
                 {% elif version == "draft" %}
 
-                    {{ form.load_main(onclick="return confirm('Unsaved draft changes will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
+                    {{ form.load_main(onclick="return confirm('Unsaved draft changes will be lost. Please click on OK to continue.');", class="btn btn-warning ") }}
 
-                    {{ form.save_draft_to_main(onclick="return confirm('Current main will be lost. Please click on OK to continue.');", class="btn btn-primary mt-2") }}
+                    {{ form.save_draft_to_main(onclick="return confirm('Current main will be lost. Please click on OK to continue.');", class="btn btn-warning") }}
 
                 {% endif %}
 
