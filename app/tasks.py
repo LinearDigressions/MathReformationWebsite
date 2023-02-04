@@ -47,8 +47,9 @@ def export_document(user_id):
             children = [child.name for child in document.children]
             document_type = document.document_type
             data.append({'name': document.name, 'path': document.path,'body': document.body_main,
-                        'header': document.header, 'order': document.order,
-                        'parent_path':parent_path, 'children':children,
+                        'header': document.header, 'order': document.order, 'date_added':document.date_added,
+                        'last_updated':document.last_updated,'is_visible':document.is_visible
+                        'parent_path':parent_path, 'children':children, 'categories': document.categories,
                         'document_type': document_type})
             _set_task_progress(100 * i // total_documents)
 
