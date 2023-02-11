@@ -206,10 +206,12 @@ def search():
 
 
 
-
+@bp.route('/citation/<page_type>/<page_name>/')
 @bp.route('/citation/<page_type>/<page_name>/<page_url>')
-def citation(page_type, page_name, page_url):
+def citation(page_type, page_name, page_url=None):
     
+    if page_url == None:
+        page_url="index"
 
     page_url = current_app.config["MAIN_URL"] + "/" + page_url.replace("%2F", "/")
 
