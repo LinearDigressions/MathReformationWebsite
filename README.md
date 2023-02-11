@@ -1,7 +1,9 @@
 # MathReformationWebsite
 
 ## Overview
-This repository is a Flask web application designed to interface with a MySQL database using SQL-Alchemy. This website includes authentication
+This repository is a Python Flask web application designed to interface with a MySQL database using SQL-Alchemy.
+
+Check out this website (Hosted by PythonAnywhere) at mathreformation.com
 
 Primary Tools Used:
 * Flask
