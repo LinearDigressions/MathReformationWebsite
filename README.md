@@ -1,7 +1,15 @@
 # MathReformationWebsite
 
-## Future Ideas
-Highlighting / Taking Notes maybe?
-Update admin home page /views? (Not sure what I want so I'm waiting on that)
-Download as PDF feature (Not really necessary unless things start picking up)
-Inter page navigation (Not sure of an easy way to accomplish this....)
+## Overview
+This repository is a Flask web application designed to interface with a MySQL database using SQL-Alchemy. This website includes authentication
+
+Primary Tools Used:
+* Flask
+* Elasticsearch
+* Bootstrap
+
+Features:
+* Authentication
+* Elasticsearch Engine
+* HTML/Markdown Editor
+* Dark Mode
