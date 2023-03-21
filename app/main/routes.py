@@ -230,6 +230,8 @@ def citation(page_type, page_name, page_url=None):
     if page_type == "Document":
         doc = Document.query.filter_by(name=page_name).first()
         if doc != None:
+            if doc.last_updated == None:
+                doc.last_updated = doc.date_added
             year = doc.last_updated.year
             month = calendar.month_name[doc.last_updated.month]
             day = doc.last_updated.day
