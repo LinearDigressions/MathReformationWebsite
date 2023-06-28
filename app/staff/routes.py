@@ -476,7 +476,7 @@ def delete_file(item_type, item_name):
     else:
         abort(404)
 
-    if editor_permission.can():
+    if editor_permission.can() or admin_permission.can():
             return redirect(url_for('staff.editor_home'))    
     else:
         return redirect(url_for('staff.author_home'))
