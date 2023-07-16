@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<h1 class="text-center">Categories</h1>
+<h1 class="text-center">Categories:</h1>
 {% if editor_permission.can() %} 
 <div class="text-center">
     <a href="{{ url_for('staff.new_category') }}" class="btn btn-primary btn-sm" role="button"><i class="bi bi-plus"></i> New Category</a>
